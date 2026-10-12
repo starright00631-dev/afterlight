@@ -26,3 +26,20 @@ test('an overhead sample obeys the inverse-square delta and unmatched setups are
   moved.detectors[0].x=.5;moved.detectors[0].id='different-point';
   assert.throws(()=>calculateDifferenceField(a,moved),/same surface/);
 });
+
+test('symmetric scale includes exact named-point peaks between sampled cells', () => {
+  const a = scene(), b = structuredClone(a); b.lamps[0].height = .7;
+  // Default point A is exactly below the 60 cd lamp at (.8, .6), between grid cells.
+  const exactDelta = 60 / (.7 ** 2) - 60 / (.5 ** 2);
+  b.detectors.reverse(); // Stable point IDs, rather than array order, match readings.
+  const originals = structuredClone([a, b]);
+  const field = calculateDifferenceField(a, b), reverse = calculateDifferenceField(b, a);
+  const gridMagnitude = Math.max(...field.values.map(Math.abs));
+  assert.ok(Math.abs(exactDelta + 117.55102040816325) < 1e-9);
+  assert.ok(Math.abs(exactDelta) - gridMagnitude > .1, 'The exact detector peak must be outside the grid-only range.');
+  assert.ok(Math.abs(field.maxMagnitude - Math.abs(exactDelta)) < 1e-9);
+  assert.equal(reverse.maxMagnitude, field.maxMagnitude);
+  assert.equal(field.minDelta, Math.min(0, ...field.values));
+  assert.equal(field.maxDelta, Math.max(0, ...field.values));
+  assert.deepEqual([a, b], originals);
+});

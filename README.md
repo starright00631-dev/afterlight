@@ -51,7 +51,7 @@ A retained study decision can become source-linked work in Desk or a concrete ch
 
 ## Choose how to run
 
-The **3.2.0 Pages build is implemented; live deployment verification is pending**. The [browser demo](https://starright00631-dev.github.io/afterlight/) is its publication target.
+Open the [browser demo](https://starright00631-dev.github.io/afterlight/) without installation, or download the local application for provider connections.
 
 | Capability | Browser build | Local server |
 | --- | --- | --- |
@@ -130,7 +130,7 @@ npm run build:pages
 
 The generated site is written to `dist/pages`. Serve that folder through HTTP for a local browser check.
 
-The current [verification report](qa/CURRENT-REPORT.md) records **119 passing tests**, browser/export/launcher/provider checks and remaining limits. Launcher tests require Windows PowerShell. Automated tests do not replace browser or physical measurement checks.
+The current [verification report](qa/CURRENT-REPORT.md) records **120 passing tests**, browser/export/launcher/provider checks and remaining limits. Launcher tests require Windows PowerShell. Automated tests do not replace browser or physical measurement checks.
 
 ## License and credits
 
