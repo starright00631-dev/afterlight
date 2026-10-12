@@ -8,6 +8,36 @@ export const PAGES_FILES = Object.freeze(['index.html', 'style.css', 'studio.css
 const ASSETS = ['mark.svg', 'room-day.png', 'room-night.png', 'table-oak.png'];
 export const BROWSER_CAPABILITIES = Object.freeze({ mode: 'browser', assistants: false, pdf: 'browser', storage: 'browser-local' });
 const hash = (content) => createHash('sha256').update(content).digest('hex');
+const normalizeText = (text) => text.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
+const browserCapabilitiesModule = () => `// Generated Pages capabilities. No local service or provider connections.\nexport const RUNTIME_CAPABILITIES = Object.freeze(${JSON.stringify(BROWSER_CAPABILITIES, null, 2)});\n`;
+
+export function createBrowserGraph({ inputs, assets = {}, version, pdfJsVersion }) {
+  const normalized = {};
+  for (const file of PAGES_FILES) {
+    if (typeof inputs[file] !== 'string') throw Error(`Missing authored browser input: ${file}`);
+    normalized[file] = normalizeText(inputs[file]);
+  }
+  normalized['runtime-capabilities.js'] = browserCapabilitiesModule();
+  const records = Object.keys(normalized).sort().map(file => [file, normalized[file]]);
+  const assetRecords = Object.keys(assets).sort().map(file => [file, assets[file]]);
+  const buildId = hash(JSON.stringify({ format: 'afterlight-pages-graph-v1', version, pdfJsVersion, capabilities: BROWSER_CAPABILITIES, inputs: records, assets: assetRecords }));
+  function reference(specifier) {
+    const target = new URL(specifier, 'https://build.invalid/');
+    const file = target.pathname.slice(1);
+    if (file.startsWith('vendor/')) return specifier;
+    if (!PAGES_FILES.includes(file)) throw Error(`The browser graph references an unpublished module: ${specifier}`);
+    target.searchParams.set('build', buildId);
+    return `${specifier.split(/[?#]/, 1)[0]}${target.search}${target.hash}`;
+  }
+  const graph = {};
+  for (const [file, text] of Object.entries(normalized)) {
+    graph[file] = file.endsWith('.js') ? text.replace(/(\bfrom\s*|\bimport\s*\(\s*|\bimport\s*)(['"])(\.\/[^'"\r\n]+\.m?js(?:[?#][^'"\r\n]*)?)(\2)/g,
+      (match, prefix, quote, specifier) => `${prefix}${quote}${reference(specifier)}${quote}`) : text;
+  }
+  graph['index.html'] = graph['index.html'].replace(/(\b(?:src|href)=)(['"])(\.\/(?:app\.js|style\.css|studio\.css))(?:\?[^'"]*)?\2/g,
+    (match, prefix, quote, specifier) => `${prefix}${quote}${reference(specifier)}${quote}`);
+  return { buildId, inputs: graph };
+}
 
 function verifyOutputPath(path) {
   const dist = resolve(projectRoot, 'dist'), output = resolve(path), rel = relative(dist, output);
@@ -29,7 +59,7 @@ async function copyPublic(source, destination, sourceRoot = projectRoot) {
 }
 async function filesUnder(directory, prefix = '') {
   const files = [];
-  for (const entry of (await readdir(directory, { withFileTypes: true })).sort((a, b) => a.name.localeCompare(b.name))) {
+  for (const entry of (await readdir(directory, { withFileTypes: true })).sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)) {
     const path = prefix ? `${prefix}/${entry.name}` : entry.name;
     if (entry.isDirectory()) files.push(...await filesUnder(join(directory, entry.name), path));
     else files.push(path);
@@ -48,6 +78,15 @@ export async function buildPages({ outDir = join(projectRoot, 'dist', 'pages') }
   try {
     for (const file of PAGES_FILES) await copyPublic(join(projectRoot, file), join(staging, file));
     for (const file of ASSETS) await copyPublic(join(projectRoot, 'assets', file), join(staging, 'assets', file));
+    const authored = {}, assets = {};
+    for (const file of PAGES_FILES) authored[file] = await readFile(join(staging, file), 'utf8');
+    for (const file of ASSETS) {
+      const path = join(staging, 'assets', file);
+      if (file.endsWith('.svg')) await writeFile(path, normalizeText(await readFile(path, 'utf8')));
+      assets[`assets/${file}`] = hash(await readFile(path));
+    }
+    const graph = createBrowserGraph({ inputs: authored, assets, version: application.version, pdfJsVersion: pdf.version });
+    for (const [file, text] of Object.entries(graph.inputs)) await writeFile(join(staging, file), text);
     for (const file of ['LICENSE', 'NOTICE', 'THIRD-PARTY-NOTICES.md', 'CREDITS.md']) {
       try { await copyPublic(join(projectRoot, file), join(staging, file)); } catch (error) { if (error.code !== 'ENOENT') throw error; }
     }
@@ -58,17 +97,16 @@ export async function buildPages({ outDir = join(projectRoot, 'dist', 'pages') }
     await copyPublic(join(pdfRoot, 'LICENSE'), join(vendor, 'LICENSE'), pdfRoot);
     // Copy the complete resource directories, including all upstream license notices.
     for (const folder of ['cmaps', 'standard_fonts', 'wasm', 'iccs']) await copyPublic(join(pdfRoot, folder), join(vendor, folder), pdfRoot);
-    await writeFile(join(staging, 'runtime-capabilities.js'), `// Generated Pages capabilities. No local service or provider connections.\nexport const RUNTIME_CAPABILITIES = Object.freeze(${JSON.stringify(BROWSER_CAPABILITIES, null, 2)});\n`);
-    const reportStyle = (await readFile(join(projectRoot, 'studies.js'), 'utf8')).match(/<style>([\s\S]*?)<\/style>/)?.[1];
+    const reportStyle = graph.inputs['studies.js'].match(/<style>([\s\S]*?)<\/style>/)?.[1];
     if (!reportStyle) throw Error('The printable study stylesheet is missing.');
     const styleHash = createHash('sha256').update(reportStyle).digest('base64');
     const policy = `default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; style-src 'self' 'sha256-${styleHash}'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'`;
     const index = await readFile(join(staging, 'index.html'), 'utf8');
-    await writeFile(join(staging, 'index.html'), index.replace('<head>', `<head><meta http-equiv="Content-Security-Policy" content="${policy}"><meta name="referrer" content="no-referrer"><meta name="afterlight-runtime" content="browser">`));
+    await writeFile(join(staging, 'index.html'), index.replace('<head>', `<head><meta http-equiv="Content-Security-Policy" content="${policy}"><meta name="referrer" content="no-referrer"><meta name="afterlight-runtime" content="browser"><meta name="afterlight-build" content="${graph.buildId}">`));
     await writeFile(join(staging, '.nojekyll'), '');
     const files = {};
     for (const file of await filesUnder(staging)) { const bytes = await readFile(join(staging, file)); files[file] = { bytes: bytes.length, sha256: hash(bytes) }; }
-    const manifest = { format: 'afterlight-pages-build', version: application.version, pdfJsVersion: pdf.version, capabilities: BROWSER_CAPABILITIES, files };
+    const manifest = { format: 'afterlight-pages-build', version: application.version, buildId: graph.buildId, pdfJsVersion: pdf.version, capabilities: BROWSER_CAPABILITIES, files };
     await writeFile(join(staging, 'build-manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
     try {
       if ((await lstat(output)).isSymbolicLink()) throw Error('The output folder is a link; it was preserved.');
@@ -83,5 +121,5 @@ export async function buildPages({ outDir = join(projectRoot, 'dist', 'pages') }
 
 if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url) {
   const { output, manifest } = await buildPages();
-  console.log(`Pages build ready: ${output} (${Object.keys(manifest.files).length} public files, PDF.js ${manifest.pdfJsVersion}).`);
+  console.log(`Pages build ready: ${output} (${Object.keys(manifest.files).length} public files, PDF.js ${manifest.pdfJsVersion}, build ${manifest.buildId}).`);
 }

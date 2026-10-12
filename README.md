@@ -130,7 +130,7 @@ npm run build:pages
 
 The generated site is written to `dist/pages`. Serve that folder through HTTP for a local browser check.
 
-The current [verification report](qa/CURRENT-REPORT.md) records **120 passing tests**, browser/export/launcher/provider checks and remaining limits. Launcher tests require Windows PowerShell. Automated tests do not replace browser or physical measurement checks.
+The current [verification report](qa/CURRENT-REPORT.md) records **121 passing tests**, browser/export/launcher/provider checks and remaining limits. Launcher tests require Windows PowerShell. Automated tests do not replace browser or physical measurement checks.
 
 ## License and credits
 
