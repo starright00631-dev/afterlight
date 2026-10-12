@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "answer": {"type": "string"},
+    "ideas": {"type": "array", "items": {"type": "object", "properties": {
+      "title": {"type": "string"},
+      "explanation": {"type": "string"},
+      "question": {"type": "string"},
+      "paragraphId": {"type": "string"}
+    }, "required": ["title", "explanation", "question", "paragraphId"], "additionalProperties": false}},
+    "citations": {"type": "array", "items": {"type": "object", "properties": {
+      "paragraphId": {"type": "string"}, "quote": {"type": "string"}
+    }, "required": ["paragraphId", "quote"], "additionalProperties": false}}
+  },
+  "required": ["answer", "ideas", "citations"],
+  "additionalProperties": false
+}

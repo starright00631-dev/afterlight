@@ -1,0 +1,1478 @@
+{
+  "format": "afterlight-study",
+  "version": 1,
+  "exportedAt": "2026-10-12T00:47:42.667Z",
+  "study": {
+    "version": 1,
+    "id": "study-6130a4c6-5ead-4edc-8bbf-aaa8b17366ee",
+    "projectId": "project-959b0941-1b2d-4331-83a5-301d59998f50",
+    "kind": "personal",
+    "challengeId": "free",
+    "title": "Example · A shared table",
+    "task": "Compare light at two work points on a shared table.",
+    "question": "Which arrangement meets the point targets, and what should I check in reality?",
+    "example": true,
+    "createdAt": "2026-10-11T15:06:24.627Z",
+    "updatedAt": "2026-10-12T00:33:07.351Z",
+    "modelVersion": "point-light-1",
+    "geometryRevision": 1,
+    "targets": {
+      "revision": 1,
+      "minLux": 150,
+      "maxLux": 200,
+      "minUniformity": 0.9,
+      "intensityBudget": null
+    },
+    "scene": {
+      "width": 2.4,
+      "depth": 1.2,
+      "lamps": [
+        {
+          "id": "lamp-a",
+          "x": 0.8,
+          "y": 0.6,
+          "height": 0.5,
+          "intensity": 40,
+          "enabled": true
+        },
+        {
+          "id": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+          "x": 1.5999999999999999,
+          "y": 0.6,
+          "height": 0.5,
+          "intensity": 40,
+          "enabled": true
+        }
+      ],
+      "detectors": [
+        {
+          "id": "point-a",
+          "label": "Workspace A",
+          "x": 0.8,
+          "y": 0.6
+        },
+        {
+          "id": "point-b",
+          "label": "Workspace B",
+          "x": 1.6,
+          "y": 0.6
+        }
+      ],
+      "screens": []
+    },
+    "alternatives": [
+      {
+        "id": "alternative-2a3daa45-0925-41eb-9619-e3dd31f2f5db",
+        "name": "Option A · one lamp",
+        "parentId": null,
+        "createdAt": "2026-10-11T15:09:00.110Z",
+        "modelVersion": "point-light-1",
+        "geometryRevision": 1,
+        "scene": {
+          "width": 2.4,
+          "depth": 1.2,
+          "lamps": [
+            {
+              "id": "lamp-a",
+              "x": 0.8,
+              "y": 0.6,
+              "height": 0.5,
+              "intensity": 60,
+              "enabled": true
+            }
+          ],
+          "detectors": [
+            {
+              "id": "point-a",
+              "label": "Workspace A",
+              "x": 0.8,
+              "y": 0.6
+            },
+            {
+              "id": "point-b",
+              "label": "Workspace B",
+              "x": 1.6,
+              "y": 0.6
+            }
+          ],
+          "screens": []
+        },
+        "readings": {
+          "detectors": [
+            {
+              "id": "point-a",
+              "label": "Workspace A",
+              "lux": 240,
+              "contributions": [
+                {
+                  "lampId": "lamp-a",
+                  "lux": 240,
+                  "unblockedLux": 240,
+                  "distance": 0.5,
+                  "cosine": 1,
+                  "blockedBy": []
+                }
+              ]
+            },
+            {
+              "id": "point-b",
+              "label": "Workspace B",
+              "lux": 35.730265618191915,
+              "contributions": [
+                {
+                  "lampId": "lamp-a",
+                  "lux": 35.730265618191915,
+                  "unblockedLux": 35.730265618191915,
+                  "distance": 0.9433981132056604,
+                  "cosine": 0.52999894000318,
+                  "blockedBy": []
+                }
+              ]
+            }
+          ],
+          "minimumLux": 35.730265618191915,
+          "maximumLux": 240,
+          "averageLux": 137.86513280909597,
+          "uniformity": 0.14887610674246632,
+          "totalIntensity": 60
+        }
+      },
+      {
+        "id": "alternative-7337817a-09dd-4ff2-963a-85905650abb9",
+        "name": "Option B · two balanced lamps",
+        "parentId": null,
+        "createdAt": "2026-10-11T15:23:32.250Z",
+        "modelVersion": "point-light-1",
+        "geometryRevision": 1,
+        "scene": {
+          "width": 2.4,
+          "depth": 1.2,
+          "lamps": [
+            {
+              "id": "lamp-a",
+              "x": 0.8,
+              "y": 0.6,
+              "height": 0.5,
+              "intensity": 60,
+              "enabled": true
+            },
+            {
+              "id": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+              "x": 1.5999999999999999,
+              "y": 0.6,
+              "height": 0.5,
+              "intensity": 40,
+              "enabled": true
+            }
+          ],
+          "detectors": [
+            {
+              "id": "point-a",
+              "label": "Workspace A",
+              "x": 0.8,
+              "y": 0.6
+            },
+            {
+              "id": "point-b",
+              "label": "Workspace B",
+              "x": 1.6,
+              "y": 0.6
+            }
+          ],
+          "screens": []
+        },
+        "readings": {
+          "detectors": [
+            {
+              "id": "point-a",
+              "label": "Workspace A",
+              "lux": 263.8201770787946,
+              "contributions": [
+                {
+                  "lampId": "lamp-a",
+                  "lux": 240,
+                  "unblockedLux": 240,
+                  "distance": 0.5,
+                  "cosine": 1,
+                  "blockedBy": []
+                },
+                {
+                  "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                  "lux": 23.820177078794615,
+                  "unblockedLux": 23.820177078794615,
+                  "distance": 0.9433981132056602,
+                  "cosine": 0.52999894000318,
+                  "blockedBy": []
+                }
+              ]
+            },
+            {
+              "id": "point-b",
+              "label": "Workspace B",
+              "lux": 195.7302656181919,
+              "contributions": [
+                {
+                  "lampId": "lamp-a",
+                  "lux": 35.730265618191915,
+                  "unblockedLux": 35.730265618191915,
+                  "distance": 0.9433981132056604,
+                  "cosine": 0.52999894000318,
+                  "blockedBy": []
+                },
+                {
+                  "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                  "lux": 160,
+                  "unblockedLux": 160,
+                  "distance": 0.5,
+                  "cosine": 1,
+                  "blockedBy": []
+                }
+              ]
+            }
+          ],
+          "minimumLux": 195.7302656181919,
+          "maximumLux": 263.8201770787946,
+          "averageLux": 229.77522134849323,
+          "uniformity": 0.741907869919038,
+          "totalIntensity": 100
+        }
+      },
+      {
+        "id": "alternative-b216ede5-c4bb-434f-8402-673c4a5b64cf",
+        "name": "Option C · equal lamps",
+        "parentId": null,
+        "createdAt": "2026-10-11T15:27:36.312Z",
+        "modelVersion": "point-light-1",
+        "geometryRevision": 1,
+        "scene": {
+          "width": 2.4,
+          "depth": 1.2,
+          "lamps": [
+            {
+              "id": "lamp-a",
+              "x": 0.8,
+              "y": 0.6,
+              "height": 0.5,
+              "intensity": 40,
+              "enabled": true
+            },
+            {
+              "id": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+              "x": 1.5999999999999999,
+              "y": 0.6,
+              "height": 0.5,
+              "intensity": 40,
+              "enabled": true
+            }
+          ],
+          "detectors": [
+            {
+              "id": "point-a",
+              "label": "Workspace A",
+              "x": 0.8,
+              "y": 0.6
+            },
+            {
+              "id": "point-b",
+              "label": "Workspace B",
+              "x": 1.6,
+              "y": 0.6
+            }
+          ],
+          "screens": []
+        },
+        "readings": {
+          "detectors": [
+            {
+              "id": "point-a",
+              "label": "Workspace A",
+              "lux": 183.82017707879461,
+              "contributions": [
+                {
+                  "lampId": "lamp-a",
+                  "lux": 160,
+                  "unblockedLux": 160,
+                  "distance": 0.5,
+                  "cosine": 1,
+                  "blockedBy": []
+                },
+                {
+                  "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                  "lux": 23.820177078794615,
+                  "unblockedLux": 23.820177078794615,
+                  "distance": 0.9433981132056602,
+                  "cosine": 0.52999894000318,
+                  "blockedBy": []
+                }
+              ]
+            },
+            {
+              "id": "point-b",
+              "label": "Workspace B",
+              "lux": 183.82017707879461,
+              "contributions": [
+                {
+                  "lampId": "lamp-a",
+                  "lux": 23.82017707879461,
+                  "unblockedLux": 23.82017707879461,
+                  "distance": 0.9433981132056604,
+                  "cosine": 0.52999894000318,
+                  "blockedBy": []
+                },
+                {
+                  "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                  "lux": 160,
+                  "unblockedLux": 160,
+                  "distance": 0.5,
+                  "cosine": 1,
+                  "blockedBy": []
+                }
+              ]
+            }
+          ],
+          "minimumLux": 183.82017707879461,
+          "maximumLux": 183.82017707879461,
+          "averageLux": 183.82017707879461,
+          "uniformity": 1,
+          "totalIntensity": 80
+        }
+      },
+      {
+        "id": "alternative-5285ebdd-1c79-448f-993e-771a6aaf2b53",
+        "name": "Option D · edited copy",
+        "parentId": "alternative-b216ede5-c4bb-434f-8402-673c4a5b64cf",
+        "createdAt": "2026-10-11T15:43:27.019Z",
+        "modelVersion": "point-light-1",
+        "geometryRevision": 1,
+        "scene": {
+          "width": 2.4,
+          "depth": 1.2,
+          "lamps": [
+            {
+              "id": "lamp-a",
+              "x": 0.8,
+              "y": 0.6,
+              "height": 0.55,
+              "intensity": 40,
+              "enabled": true
+            },
+            {
+              "id": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+              "x": 1.5999999999999999,
+              "y": 0.6,
+              "height": 0.5,
+              "intensity": 40,
+              "enabled": true
+            }
+          ],
+          "detectors": [
+            {
+              "id": "point-a",
+              "label": "Workspace A",
+              "x": 0.8,
+              "y": 0.6
+            },
+            {
+              "id": "point-b",
+              "label": "Workspace B",
+              "x": 1.6,
+              "y": 0.6
+            }
+          ],
+          "screens": []
+        },
+        "readings": {
+          "detectors": [
+            {
+              "id": "point-a",
+              "label": "Workspace A",
+              "lux": 156.0515820374723,
+              "contributions": [
+                {
+                  "lampId": "lamp-a",
+                  "lux": 132.23140495867767,
+                  "unblockedLux": 132.23140495867767,
+                  "distance": 0.55,
+                  "cosine": 1,
+                  "blockedBy": []
+                },
+                {
+                  "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                  "lux": 23.820177078794615,
+                  "unblockedLux": 23.820177078794615,
+                  "distance": 0.9433981132056602,
+                  "cosine": 0.52999894000318,
+                  "blockedBy": []
+                }
+              ]
+            },
+            {
+              "id": "point-b",
+              "label": "Workspace B",
+              "lux": 184.04366357080383,
+              "contributions": [
+                {
+                  "lampId": "lamp-a",
+                  "lux": 24.043663570803822,
+                  "unblockedLux": 24.043663570803822,
+                  "distance": 0.97082439194738,
+                  "cosine": 0.5665288228870652,
+                  "blockedBy": []
+                },
+                {
+                  "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                  "lux": 160,
+                  "unblockedLux": 160,
+                  "distance": 0.5,
+                  "cosine": 1,
+                  "blockedBy": []
+                }
+              ]
+            }
+          ],
+          "minimumLux": 156.0515820374723,
+          "maximumLux": 184.04366357080383,
+          "averageLux": 170.04762280413806,
+          "uniformity": 0.8479052145005652,
+          "totalIntensity": 80
+        }
+      },
+      {
+        "id": "alternative-32065f72-e84a-453a-8706-47ef3b0734c8",
+        "name": "Option E · keyboard trial",
+        "parentId": "alternative-b216ede5-c4bb-434f-8402-673c4a5b64cf",
+        "createdAt": "2026-10-12T00:30:17.334Z",
+        "modelVersion": "point-light-1",
+        "geometryRevision": 1,
+        "scene": {
+          "width": 2.4,
+          "depth": 1.2,
+          "lamps": [
+            {
+              "id": "lamp-a",
+              "x": 0.8,
+              "y": 0.6,
+              "height": 0.5,
+              "intensity": 40,
+              "enabled": true
+            },
+            {
+              "id": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+              "x": 1.5999999999999999,
+              "y": 0.6,
+              "height": 0.5,
+              "intensity": 40,
+              "enabled": true
+            }
+          ],
+          "detectors": [
+            {
+              "id": "point-a",
+              "label": "Workspace A",
+              "x": 0.8,
+              "y": 0.6
+            },
+            {
+              "id": "point-b",
+              "label": "Workspace B",
+              "x": 1.6,
+              "y": 0.6
+            }
+          ],
+          "screens": []
+        },
+        "readings": {
+          "detectors": [
+            {
+              "id": "point-a",
+              "label": "Workspace A",
+              "lux": 183.82017707879461,
+              "contributions": [
+                {
+                  "lampId": "lamp-a",
+                  "lux": 160,
+                  "unblockedLux": 160,
+                  "distance": 0.5,
+                  "cosine": 1,
+                  "blockedBy": []
+                },
+                {
+                  "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                  "lux": 23.820177078794615,
+                  "unblockedLux": 23.820177078794615,
+                  "distance": 0.9433981132056602,
+                  "cosine": 0.52999894000318,
+                  "blockedBy": []
+                }
+              ]
+            },
+            {
+              "id": "point-b",
+              "label": "Workspace B",
+              "lux": 183.82017707879461,
+              "contributions": [
+                {
+                  "lampId": "lamp-a",
+                  "lux": 23.82017707879461,
+                  "unblockedLux": 23.82017707879461,
+                  "distance": 0.9433981132056604,
+                  "cosine": 0.52999894000318,
+                  "blockedBy": []
+                },
+                {
+                  "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                  "lux": 160,
+                  "unblockedLux": 160,
+                  "distance": 0.5,
+                  "cosine": 1,
+                  "blockedBy": []
+                }
+              ]
+            }
+          ],
+          "minimumLux": 183.82017707879461,
+          "maximumLux": 183.82017707879461,
+          "averageLux": 183.82017707879461,
+          "uniformity": 1,
+          "totalIntensity": 80
+        }
+      },
+      {
+        "id": "alternative-efa4a643-bb6d-4caf-bb9e-34e5bf13c030",
+        "name": "Option F · higher left lamp",
+        "parentId": "alternative-32065f72-e84a-453a-8706-47ef3b0734c8",
+        "createdAt": "2026-10-12T00:31:56.801Z",
+        "modelVersion": "point-light-1",
+        "geometryRevision": 1,
+        "scene": {
+          "width": 2.4,
+          "depth": 1.2,
+          "lamps": [
+            {
+              "id": "lamp-a",
+              "x": 0.8,
+              "y": 0.6,
+              "height": 0.7,
+              "intensity": 40,
+              "enabled": true
+            },
+            {
+              "id": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+              "x": 1.5999999999999999,
+              "y": 0.6,
+              "height": 0.5,
+              "intensity": 40,
+              "enabled": true
+            }
+          ],
+          "detectors": [
+            {
+              "id": "point-a",
+              "label": "Workspace A",
+              "x": 0.8,
+              "y": 0.6
+            },
+            {
+              "id": "point-b",
+              "label": "Workspace B",
+              "x": 1.6,
+              "y": 0.6
+            }
+          ],
+          "screens": []
+        },
+        "readings": {
+          "detectors": [
+            {
+              "id": "point-a",
+              "label": "Workspace A",
+              "lux": 105.45283014001912,
+              "contributions": [
+                {
+                  "lampId": "lamp-a",
+                  "lux": 81.6326530612245,
+                  "unblockedLux": 81.6326530612245,
+                  "distance": 0.7,
+                  "cosine": 1,
+                  "blockedBy": []
+                },
+                {
+                  "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                  "lux": 23.820177078794615,
+                  "unblockedLux": 23.820177078794615,
+                  "distance": 0.9433981132056602,
+                  "cosine": 0.52999894000318,
+                  "blockedBy": []
+                }
+              ]
+            },
+            {
+              "id": "point-b",
+              "label": "Workspace B",
+              "lux": 183.30989762366437,
+              "contributions": [
+                {
+                  "lampId": "lamp-a",
+                  "lux": 23.309897623664366,
+                  "unblockedLux": 23.309897623664366,
+                  "distance": 1.0630145812734648,
+                  "cosine": 0.6585046078685182,
+                  "blockedBy": []
+                },
+                {
+                  "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                  "lux": 160,
+                  "unblockedLux": 160,
+                  "distance": 0.5,
+                  "cosine": 1,
+                  "blockedBy": []
+                }
+              ]
+            }
+          ],
+          "minimumLux": 105.45283014001912,
+          "maximumLux": 183.30989762366437,
+          "averageLux": 144.38136388184174,
+          "uniformity": 0.5752707928325508,
+          "totalIntensity": 80
+        }
+      }
+    ],
+    "experiments": [
+      {
+        "id": "experiment-22fca04a-8a40-4564-8503-9285f9bf0704",
+        "createdAt": "2026-10-11T15:27:55.872Z",
+        "challengeId": "free",
+        "detectorId": "point-a",
+        "prediction": "decrease",
+        "hypothesis": "Raise Lamp 1 from 0.50 m to 0.70 m, keeping 40 cd and the same two points. At the point directly below it, I expect its inverse-square contribution to fall.",
+        "note": "Raising only Lamp 1 from 0.50 to 0.70 m lowered the reading directly beneath it from 183.82 to 105.45 lx. Its own contribution follows I/h² while Lamp 2 remains unchanged. The larger height fails this example point target. I would check an actual extended fixture with ambient light before choosing its real placement.",
+        "before": {
+          "scene": {
+            "width": 2.4,
+            "depth": 1.2,
+            "lamps": [
+              {
+                "id": "lamp-a",
+                "x": 0.8,
+                "y": 0.6,
+                "height": 0.5,
+                "intensity": 40,
+                "enabled": true
+              },
+              {
+                "id": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                "x": 1.5999999999999999,
+                "y": 0.6,
+                "height": 0.5,
+                "intensity": 40,
+                "enabled": true
+              }
+            ],
+            "detectors": [
+              {
+                "id": "point-a",
+                "label": "Workspace A",
+                "x": 0.8,
+                "y": 0.6
+              },
+              {
+                "id": "point-b",
+                "label": "Workspace B",
+                "x": 1.6,
+                "y": 0.6
+              }
+            ],
+            "screens": []
+          },
+          "readings": {
+            "detectors": [
+              {
+                "id": "point-a",
+                "label": "Workspace A",
+                "lux": 183.82017707879461,
+                "contributions": [
+                  {
+                    "lampId": "lamp-a",
+                    "lux": 160,
+                    "unblockedLux": 160,
+                    "distance": 0.5,
+                    "cosine": 1,
+                    "blockedBy": []
+                  },
+                  {
+                    "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                    "lux": 23.820177078794615,
+                    "unblockedLux": 23.820177078794615,
+                    "distance": 0.9433981132056602,
+                    "cosine": 0.52999894000318,
+                    "blockedBy": []
+                  }
+                ]
+              },
+              {
+                "id": "point-b",
+                "label": "Workspace B",
+                "lux": 183.82017707879461,
+                "contributions": [
+                  {
+                    "lampId": "lamp-a",
+                    "lux": 23.82017707879461,
+                    "unblockedLux": 23.82017707879461,
+                    "distance": 0.9433981132056604,
+                    "cosine": 0.52999894000318,
+                    "blockedBy": []
+                  },
+                  {
+                    "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                    "lux": 160,
+                    "unblockedLux": 160,
+                    "distance": 0.5,
+                    "cosine": 1,
+                    "blockedBy": []
+                  }
+                ]
+              }
+            ],
+            "minimumLux": 183.82017707879461,
+            "maximumLux": 183.82017707879461,
+            "averageLux": 183.82017707879461,
+            "uniformity": 1,
+            "totalIntensity": 80
+          }
+        },
+        "after": {
+          "scene": {
+            "width": 2.4,
+            "depth": 1.2,
+            "lamps": [
+              {
+                "id": "lamp-a",
+                "x": 0.8,
+                "y": 0.6,
+                "height": 0.7,
+                "intensity": 40,
+                "enabled": true
+              },
+              {
+                "id": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                "x": 1.5999999999999999,
+                "y": 0.6,
+                "height": 0.5,
+                "intensity": 40,
+                "enabled": true
+              }
+            ],
+            "detectors": [
+              {
+                "id": "point-a",
+                "label": "Workspace A",
+                "x": 0.8,
+                "y": 0.6
+              },
+              {
+                "id": "point-b",
+                "label": "Workspace B",
+                "x": 1.6,
+                "y": 0.6
+              }
+            ],
+            "screens": []
+          },
+          "readings": {
+            "detectors": [
+              {
+                "id": "point-a",
+                "label": "Workspace A",
+                "lux": 105.45283014001912,
+                "contributions": [
+                  {
+                    "lampId": "lamp-a",
+                    "lux": 81.6326530612245,
+                    "unblockedLux": 81.6326530612245,
+                    "distance": 0.7,
+                    "cosine": 1,
+                    "blockedBy": []
+                  },
+                  {
+                    "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                    "lux": 23.820177078794615,
+                    "unblockedLux": 23.820177078794615,
+                    "distance": 0.9433981132056602,
+                    "cosine": 0.52999894000318,
+                    "blockedBy": []
+                  }
+                ]
+              },
+              {
+                "id": "point-b",
+                "label": "Workspace B",
+                "lux": 183.30989762366437,
+                "contributions": [
+                  {
+                    "lampId": "lamp-a",
+                    "lux": 23.309897623664366,
+                    "unblockedLux": 23.309897623664366,
+                    "distance": 1.0630145812734648,
+                    "cosine": 0.6585046078685182,
+                    "blockedBy": []
+                  },
+                  {
+                    "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                    "lux": 160,
+                    "unblockedLux": 160,
+                    "distance": 0.5,
+                    "cosine": 1,
+                    "blockedBy": []
+                  }
+                ]
+              }
+            ],
+            "minimumLux": 105.45283014001912,
+            "maximumLux": 183.30989762366437,
+            "averageLux": 144.38136388184174,
+            "uniformity": 0.5752707928325508,
+            "totalIntensity": 80
+          }
+        },
+        "deltaLux": -78.3673469387755,
+        "actual": "decrease",
+        "predictionCorrect": true,
+        "changedControls": 1,
+        "explanation": "Workspace A: 183.82 → 105.45 lx (decrease). One control changed, giving a matched comparison. Each clear lamp contributes I h / r³; blocked direct contributions are zero.",
+        "modelVersion": "point-light-1"
+      },
+      {
+        "id": "experiment-6a7bdfa8-06aa-40cf-9cc7-cb6ce7445b4c",
+        "createdAt": "2026-10-12T00:30:59.828Z",
+        "challengeId": "free",
+        "detectorId": "point-a",
+        "prediction": "decrease",
+        "hypothesis": "Raise the left lamp to 0.7 m; direct light at A should fall.",
+        "note": "A fell to 105.45 lx; check the actual lamps with a meter.",
+        "before": {
+          "scene": {
+            "width": 2.4,
+            "depth": 1.2,
+            "lamps": [
+              {
+                "id": "lamp-a",
+                "x": 0.8,
+                "y": 0.6,
+                "height": 0.5,
+                "intensity": 40,
+                "enabled": true
+              },
+              {
+                "id": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                "x": 1.5999999999999999,
+                "y": 0.6,
+                "height": 0.5,
+                "intensity": 40,
+                "enabled": true
+              }
+            ],
+            "detectors": [
+              {
+                "id": "point-a",
+                "label": "Workspace A",
+                "x": 0.8,
+                "y": 0.6
+              },
+              {
+                "id": "point-b",
+                "label": "Workspace B",
+                "x": 1.6,
+                "y": 0.6
+              }
+            ],
+            "screens": []
+          },
+          "readings": {
+            "detectors": [
+              {
+                "id": "point-a",
+                "label": "Workspace A",
+                "lux": 183.82017707879461,
+                "contributions": [
+                  {
+                    "lampId": "lamp-a",
+                    "lux": 160,
+                    "unblockedLux": 160,
+                    "distance": 0.5,
+                    "cosine": 1,
+                    "blockedBy": []
+                  },
+                  {
+                    "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                    "lux": 23.820177078794615,
+                    "unblockedLux": 23.820177078794615,
+                    "distance": 0.9433981132056602,
+                    "cosine": 0.52999894000318,
+                    "blockedBy": []
+                  }
+                ]
+              },
+              {
+                "id": "point-b",
+                "label": "Workspace B",
+                "lux": 183.82017707879461,
+                "contributions": [
+                  {
+                    "lampId": "lamp-a",
+                    "lux": 23.82017707879461,
+                    "unblockedLux": 23.82017707879461,
+                    "distance": 0.9433981132056604,
+                    "cosine": 0.52999894000318,
+                    "blockedBy": []
+                  },
+                  {
+                    "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                    "lux": 160,
+                    "unblockedLux": 160,
+                    "distance": 0.5,
+                    "cosine": 1,
+                    "blockedBy": []
+                  }
+                ]
+              }
+            ],
+            "minimumLux": 183.82017707879461,
+            "maximumLux": 183.82017707879461,
+            "averageLux": 183.82017707879461,
+            "uniformity": 1,
+            "totalIntensity": 80
+          }
+        },
+        "after": {
+          "scene": {
+            "width": 2.4,
+            "depth": 1.2,
+            "lamps": [
+              {
+                "id": "lamp-a",
+                "x": 0.8,
+                "y": 0.6,
+                "height": 0.7,
+                "intensity": 40,
+                "enabled": true
+              },
+              {
+                "id": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                "x": 1.5999999999999999,
+                "y": 0.6,
+                "height": 0.5,
+                "intensity": 40,
+                "enabled": true
+              }
+            ],
+            "detectors": [
+              {
+                "id": "point-a",
+                "label": "Workspace A",
+                "x": 0.8,
+                "y": 0.6
+              },
+              {
+                "id": "point-b",
+                "label": "Workspace B",
+                "x": 1.6,
+                "y": 0.6
+              }
+            ],
+            "screens": []
+          },
+          "readings": {
+            "detectors": [
+              {
+                "id": "point-a",
+                "label": "Workspace A",
+                "lux": 105.45283014001912,
+                "contributions": [
+                  {
+                    "lampId": "lamp-a",
+                    "lux": 81.6326530612245,
+                    "unblockedLux": 81.6326530612245,
+                    "distance": 0.7,
+                    "cosine": 1,
+                    "blockedBy": []
+                  },
+                  {
+                    "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                    "lux": 23.820177078794615,
+                    "unblockedLux": 23.820177078794615,
+                    "distance": 0.9433981132056602,
+                    "cosine": 0.52999894000318,
+                    "blockedBy": []
+                  }
+                ]
+              },
+              {
+                "id": "point-b",
+                "label": "Workspace B",
+                "lux": 183.30989762366437,
+                "contributions": [
+                  {
+                    "lampId": "lamp-a",
+                    "lux": 23.309897623664366,
+                    "unblockedLux": 23.309897623664366,
+                    "distance": 1.0630145812734648,
+                    "cosine": 0.6585046078685182,
+                    "blockedBy": []
+                  },
+                  {
+                    "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                    "lux": 160,
+                    "unblockedLux": 160,
+                    "distance": 0.5,
+                    "cosine": 1,
+                    "blockedBy": []
+                  }
+                ]
+              }
+            ],
+            "minimumLux": 105.45283014001912,
+            "maximumLux": 183.30989762366437,
+            "averageLux": 144.38136388184174,
+            "uniformity": 0.5752707928325508,
+            "totalIntensity": 80
+          }
+        },
+        "deltaLux": -78.3673469387755,
+        "actual": "decrease",
+        "predictionCorrect": true,
+        "changedControls": 1,
+        "explanation": "Workspace A: 183.82 → 105.45 lx (decrease). One control changed, giving a matched comparison. Each clear lamp contributes I h / r³; blocked direct contributions are zero.",
+        "modelVersion": "point-light-1"
+      }
+    ],
+    "pending": null,
+    "staged": null,
+    "decision": {
+      "aId": "alternative-2a3daa45-0925-41eb-9619-e3dd31f2f5db",
+      "bId": "alternative-b216ede5-c4bb-434f-8402-673c4a5b64cf",
+      "chosenId": "alternative-b216ede5-c4bb-434f-8402-673c4a5b64cf",
+      "reason": "Both selected reading places calculate 183.82 lx within my example 150–200 lx range. Equal 40 cd lamps avoid overlighting A and underlighting B. Raising the left lamp to 0.7 m reduced A to 105.45 lx, so I will keep 0.5 m for this model comparison. The 80 cd total is not electrical watts.",
+      "nextCheck": "Measure both reading places with the actual lamps and record the meter, time and ambient conditions.",
+      "createdAt": "2026-10-12T00:33:06.895Z",
+      "modelVersion": "point-light-1",
+      "targets": {
+        "revision": 1,
+        "minLux": 150,
+        "maxLux": 200,
+        "minUniformity": 0.9,
+        "intensityBudget": null
+      },
+      "comparison": {
+        "matched": true,
+        "reason": "Same surface and measurement points.",
+        "modelVersion": "point-light-1",
+        "a": {
+          "id": "alternative-2a3daa45-0925-41eb-9619-e3dd31f2f5db",
+          "name": "Option A · one lamp",
+          "parentId": null,
+          "createdAt": "2026-10-11T15:09:00.110Z",
+          "modelVersion": "point-light-1",
+          "geometryRevision": 1,
+          "scene": {
+            "width": 2.4,
+            "depth": 1.2,
+            "lamps": [
+              {
+                "id": "lamp-a",
+                "x": 0.8,
+                "y": 0.6,
+                "height": 0.5,
+                "intensity": 60,
+                "enabled": true
+              }
+            ],
+            "detectors": [
+              {
+                "id": "point-a",
+                "label": "Workspace A",
+                "x": 0.8,
+                "y": 0.6
+              },
+              {
+                "id": "point-b",
+                "label": "Workspace B",
+                "x": 1.6,
+                "y": 0.6
+              }
+            ],
+            "screens": []
+          },
+          "readings": {
+            "detectors": [
+              {
+                "id": "point-a",
+                "label": "Workspace A",
+                "lux": 240,
+                "contributions": [
+                  {
+                    "lampId": "lamp-a",
+                    "lux": 240,
+                    "unblockedLux": 240,
+                    "distance": 0.5,
+                    "cosine": 1,
+                    "blockedBy": []
+                  }
+                ]
+              },
+              {
+                "id": "point-b",
+                "label": "Workspace B",
+                "lux": 35.730265618191915,
+                "contributions": [
+                  {
+                    "lampId": "lamp-a",
+                    "lux": 35.730265618191915,
+                    "unblockedLux": 35.730265618191915,
+                    "distance": 0.9433981132056604,
+                    "cosine": 0.52999894000318,
+                    "blockedBy": []
+                  }
+                ]
+              }
+            ],
+            "minimumLux": 35.730265618191915,
+            "maximumLux": 240,
+            "averageLux": 137.86513280909597,
+            "uniformity": 0.14887610674246632,
+            "totalIntensity": 60
+          }
+        },
+        "b": {
+          "id": "alternative-b216ede5-c4bb-434f-8402-673c4a5b64cf",
+          "name": "Option C · equal lamps",
+          "parentId": null,
+          "createdAt": "2026-10-11T15:27:36.312Z",
+          "modelVersion": "point-light-1",
+          "geometryRevision": 1,
+          "scene": {
+            "width": 2.4,
+            "depth": 1.2,
+            "lamps": [
+              {
+                "id": "lamp-a",
+                "x": 0.8,
+                "y": 0.6,
+                "height": 0.5,
+                "intensity": 40,
+                "enabled": true
+              },
+              {
+                "id": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                "x": 1.5999999999999999,
+                "y": 0.6,
+                "height": 0.5,
+                "intensity": 40,
+                "enabled": true
+              }
+            ],
+            "detectors": [
+              {
+                "id": "point-a",
+                "label": "Workspace A",
+                "x": 0.8,
+                "y": 0.6
+              },
+              {
+                "id": "point-b",
+                "label": "Workspace B",
+                "x": 1.6,
+                "y": 0.6
+              }
+            ],
+            "screens": []
+          },
+          "readings": {
+            "detectors": [
+              {
+                "id": "point-a",
+                "label": "Workspace A",
+                "lux": 183.82017707879461,
+                "contributions": [
+                  {
+                    "lampId": "lamp-a",
+                    "lux": 160,
+                    "unblockedLux": 160,
+                    "distance": 0.5,
+                    "cosine": 1,
+                    "blockedBy": []
+                  },
+                  {
+                    "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                    "lux": 23.820177078794615,
+                    "unblockedLux": 23.820177078794615,
+                    "distance": 0.9433981132056602,
+                    "cosine": 0.52999894000318,
+                    "blockedBy": []
+                  }
+                ]
+              },
+              {
+                "id": "point-b",
+                "label": "Workspace B",
+                "lux": 183.82017707879461,
+                "contributions": [
+                  {
+                    "lampId": "lamp-a",
+                    "lux": 23.82017707879461,
+                    "unblockedLux": 23.82017707879461,
+                    "distance": 0.9433981132056604,
+                    "cosine": 0.52999894000318,
+                    "blockedBy": []
+                  },
+                  {
+                    "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                    "lux": 160,
+                    "unblockedLux": 160,
+                    "distance": 0.5,
+                    "cosine": 1,
+                    "blockedBy": []
+                  }
+                ]
+              }
+            ],
+            "minimumLux": 183.82017707879461,
+            "maximumLux": 183.82017707879461,
+            "averageLux": 183.82017707879461,
+            "uniformity": 1,
+            "totalIntensity": 80
+          }
+        },
+        "targets": {
+          "revision": 1,
+          "minLux": 150,
+          "maxLux": 200,
+          "minUniformity": 0.9,
+          "intensityBudget": null
+        },
+        "points": [
+          {
+            "id": "point-a",
+            "label": "Workspace A",
+            "x": 0.8,
+            "y": 0.6,
+            "aLux": 240,
+            "bLux": 183.82017707879461,
+            "deltaLux": -56.179822921205385,
+            "aContributions": [
+              {
+                "lampId": "lamp-a",
+                "lux": 240,
+                "unblockedLux": 240,
+                "distance": 0.5,
+                "cosine": 1,
+                "blockedBy": []
+              }
+            ],
+            "bContributions": [
+              {
+                "lampId": "lamp-a",
+                "lux": 160,
+                "unblockedLux": 160,
+                "distance": 0.5,
+                "cosine": 1,
+                "blockedBy": []
+              },
+              {
+                "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                "lux": 23.820177078794615,
+                "unblockedLux": 23.820177078794615,
+                "distance": 0.9433981132056602,
+                "cosine": 0.52999894000318,
+                "blockedBy": []
+              }
+            ],
+            "aStatus": {
+              "passed": false,
+              "belowMinimum": 90,
+              "belowMaximum": -40
+            },
+            "bStatus": {
+              "passed": true,
+              "belowMinimum": 33.820177078794615,
+              "belowMaximum": 16.179822921205385
+            }
+          },
+          {
+            "id": "point-b",
+            "label": "Workspace B",
+            "x": 1.6,
+            "y": 0.6,
+            "aLux": 35.730265618191915,
+            "bLux": 183.82017707879461,
+            "deltaLux": 148.0899114606027,
+            "aContributions": [
+              {
+                "lampId": "lamp-a",
+                "lux": 35.730265618191915,
+                "unblockedLux": 35.730265618191915,
+                "distance": 0.9433981132056604,
+                "cosine": 0.52999894000318,
+                "blockedBy": []
+              }
+            ],
+            "bContributions": [
+              {
+                "lampId": "lamp-a",
+                "lux": 23.82017707879461,
+                "unblockedLux": 23.82017707879461,
+                "distance": 0.9433981132056604,
+                "cosine": 0.52999894000318,
+                "blockedBy": []
+              },
+              {
+                "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                "lux": 160,
+                "unblockedLux": 160,
+                "distance": 0.5,
+                "cosine": 1,
+                "blockedBy": []
+              }
+            ],
+            "aStatus": {
+              "passed": false,
+              "belowMinimum": -114.26973438180809,
+              "belowMaximum": 164.2697343818081
+            },
+            "bStatus": {
+              "passed": true,
+              "belowMinimum": 33.820177078794615,
+              "belowMaximum": 16.179822921205385
+            }
+          }
+        ],
+        "aSummary": {
+          "detectors": [
+            {
+              "id": "point-a",
+              "label": "Workspace A",
+              "lux": 240,
+              "contributions": [
+                {
+                  "lampId": "lamp-a",
+                  "lux": 240,
+                  "unblockedLux": 240,
+                  "distance": 0.5,
+                  "cosine": 1,
+                  "blockedBy": []
+                }
+              ]
+            },
+            {
+              "id": "point-b",
+              "label": "Workspace B",
+              "lux": 35.730265618191915,
+              "contributions": [
+                {
+                  "lampId": "lamp-a",
+                  "lux": 35.730265618191915,
+                  "unblockedLux": 35.730265618191915,
+                  "distance": 0.9433981132056604,
+                  "cosine": 0.52999894000318,
+                  "blockedBy": []
+                }
+              ]
+            }
+          ],
+          "minimumLux": 35.730265618191915,
+          "maximumLux": 240,
+          "averageLux": 137.86513280909597,
+          "uniformity": 0.14887610674246632,
+          "totalIntensity": 60,
+          "rangePassed": false,
+          "uniformityPassed": false,
+          "intensityPassed": true
+        },
+        "bSummary": {
+          "detectors": [
+            {
+              "id": "point-a",
+              "label": "Workspace A",
+              "lux": 183.82017707879461,
+              "contributions": [
+                {
+                  "lampId": "lamp-a",
+                  "lux": 160,
+                  "unblockedLux": 160,
+                  "distance": 0.5,
+                  "cosine": 1,
+                  "blockedBy": []
+                },
+                {
+                  "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                  "lux": 23.820177078794615,
+                  "unblockedLux": 23.820177078794615,
+                  "distance": 0.9433981132056602,
+                  "cosine": 0.52999894000318,
+                  "blockedBy": []
+                }
+              ]
+            },
+            {
+              "id": "point-b",
+              "label": "Workspace B",
+              "lux": 183.82017707879461,
+              "contributions": [
+                {
+                  "lampId": "lamp-a",
+                  "lux": 23.82017707879461,
+                  "unblockedLux": 23.82017707879461,
+                  "distance": 0.9433981132056604,
+                  "cosine": 0.52999894000318,
+                  "blockedBy": []
+                },
+                {
+                  "lampId": "lamp-a8715035-8360-4add-8330-8972d3ce70bf",
+                  "lux": 160,
+                  "unblockedLux": 160,
+                  "distance": 0.5,
+                  "cosine": 1,
+                  "blockedBy": []
+                }
+              ]
+            }
+          ],
+          "minimumLux": 183.82017707879461,
+          "maximumLux": 183.82017707879461,
+          "averageLux": 183.82017707879461,
+          "uniformity": 1,
+          "totalIntensity": 80,
+          "rangePassed": true,
+          "uniformityPassed": true,
+          "intensityPassed": true
+        }
+      },
+      "experimentIds": [
+        "experiment-22fca04a-8a40-4564-8503-9285f9bf0704",
+        "experiment-6a7bdfa8-06aa-40cf-9cc7-cb6ce7445b4c"
+      ],
+      "sourceRefs": [
+        {
+          "sourceId": "source-afdea3a1-1b70-4b62-8fd8-9f3a1d142d52",
+          "paragraphId": "p-1-ssdsxe"
+        }
+      ]
+    },
+    "observations": [
+      {
+        "id": "observation-433237df-bf42-4531-b4d1-131b2ce3b236",
+        "alternativeId": "alternative-b216ede5-c4bb-434f-8402-673c4a5b64cf",
+        "pointId": "point-a",
+        "lux": 170,
+        "instrument": "QA fixture · no physical measurement",
+        "observedAt": "2026-10-11T15:33:00.000Z",
+        "context": "Synthetic input used only to test the separate observation workflow. This is not a measured room reading.",
+        "modelVersion": "point-light-1",
+        "calculatedLux": 183.82017707879461,
+        "differenceLux": -13.820177078794615
+      }
+    ],
+    "lastFinalizedId": "experiment-6a7bdfa8-06aa-40cf-9cc7-cb6ce7445b4c",
+    "workingParentId": "alternative-b216ede5-c4bb-434f-8402-673c4a5b64cf"
+  }
+}
