@@ -5,7 +5,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const PAGES_FILES = Object.freeze(['index.html', 'style.css', 'studio.css', 'app.js', 'domain.js', 'persistence.js', 'calendar.js', 'optics.js', 'studies.js', 'studio-ui.js', 'studio-view-state.js', 'studio-renderer.js', 'field-difference.js', 'runtime-capabilities.js', 'client-services.js', 'browser-pdf.js']);
-const ASSETS = ['mark.svg', 'room-day.png', 'room-night.png', 'table-oak.png'];
+const ASSETS = ['mark.svg', 'room-day.png', 'room-night.png', 'table-oak.png', 'table-oak-refined.png', 'reading-book.png', 'lamp-brass.png'];
 export const BROWSER_CAPABILITIES = Object.freeze({ mode: 'browser', assistants: false, pdf: 'browser', storage: 'browser-local' });
 const hash = (content) => createHash('sha256').update(content).digest('hex');
 const normalizeText = (text) => text.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
@@ -87,7 +87,7 @@ export async function buildPages({ outDir = join(projectRoot, 'dist', 'pages') }
     }
     const graph = createBrowserGraph({ inputs: authored, assets, version: application.version, pdfJsVersion: pdf.version });
     for (const [file, text] of Object.entries(graph.inputs)) await writeFile(join(staging, file), text);
-    for (const file of ['LICENSE', 'NOTICE', 'THIRD-PARTY-NOTICES.md', 'CREDITS.md']) {
+    for (const file of ['LICENSE', 'NOTICE', 'THIRD-PARTY-NOTICES.md', 'CREDITS.md', 'docs/table-material-prompts.md']) {
       try { await copyPublic(join(projectRoot, file), join(staging, file)); } catch (error) { if (error.code !== 'ENOENT') throw error; }
     }
     const notices = await readFile(join(projectRoot, 'THIRD-PARTY-NOTICES.md'), 'utf8');

@@ -1,4 +1,4 @@
-# Afterlight 3.1: three-minute Reading Room demonstration
+# Afterlight 3.3: three-minute Reading Room demonstration
 
 Show one investigation through **Arrange → Predict → Compare → Choose**. These controls open real editing, prediction, saved-pair comparison and decision work. Keep the visitor's interaction central; describe the ideal model before presenting a calculation as evidence.
 

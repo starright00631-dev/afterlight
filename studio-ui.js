@@ -8,8 +8,54 @@ import { calculateDifferenceField } from './field-difference.js';
 const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
 const copy = (value) => structuredClone(value);
 const fixed = (value, places = 1) => Number(value).toFixed(places);
+const portion = (length, fraction) => Number((length * fraction).toPrecision(12));
 const direction = { increase: 'Brighter', decrease: 'Dimmer', same: 'Unchanged' };
 const commissions = [ ['distance', 'Distance', 'I', 'A rule of distance'], ['shadow', 'Shadow', 'II', 'Trace an obstruction'], ['balance', 'Balance', 'III', 'Light two places'], ['free', 'Your study', '◇', 'Keep a useful decision'] ];
+
+/** Resize the measured surface without moving equipment or sample points. */
+export function resizedSurfaceScene(input, width, depth) {
+  for (const [name, value] of [['Width', width], ['Depth', depth]]) {
+    if (typeof value !== 'number' || !Number.isFinite(value) || value < 0.3 || value > 12) throw new RangeError(`${name} must be a number from 0.3 to 12 metres.`);
+  }
+  const scene = validateScene(input), outside = [];
+  const check = (name, x, y) => { if (x > width || y > depth) outside.push(`${name} at (${x}, ${y}) m`); };
+  scene.lamps.forEach((lamp, index) => check(`Lamp ${index + 1}`, lamp.x, lamp.y));
+  scene.detectors.forEach((point, index) => check(`Point ${String.fromCharCode(65 + index)} · ${point.label}`, point.x, point.y));
+  scene.screens.forEach((screen, index) => {
+    check(`Screen ${index + 1} start`, screen.x1, screen.y1);
+    check(`Screen ${index + 1} end`, screen.x2, screen.y2);
+  });
+  if (outside.length) throw new RangeError(`${width} × ${depth} m would leave ${outside.join('; ')} outside the table. Move these objects inside the intended bounds first. Their positions have not changed.`);
+  return validateScene({ ...scene, width, depth });
+}
+
+/** A size draft stays separate from the live model until one explicit apply. */
+export function createSurfaceResizeEditor({ readScene, commitScene }) {
+  let draft = null, feedback = '', status = '';
+  const values = () => draft ? { ...draft } : { width: String(readScene().width), depth: String(readScene().depth) };
+  return {
+    values,
+    get feedback() { return feedback; },
+    get status() { return status; },
+    edit(property, raw) {
+      if (!['width', 'depth'].includes(property)) throw new TypeError('Only width and depth belong to the table size draft.');
+      draft = { ...values(), [property]: String(raw) }; feedback = ''; status = 'draft';
+    },
+    reset() { draft = null; feedback = ''; status = ''; },
+    apply() {
+      const proposed = values();
+      let scene;
+      try {
+        for (const [property, name] of [['width', 'Width'], ['depth', 'Depth']]) if (!proposed[property].trim()) throw new RangeError(`Enter the table ${name.toLowerCase()} in metres (0.3–12).`);
+        scene = resizedSurfaceScene(readScene(), Number(proposed.width), Number(proposed.depth));
+      } catch (error) { feedback = error.message; status = 'error'; return false; }
+      const original = readScene();
+      if (scene.width === original.width && scene.depth === original.depth) { draft = null; feedback = 'Table size is unchanged.'; status = 'saved'; return true; }
+      if (commitScene(scene) === false) { feedback = 'The table size could not be saved. Your earlier table and equipment are retained.'; status = 'error'; return false; }
+      draft = null; feedback = `Table resized to ${scene.width} × ${scene.depth} m. Equipment and point positions are unchanged.`; status = 'saved'; return true;
+    }
+  };
+}
 
 export function mountStudio(root, { getState, commitState, onReadSource, onUseDecision, onPlanCheck, notify }) {
   let selected = null, renderMode = 'layout', pendingView = 'proposed', optionView = null;
@@ -22,6 +68,13 @@ export function mountStudio(root, { getState, commitState, onReadSource, onUseDe
   const owner = (study) => getState().projects.find((project) => project.id === study.projectId);
   const message = (text) => notify?.(text);
   const listen = (element, event, callback) => { element.addEventListener(event, callback); eventRemovers.push(() => element.removeEventListener(event, callback)); };
+  const surfaceEditor = createSurfaceResizeEditor({
+    readScene: () => current().scene,
+    commitScene: (scene) => transact((state, study) => {
+      if (view().readOnly || study.pending || isCommission(study)) throw Error('Return to the editable personal layout and resolve its prediction before resizing the table.');
+      updateScene(study, scene);
+    })
+  });
 
   function focusIdentity(element) {
     if (element.id) return `id:${element.id}`;
@@ -48,17 +101,19 @@ export function mountStudio(root, { getState, commitState, onReadSource, onUseDe
   root.innerHTML = `<div class="studio-shell">
     <header class="studio-header"><div><p class="eyebrow">Afterlight · Hall of Illumination</p><h1 id="studio-title"></h1><p id="studio-task"></p><span class="studio-owner" id="studio-owner"></span></div><div class="studio-header-actions"><button type="button" class="secondary" data-studio="studies">Studies</button><button type="button" class="text-button" data-studio="new">+ New study</button><button type="button" class="text-button" data-studio="guide">Field guide</button></div></header>
     <div class="studio-workspace"><nav class="studio-rail" id="studio-rail" aria-label="Practice studies"></nav>
-      <section class="studio-main"><div class="studio-stage"><div class="studio-stage-toolbar"><div id="studio-options" class="studio-option-tabs" aria-label="Arrangement"></div><div class="studio-render-modes" aria-label="Stage view"><button data-render-mode="layout" aria-pressed="true">Room</button><button data-render-mode="field" aria-pressed="false">Light field</button><button data-render-mode="paths" aria-pressed="false">Paths</button><button data-render-mode="difference" aria-pressed="false" disabled>Difference</button></div></div><div id="studio-view-status" class="studio-view-status"></div><canvas class="studio-canvas" id="studio-canvas" role="img" aria-label="Reading room with a calculated task surface. Labelled numeric controls provide an equivalent keyboard workflow."></canvas><div class="studio-metrics" id="studio-metrics" aria-live="polite"></div></div>
+      <section class="studio-main"><div class="studio-stage"><div class="studio-stage-toolbar"><div id="studio-options" class="studio-option-tabs" aria-label="Arrangement"></div><div class="studio-render-modes" aria-label="Stage view"><button data-render-mode="layout" aria-pressed="true">Room</button><button data-render-mode="field" aria-pressed="false">Light field</button><button data-render-mode="paths" aria-pressed="false">Paths</button><button data-render-mode="difference" aria-pressed="false" disabled>Difference</button></div></div><div id="studio-view-status" class="studio-view-status"></div><p class="sr-only" id="studio-canvas-help">Drag editable handles or use the labelled numeric controls. In Room view, the book opens the Field guide and the notebook opens the Study record. Their labelled buttons provide the same actions. Press Enter on the table to reach exact controls.</p><canvas class="studio-canvas" id="studio-canvas" role="img" aria-label="Reading room with an interactive calculated task surface."></canvas><div class="studio-metrics" id="studio-metrics" aria-live="polite"></div></div>
       <div class="studio-actionbar" id="studio-actionbar"></div><nav class="studio-flow" id="studio-flow" aria-label="Study workflow"></nav><p class="studio-flow-help" id="studio-flow-help"></p><section class="studio-prediction" id="studio-prediction" hidden></section><section class="studio-result" id="studio-result" hidden aria-live="polite"></section>
-      <p class="studio-boundary">Calculated direct light · ideal point lamps. The room decoration is outside the model.</p></section>
+      <p class="studio-boundary">Calculated direct light · ideal point lamps. Paper and furniture are decorative; only configured opaque screens block direct light.</p></section>
       <aside class="studio-inspector" id="studio-inspector" aria-label="Study controls"></aside></div>
-    <section class="studio-evidence"><div class="studio-section-heading"><div><p class="eyebrow">Study record</p><h2>Arrangements &amp; evidence</h2></div><button class="secondary" data-studio="export">Export study</button></div><div class="studio-evidence-grid"><section id="studio-arrangements"></section><section id="studio-decision"></section></div><details class="studio-control-section" id="studio-notebook"><summary>Experiment notebook <span id="studio-experiment-count"></span></summary><div id="studio-trials"></div></details><details class="studio-control-section" id="studio-observations"><summary>Check with a real reading</summary><p class="helper-copy">Optional readings belong to an immutable saved arrangement. They do not replace the calculation.</p><div id="studio-observation-form"></div><div id="studio-observation-list"></div></details></section>
+    <section class="studio-evidence" id="studio-record" aria-labelledby="studio-record-title" tabindex="-1"><div class="studio-section-heading"><div><p class="eyebrow">Study record</p><h2 id="studio-record-title">Arrangements &amp; evidence</h2></div><div class="studio-record-actions"><button type="button" class="text-button" data-studio="return-table" aria-controls="studio-canvas">Return to table ↑</button><button class="secondary" data-studio="export">Export study</button></div></div><div class="studio-evidence-grid"><section id="studio-arrangements"></section><section id="studio-decision"></section></div><details class="studio-control-section" id="studio-notebook"><summary>Experiment notebook <span id="studio-experiment-count"></span></summary><div id="studio-trials"></div></details><details class="studio-control-section" id="studio-observations"><summary>Check with a real reading</summary><p class="helper-copy">Optional readings belong to an immutable saved arrangement. They do not replace the calculation.</p><div id="studio-observation-form"></div><div id="studio-observation-list"></div></details></section>
     <dialog class="studio-dialog" id="studio-dialog"><div class="dialog-shell"><div class="dialog-header"><h2 id="studio-dialog-title"></h2><button class="dialog-close" data-studio="close-dialog" aria-label="Close">×</button></div><div id="studio-dialog-body"></div></div></dialog>
   </div>`;
   const canvas = $('#studio-canvas'), dialog = $('#studio-dialog');
   canvas.tabIndex = 0;
-  canvas.setAttribute('aria-describedby', 'studio-view-status studio-flow-help');
+  canvas.setAttribute('aria-describedby', 'studio-view-status studio-flow-help studio-canvas-help');
+  canvas.title = 'Drag editable handles. Book: Field guide. Notebook: Study record. Enter: exact controls.';
   const renderer = createStudioRenderer(canvas, {
+    onActivate(item) { if (item?.kind === 'prop') activateRoomShortcut(item.id); },
     onSelect(selection) { selected = selection; inspectorKey = ''; renderInspector(true); drawStage(); },
     onMove(change) {
       const study = current(); if (!canMove(change) || study.pending && change.kind === 'point') return;
@@ -153,6 +208,17 @@ export function mountStudio(root, { getState, commitState, onReadSource, onUseDe
     $('#studio-options').innerHTML = `<button data-option-view="" aria-pressed="${!optionView && !difference}">Working layout</button>${study.alternatives.slice(-2).map((option) => `<button data-option-view="${esc(option.id)}" aria-pressed="${optionView === option.id && !difference}">${esc(option.name)}</button>`).join('')}`;
     const currentOption = study.alternatives.find((item) => item.id === optionView);
     $('#studio-view-status').innerHTML = difference ? `<span>Calculated difference · Option B minus Option A<small>A: ${esc(compared.result.a.name)} · B: ${esc(compared.result.b.name)}</small></span><button class="text-button" data-option-view="">Return to working layout</button>` : currentOption ? `<span>Saved arrangement · ${esc(currentOption.name)}<small class="studio-drag-hint">Read-only · edit a copy to move equipment</small></span><button class="text-button" data-restore="${esc(currentOption.id)}">Edit a copy</button>` : study.pending ? `<span>${pendingView === 'baseline' ? 'Frozen baseline · original equipment and readings' : 'Proposed geometry · future calculations covered'}<small class="studio-drag-hint">${pendingView === 'baseline' ? 'Read-only · the prediction keeps this baseline' : 'Drag a lamp or screen · measurement points stay fixed'}</small></span><div><button data-pending-view="proposed" aria-pressed="${pendingView === 'proposed'}">Proposal</button><button data-pending-view="baseline" aria-pressed="${pendingView === 'baseline'}">Baseline</button></div>` : `<span>Editable arrangement · ${isCommission() ? 'commission equipment' : 'your task surface'}<small class="studio-drag-hint">Drag a lamp · exact values in controls</small></span><button class="text-button" data-studio="inspect">Edit conditions ↓</button>`;
+    const status = $('#studio-view-status');
+    let statusActions = status.querySelector(':scope > div');
+    if (!statusActions) {
+      statusActions = document.createElement('div');
+      for (const button of status.querySelectorAll(':scope > button')) statusActions.append(button);
+      status.append(statusActions);
+    }
+    const recordAction = document.createElement('button');
+    recordAction.type = 'button'; recordAction.className = 'text-button'; recordAction.dataset.studio = 'record';
+    recordAction.textContent = 'Study record'; recordAction.title = 'Open this study’s saved arrangements, experiments and decision';
+    recordAction.setAttribute('aria-controls', 'studio-record'); statusActions.append(recordAction);
     if (difference) {
       const key = `${study.id}|${compareA}|${compareB}`;
       if (differenceFieldCache?.key !== key) differenceFieldCache = { key, field: calculateDifferenceField(compared.result.a.scene, compared.result.b.scene) };
@@ -220,7 +286,7 @@ export function mountStudio(root, { getState, commitState, onReadSource, onUseDe
     box.innerHTML = `<p class="eyebrow">Retained result · awaiting your conclusion</p><h2>${esc(before.label)}: ${fixed(before.lux)} → ${fixed(after.lux)} lx</h2><p>You predicted ${direction[record.prediction].toLowerCase()}; the calculated change was ${direction[record.actual].toLowerCase()}.</p><blockquote>${esc(record.hypothesis)}</blockquote><p class="helper-copy">${esc(record.explanation)}</p><label>What does this result explain? What would you check next?<textarea name="conclusion" data-conclusion rows="3" maxlength="4000">${esc(stage.conclusion)}</textarea></label><div class="studio-inline-actions"><button class="primary" data-studio="finalize">Finalize experiment</button><button class="text-button" data-studio="discard">Discard this unfinished result</button></div><p class="helper-copy">Your unfinished conclusion is saved as you type. A direction match alone does not validate the explanation.</p>`;
   }
 
-  function numeric(label, value, { key, entity = '', kind = '', min = 0, max = 12, step = 0.01, disabled = false, unit = '' }) {
+  function numeric(label, value, { key, entity = '', kind = '', min = 0, max = 12, step = 'any', disabled = false, unit = '' }) {
     return `<label>${label}${unit ? ` <small>(${unit})</small>` : ''}<input type="number" value="${value}" min="${min}" max="${max}" step="${step}" data-geometry="${key}" data-entity="${esc(entity)}" data-kind="${kind}" ${disabled ? 'disabled' : ''}></label>`;
   }
   function renderInspector(force = false) {
@@ -235,11 +301,11 @@ export function mountStudio(root, { getState, commitState, onReadSource, onUseDe
     const screen = scene.screens.find((item) => item.id === selected.id) || scene.screens[0];
     const equipmentLocked = view().readOnly;
     const geometryLocked = equipmentLocked || isCommission(study) || Boolean(study.pending);
-    panel.innerHTML = `<div class="studio-inspector-heading"><h2>Study brief</h2><button class="text-button" data-studio="guide">Read the rules</button></div><p class="studio-target-summary">${fixed(scene.width, 2)} × ${fixed(scene.depth, 2)} m · ${study.targets.minLux}–${study.targets.maxLux} lx</p>
+    panel.innerHTML = `<div class="studio-inspector-heading"><h2>Study brief</h2><button class="text-button" data-studio="guide">Read the rules</button></div><p class="studio-target-summary">${scene.width} × ${scene.depth} m · ${study.targets.minLux}–${study.targets.maxLux} lx</p>
       <details class="studio-control-section" data-section="brief"><summary>Task & ownership</summary><label>Study title<input data-study-field="title" value="${esc(study.title)}" maxlength="200"></label><label>What are you lighting?<textarea data-study-field="task" rows="2" maxlength="2000">${esc(study.task)}</textarea></label><label>Question<input data-study-field="question" value="${esc(study.question)}" maxlength="1000"></label><p class="helper-copy">Owner: ${esc(owner(study)?.title || 'Unassigned recovered work')}</p><button class="text-button" data-studio="associate">Associate a project</button>${study.example ? '<p class="helper-copy">Original example setup. Your results and decisions begin empty.</p>' : ''}</details>
       <section class="studio-control-section studio-selected-control"><div class="studio-object-tabs"><button data-select-kind="lamp" aria-pressed="${selected.kind === 'lamp'}">Lamp</button><button data-select-kind="point" aria-pressed="${selected.kind === 'point'}">Point</button>${scene.screens.length ? `<button data-select-kind="screen-start" aria-pressed="${selected.kind.startsWith('screen')}">Screen</button>` : ''}</div>
       ${selected.kind === 'lamp' ? `<label class="studio-selection-label">Lamp<select data-object-select="lamp">${scene.lamps.map((item, index) => `<option value="${esc(item.id)}" ${item.id === lamp.id ? 'selected' : ''}>Lamp ${index + 1}</option>`).join('')}</select></label><label>Intensity <output id="studio-intensity-output">${fixed(lamp.intensity, 0)} cd</output><span class="studio-range-pair"><input type="number" min="0" max="200" step="1" value="${lamp.intensity}" aria-label="Lamp intensity exact value (cd)" data-geometry="intensity" data-kind="lamp" data-entity="${esc(lamp.id)}" ${equipmentLocked || !allowed('lamp', 'intensity') ? 'disabled' : ''}><input type="range" min="0" max="200" step="1" value="${lamp.intensity}" aria-label="Lamp intensity (cd)" data-geometry="intensity" data-kind="lamp" data-entity="${esc(lamp.id)}" ${equipmentLocked || !allowed('lamp', 'intensity') ? 'disabled' : ''}></span></label><label>Height <output id="studio-height-output">${fixed(lamp.height, 2)} m</output><span class="studio-range-pair"><input type="number" min="0.2" max="3" step="0.01" value="${lamp.height}" aria-label="Lamp height exact value (m)" data-geometry="height" data-kind="lamp" data-entity="${esc(lamp.id)}" ${equipmentLocked || !allowed('lamp', 'height') ? 'disabled' : ''}><input type="range" min="0.2" max="3" step="0.01" value="${lamp.height}" aria-label="Lamp height (m)" data-geometry="height" data-kind="lamp" data-entity="${esc(lamp.id)}" ${equipmentLocked || !allowed('lamp', 'height') ? 'disabled' : ''}></span></label><div class="studio-form-row">${numeric('Across', lamp.x, { key: 'x', entity: lamp.id, kind: 'lamp', max: scene.width, disabled: equipmentLocked || !allowed('lamp', 'x'), unit: 'm' })}${numeric('Along', lamp.y, { key: 'y', entity: lamp.id, kind: 'lamp', max: scene.depth, disabled: equipmentLocked || !allowed('lamp', 'y'), unit: 'm' })}</div><label class="studio-check"><input type="checkbox" data-geometry="enabled" data-kind="lamp" data-entity="${esc(lamp.id)}" ${lamp.enabled ? 'checked' : ''} ${equipmentLocked || !allowed('lamp', 'enabled') ? 'disabled' : ''}>Lamp enabled</label>` : selected.kind === 'point' ? `<label>Point<select data-object-select="point">${scene.detectors.map((item, index) => `<option value="${esc(item.id)}" ${item.id === point.id ? 'selected' : ''}>${String.fromCharCode(65 + index)} · ${esc(item.label)}</option>`).join('')}</select></label><label>Point name<input value="${esc(point.label)}" maxlength="80" data-point-label="${esc(point.id)}" ${geometryLocked ? 'disabled' : ''}></label><div class="studio-form-row">${numeric('Across', point.x, { key: 'x', entity: point.id, kind: 'point', max: scene.width, disabled: geometryLocked, unit: 'm' })}${numeric('Along', point.y, { key: 'y', entity: point.id, kind: 'point', max: scene.depth, disabled: geometryLocked, unit: 'm' })}</div><p class="helper-copy">A horizontal sample point, not a whole-surface average.</p>` : screen ? `<label>Screen<select data-object-select="screen-start">${scene.screens.map((item, index) => `<option value="${esc(item.id)}" ${item.id === screen.id ? 'selected' : ''}>Screen ${index + 1}</option>`).join('')}</select></label><label>Height <output id="studio-screen-height-output">${fixed(screen.height, 2)} m</output><span class="studio-range-pair"><input type="number" min="0" max="3" step="0.01" value="${screen.height}" aria-label="Screen height exact value (m)" data-geometry="height" data-kind="screen" data-entity="${esc(screen.id)}" ${equipmentLocked || !allowed('screen', 'height') ? 'disabled' : ''}><input type="range" min="0" max="3" step="0.01" value="${screen.height}" aria-label="Screen height (m)" data-geometry="height" data-kind="screen" data-entity="${esc(screen.id)}" ${equipmentLocked || !allowed('screen', 'height') ? 'disabled' : ''}></span></label><div class="studio-form-row">${numeric('Start x', screen.x1, { key: 'x1', entity: screen.id, kind: 'screen', max: scene.width, disabled: equipmentLocked || !allowed('screen', 'x1'), unit: 'm' })}${numeric('Start y', screen.y1, { key: 'y1', entity: screen.id, kind: 'screen', max: scene.depth, disabled: equipmentLocked || !allowed('screen', 'y1'), unit: 'm' })}${numeric('End x', screen.x2, { key: 'x2', entity: screen.id, kind: 'screen', max: scene.width, disabled: equipmentLocked || !allowed('screen', 'x2'), unit: 'm' })}${numeric('End y', screen.y2, { key: 'y2', entity: screen.id, kind: 'screen', max: scene.depth, disabled: equipmentLocked || !allowed('screen', 'y2'), unit: 'm' })}</div><label class="studio-check"><input type="checkbox" data-geometry="enabled" data-kind="screen" data-entity="${esc(screen.id)}" ${screen.enabled ? 'checked' : ''} ${equipmentLocked || !allowed('screen', 'enabled') ? 'disabled' : ''}>Opaque screen in place</label>` : ''}</section>
-      <details class="studio-control-section" data-section="surface"><summary>Surface & equipment</summary><div class="studio-form-row">${numeric('Width', scene.width, { key: 'width', kind: 'surface', min: 0.3, disabled: geometryLocked, unit: 'm' })}${numeric('Depth', scene.depth, { key: 'depth', kind: 'surface', min: 0.3, disabled: geometryLocked, unit: 'm' })}</div><p class="helper-copy">Resizing rejects objects outside the new surface. Move them explicitly first.</p><div class="studio-inline-actions"><button data-studio="add-lamp" class="text-button" ${equipmentLocked || isCommission(study) || scene.lamps.length >= 2 ? 'disabled' : ''}>+ Lamp</button><button data-studio="remove-lamp" class="text-button" ${equipmentLocked || isCommission(study) || scene.lamps.length <= 1 ? 'disabled' : ''}>− Selected lamp</button><button data-studio="add-point" class="text-button" ${geometryLocked || scene.detectors.length >= 4 ? 'disabled' : ''}>+ Point</button><button data-studio="remove-point" class="text-button" ${geometryLocked || scene.detectors.length <= 2 ? 'disabled' : ''}>− Selected point</button><button data-studio="add-screen" class="text-button" ${equipmentLocked || isCommission(study) || scene.screens.length >= 1 ? 'disabled' : ''}>+ Screen</button><button data-studio="remove-screen" class="text-button" ${equipmentLocked || isCommission(study) || !scene.screens.length ? 'disabled' : ''}>− Screen</button></div></details>
+      <details class="studio-control-section" data-section="surface"><summary>Surface & equipment</summary><form data-form="surface" novalidate><div class="studio-form-row">${numeric('Width', scene.width, { key: 'width', kind: 'surface', min: 0.3, step: 'any', disabled: geometryLocked, unit: 'm' })}${numeric('Depth', scene.depth, { key: 'depth', kind: 'surface', min: 0.3, step: 'any', disabled: geometryLocked, unit: 'm' })}</div><p class="helper-copy" id="studio-surface-help">0.3–12 metres per side. Apply both dimensions together; lamp, point and screen coordinates stay in metres. Move any objects inside the new bounds before shrinking.</p><div class="studio-inline-actions"><button type="submit" class="secondary" ${geometryLocked ? 'disabled' : ''}>Apply table size</button><button type="button" data-studio="cancel-surface" class="text-button" ${geometryLocked ? 'disabled' : ''}>Cancel size edit</button></div><p class="helper-copy" id="studio-surface-feedback" role="status" aria-live="polite" hidden></p></form><div class="studio-inline-actions"><button data-studio="add-lamp" class="text-button" ${equipmentLocked || isCommission(study) || scene.lamps.length >= 2 ? 'disabled' : ''}>+ Lamp</button><button data-studio="remove-lamp" class="text-button" ${equipmentLocked || isCommission(study) || scene.lamps.length <= 1 ? 'disabled' : ''}>− Selected lamp</button><button data-studio="add-point" class="text-button" ${geometryLocked || scene.detectors.length >= 4 ? 'disabled' : ''}>+ Point</button><button data-studio="remove-point" class="text-button" ${geometryLocked || scene.detectors.length <= 2 ? 'disabled' : ''}>− Selected point</button><button data-studio="add-screen" class="text-button" ${equipmentLocked || isCommission(study) || scene.screens.length >= 1 ? 'disabled' : ''}>+ Screen</button><button data-studio="remove-screen" class="text-button" ${equipmentLocked || isCommission(study) || !scene.screens.length ? 'disabled' : ''}>− Screen</button></div></details>
       <details class="studio-control-section" data-section="targets"><summary>Personal targets</summary><form data-form="targets"><div class="studio-form-row"><label>Minimum (lx)<input type="number" name="minLux" value="${study.targets.minLux}" min="0" max="100000" step="1" required ${isCommission(study) ? 'disabled' : ''}></label><label>Maximum (lx)<input type="number" name="maxLux" value="${study.targets.maxLux}" min="0" max="100000" step="1" required ${isCommission(study) ? 'disabled' : ''}></label><label>Point uniformity (%)<input type="number" name="minUniformity" value="${study.targets.minUniformity * 100}" min="0" max="100" step="1" required ${isCommission(study) ? 'disabled' : ''}></label><label>Intensity ceiling (cd)<input type="number" name="intensityBudget" value="${study.targets.intensityBudget ?? ''}" min="0" max="400" step="1" placeholder="Optional" ${isCommission(study) ? 'disabled' : ''}></label></div><p class="helper-copy">Your chosen study goals, not lighting standards. Uniformity covers selected points only.</p><button class="secondary" ${isCommission(study) ? 'disabled' : ''}>Update targets</button></form></details>
       <section class="studio-control-section"><h3>Same points, same targets</h3><div id="studio-comparison"></div></section><details class="studio-control-section" data-section="paths"><summary>Inspect calculated paths</summary><div id="studio-paths"></div></details><button class="text-button" data-studio="reset">Reset working equipment</button>`;
     for (const detail of panel.querySelectorAll('details')) detail.open = opened.get(detail.dataset.section) || false;
@@ -249,12 +315,20 @@ export function mountStudio(root, { getState, commitState, onReadSource, onUseDe
   }
   function updateInspectorValues() {
     const study = current(), scene = displayScene();
+    const surfaceLocked = view().readOnly || isCommission(study) || Boolean(study.pending);
+    if (surfaceLocked) surfaceEditor.reset();
+    const surfaceValues = surfaceLocked ? { width: String(scene.width), depth: String(scene.depth) } : surfaceEditor.values();
     const summary = $('.studio-target-summary');
-    if (summary) summary.textContent = `${fixed(scene.width, 2)} × ${fixed(scene.depth, 2)} m · ${study.targets.minLux}–${study.targets.maxLux} lx`;
+    if (summary) summary.textContent = `${scene.width} × ${scene.depth} m · ${study.targets.minLux}–${study.targets.maxLux} lx`;
     for (const input of $('#studio-inspector').querySelectorAll('[data-geometry]')) {
       const kind = input.dataset.kind;
       const item = kind === 'surface' ? scene : (kind === 'lamp' ? scene.lamps : kind === 'point' ? scene.detectors : scene.screens).find((entry) => entry.id === input.dataset.entity);
       if (!item) continue;
+      if (kind === 'surface') {
+        input.setAttribute('aria-describedby', 'studio-surface-help studio-surface-feedback');
+        if (input.value !== surfaceValues[input.dataset.geometry]) input.value = surfaceValues[input.dataset.geometry];
+        continue;
+      }
       if (['x', 'x1', 'x2'].includes(input.dataset.geometry)) input.max = scene.width;
       if (['y', 'y1', 'y2'].includes(input.dataset.geometry)) input.max = scene.depth;
       if (input !== document.activeElement) {
@@ -266,7 +340,13 @@ export function mountStudio(root, { getState, commitState, onReadSource, onUseDe
       const lamp = scene.lamps.find((item) => item.id === selected?.id) || scene.lamps[0]; const node = $(output[0]); if (node) node.textContent = `${fixed(lamp[output[1]], output[3])} ${output[2]}`;
     }
     const screen = scene.screens.find((item) => item.id === selected?.id) || scene.screens[0]; if (screen && $('#studio-screen-height-output')) $('#studio-screen-height-output').textContent = `${fixed(screen.height, 2)} m`;
+    renderSurfaceFeedback();
     const pathBox = $('#studio-paths'); if (pathBox) pathBox.innerHTML = proposedCovered() ? '<p>Run to inspect the proposed calculated paths.</p>' : evaluateScene(displayScene()).detectors.map((point) => `<p><strong>${esc(point.label)}</strong><br>${point.contributions.map((item) => `${esc(item.lampId)} · ${fixed(item.distance, 2)} m · ${fixed(Math.acos(Math.min(1, item.cosine)) * 180 / Math.PI, 1)}° from normal · ${item.blockedBy.length ? 'screened' : 'clear'} · ${fixed(item.lux)} lx`).join('<br>')}</p>`).join('');
+  }
+  function renderSurfaceFeedback() {
+    const feedback = $('#studio-surface-feedback');
+    if (feedback) { feedback.textContent = surfaceEditor.feedback; feedback.hidden = !surfaceEditor.feedback; }
+    for (const input of root.querySelectorAll('[data-kind="surface"]')) input.setAttribute('aria-invalid', String(surfaceEditor.status === 'error'));
   }
   function comparison() {
     return comparisonState().result;
@@ -338,7 +418,7 @@ export function mountStudio(root, { getState, commitState, onReadSource, onUseDe
     const study = current(); if (!study) return;
     const focused = captureFocus();
     const switched = currentStudyId !== study.id;
-    if (switched) { currentStudyId = study.id; optionView = null; compareA = ''; compareB = ''; selected = null; draftScene = null; predictionOpen = false; activeStep = 'arrange'; if (renderMode === 'difference') renderMode = 'layout'; inspectorKey = ''; $('#studio-prediction').innerHTML = ''; }
+    if (switched) { currentStudyId = study.id; optionView = null; compareA = ''; compareB = ''; selected = null; draftScene = null; surfaceEditor.reset(); predictionOpen = false; activeStep = 'arrange'; if (renderMode === 'difference') renderMode = 'layout'; inspectorKey = ''; $('#studio-prediction').innerHTML = ''; }
     if (study.kind === 'personal') lastPersonalStudyId = study.id;
     if (renderMode === 'difference' && !comparisonState().available) renderMode = 'layout';
     sameSelection(displayScene());
@@ -401,25 +481,26 @@ export function mountStudio(root, { getState, commitState, onReadSource, onUseDe
       transact((state, study) => { if (study.pending || isCommission(study)) throw Error('Cancel the prediction before changing measurement geometry.'); const scene = copy(study.scene); scene.detectors.find((item) => item.id === input.dataset.pointLabel).label = input.value; updateScene(study, scene); }); return;
     }
     if (!input.dataset.geometry || input.disabled) return;
+    if (input.dataset.kind === 'surface') {
+      if (view().readOnly || current().pending || isCommission()) return;
+      surfaceEditor.edit(input.dataset.geometry, input.value); renderSurfaceFeedback(); return;
+    }
     if (input.type === 'number' && (!input.value || !input.validity.valid)) return;
     if (!['range','checkbox','number'].includes(input.type)) return;
     applyGeometry(input);
   });
   function applyGeometry(input) {
-    if (input.disabled) return;
+    if (input.disabled || input.dataset.kind === 'surface') return;
     const property = input.dataset.geometry, kind = input.dataset.kind;
     const value = input.type === 'checkbox' ? input.checked : Number(input.value);
     if (input.type !== 'checkbox' && (!input.value || !Number.isFinite(value) || value < Number(input.min) || value > Number(input.max))) { message('Enter a value within the labelled bounds.'); return; }
     const succeeded = transact((state, study) => {
       if (view().readOnly) throw Error('Return to the working proposal before editing equipment.');
       const scene = copy(study.scene);
-      if (kind === 'surface') { if (study.pending || isCommission(study)) throw Error('Measurement geometry is fixed for this experiment.'); scene[property] = value; }
-      else {
-        if (kind === 'point' && (study.pending || isCommission(study))) throw Error('Measurement points are fixed for this experiment.');
-        if (kind !== 'point' && !allowed(kind, property, study)) throw Error('This condition is fixed for the commission.');
-        const items = kind === 'lamp' ? scene.lamps : kind === 'point' ? scene.detectors : scene.screens;
-        items.find((item) => item.id === input.dataset.entity)[property] = value;
-      }
+      if (kind === 'point' && (study.pending || isCommission(study))) throw Error('Measurement points are fixed for this experiment.');
+      if (kind !== 'point' && !allowed(kind, property, study)) throw Error('This condition is fixed for the commission.');
+      const items = kind === 'lamp' ? scene.lamps : kind === 'point' ? scene.detectors : scene.screens;
+      items.find((item) => item.id === input.dataset.entity)[property] = value;
       updateScene(study, scene);
     });
     if (!succeeded) {
@@ -430,7 +511,7 @@ export function mountStudio(root, { getState, commitState, onReadSource, onUseDe
   }
   listen(root, 'change', (event) => {
     const input = event.target;
-    if (input.dataset.geometry && input.type === 'number') { applyGeometry(input); return; }
+    if (input.dataset.geometry && input.type === 'number') { if (input.dataset.kind !== 'surface') applyGeometry(input); return; }
     if (input.dataset.objectSelect) { selected = { kind: input.dataset.objectSelect, id: input.value }; renderInspector(true); drawStage(); return; }
     if (input.dataset.compare) {
       if (input.dataset.compare === 'a') { if (input.value === compareB) compareB = compareA; compareA = input.value; }
@@ -443,7 +524,11 @@ export function mountStudio(root, { getState, commitState, onReadSource, onUseDe
   listen(root, 'submit', (event) => {
     const form = event.target.closest('[data-form]'); if (!form) return;
     event.preventDefault(); const values = new FormData(form), type = form.dataset.form;
-    if (type === 'prediction') {
+    if (type === 'surface') {
+      if (view().readOnly || current().pending || isCommission()) { message('Return to the editable personal layout and resolve its prediction before resizing the table.'); return; }
+      for (const property of ['width', 'depth']) surfaceEditor.edit(property, form.querySelector(`[data-geometry="${property}"]`).value);
+      surfaceEditor.apply(); render(); return;
+    } else if (type === 'prediction') {
       if (transact((state, study) => { commitExperiment(study, { detectorId: values.get('detectorId'), prediction: values.get('prediction'), hypothesis: values.get('hypothesis').trim() }); })) { predictionOpen = false; pendingView = 'proposed'; optionView = null; inspectorKey = ''; render(); $('#studio-actionbar [data-studio="run"]')?.focus(); }
     } else if (type === 'option') {
       if (view().readOnly || current().pending) { message('Return to an editable working layout before saving an arrangement.'); return; }
@@ -485,6 +570,20 @@ export function mountStudio(root, { getState, commitState, onReadSource, onUseDe
     (input || panel.querySelector('[data-studio="guide"]'))?.focus({ preventScroll: true });
     panel.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });
   }
+  function activateRoomShortcut(id) {
+    if (disposed) return;
+    if (id === 'book') { showGuide(); return; }
+    if (id === 'table') {
+      canvas.focus({ preventScroll: true });
+      $('.studio-stage').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+      return;
+    }
+    if (id === 'notebook') {
+      const record = $('#studio-record');
+      record.focus({ preventScroll: true });
+      record.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    }
+  }
   function returnToWorking() {
     optionView = null; pendingView = 'proposed';
     if (renderMode === 'difference') renderMode = 'layout';
@@ -492,6 +591,7 @@ export function mountStudio(root, { getState, commitState, onReadSource, onUseDe
   }
   listen(root, 'keydown', (event) => {
     if (event.target === canvas && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); focusControls(); }
+    if (event.key === 'Escape' && event.target.closest('[data-form="surface"]')) { event.preventDefault(); surfaceEditor.reset(); updateInspectorValues(); return; }
     if (event.key === 'Escape' && predictionOpen && !dialog.open) {
       event.preventDefault(); predictionOpen = false; render(); $('[data-flow="predict"]')?.focus({ preventScroll: true });
     }
@@ -500,6 +600,7 @@ export function mountStudio(root, { getState, commitState, onReadSource, onUseDe
   listen(root, 'click', (event) => {
     const button = event.target.closest('button'); if (!button || button.disabled) return;
     const action = button.dataset.studio;
+    if (action === 'cancel-surface') { surfaceEditor.reset(); updateInspectorValues(); return; }
     if (button.dataset.commission) {
       const id = button.dataset.commission;
       transact((state) => {
@@ -541,7 +642,9 @@ export function mountStudio(root, { getState, commitState, onReadSource, onUseDe
     if (action === 'new') showNewStudy();
     if (action === 'associate') showAssociate();
     if (action === 'close-dialog') dialog.close();
-    if (action === 'guide') showGuide();
+    if (action === 'guide') activateRoomShortcut('book');
+    if (action === 'record') activateRoomShortcut('notebook');
+    if (action === 'return-table') activateRoomShortcut('table');
     if (action === 'read-source') { dialog.close(); onReadSource?.(copy(current())); }
     if (action === 'export') showExport();
     if (action === 'csv') download('afterlight-calculated-readings.csv', studyCSV(current()), 'text/csv;charset=utf-8');
@@ -566,17 +669,18 @@ export function mountStudio(root, { getState, commitState, onReadSource, onUseDe
     if (action === 'save-option-focus') { $('#studio-option-name')?.focus(); $('#studio-arrangements').scrollIntoView({ behavior: 'auto', block: 'nearest' }); }
     if (action === 'reset') {
       if (view().readOnly || current().pending) { message('Return to the working layout and resolve the prediction before resetting equipment.'); return; }
+      surfaceEditor.reset();
       transact((state, study) => { const reset = isCommission(study) ? copy(CHALLENGES.find((item) => item.id === study.challengeId).scene) : createStudy({ projectId: study.projectId, template: 'shared-table' }).scene; updateScene(study, reset); study.workingParentId = null; }, { rebuild: true });
     }
     if (['add-lamp', 'remove-lamp', 'add-point', 'remove-point', 'add-screen', 'remove-screen'].includes(action)) {
       transact((state, study) => {
         if (isCommission(study) || view().readOnly) throw Error('This equipment is fixed for the commission or saved arrangement.');
         const scene = copy(study.scene);
-        if (action === 'add-lamp') { if (scene.lamps.length >= 2) throw Error('The studio supports two lamps.'); scene.lamps.push({ id: uid('lamp'), x: scene.width * 2 / 3, y: scene.depth / 2, height: 0.5, intensity: 40, enabled: true }); }
+        if (action === 'add-lamp') { if (scene.lamps.length >= 2) throw Error('The studio supports two lamps.'); scene.lamps.push({ id: uid('lamp'), x: portion(scene.width, 2 / 3), y: portion(scene.depth, .5), height: 0.5, intensity: 40, enabled: true }); }
         if (action === 'remove-lamp') { if (scene.lamps.length <= 1) throw Error('Keep at least one lamp.'); scene.lamps = scene.lamps.filter((item) => item.id !== (selected.kind === 'lamp' ? selected.id : scene.lamps.at(-1).id)); }
-        if (action === 'add-point') { if (study.pending) throw Error('Cancel the prediction before changing points.'); scene.detectors.push({ id: uid('point'), label: `Place ${scene.detectors.length + 1}`, x: scene.width / 2, y: scene.depth * 0.75 }); }
+        if (action === 'add-point') { if (study.pending) throw Error('Cancel the prediction before changing points.'); scene.detectors.push({ id: uid('point'), label: `Place ${scene.detectors.length + 1}`, x: portion(scene.width, .5), y: portion(scene.depth, .75) }); }
         if (action === 'remove-point') { if (study.pending || scene.detectors.length <= 2) throw Error('Keep at least two points and cancel committed predictions first.'); scene.detectors = scene.detectors.filter((item) => item.id !== (selected.kind === 'point' ? selected.id : scene.detectors.at(-1).id)); }
-        if (action === 'add-screen') { scene.screens.push({ id: uid('screen'), x1: scene.width / 2, y1: scene.depth * 0.25, x2: scene.width / 2, y2: scene.depth * 0.75, height: 0.4, enabled: true }); }
+        if (action === 'add-screen') { scene.screens.push({ id: uid('screen'), x1: portion(scene.width, .5), y1: portion(scene.depth, .25), x2: portion(scene.width, .5), y2: portion(scene.depth, .75), height: 0.4, enabled: true }); }
         if (action === 'remove-screen') scene.screens = scene.screens.filter((item) => item.id !== (selected.kind.startsWith('screen') ? selected.id : scene.screens.at(-1).id));
         updateScene(study, scene);
       }, { rebuild: true });

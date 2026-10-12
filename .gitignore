@@ -27,3 +27,7 @@ qa/*
 !qa/studio-readings.csv
 !qa/studio-study.json
 !qa/workspace-export.json
+!qa/readme-studio-night.png
+!qa/readme-studio-day.png
+!qa/readme-planner.png
+!qa/readme-desk.png

@@ -1,6 +1,6 @@
 # Original artwork and source references
 
-The three runtime bitmap assets were created with the built-in imagegen tool on 2026-10-12, using the user-approved Afterlight day/night concept images as style references. They are decorative room/material assets, not pre-rendered UI, calculated fields, real readings or licensed photographs. The actual lamps, screens, points, labels, fields and numbers are drawn live.
+The room and material bitmap assets were created with the built-in imagegen tool on 2026-10-12, using the user-approved Afterlight day/night concept images as style references. The reading book was generated separately with a transparent background. They are decorative room/material/paper assets, not pre-rendered UI, calculated fields, real readings or licensed photographs. The actual lamps, screens, points, labels, fields and numbers are drawn live.
 
 ## room-night.png
 
@@ -24,6 +24,14 @@ The three runtime bitmap assets were created with the built-in imagegen tool on 
 - Role: Neutral oak surface texture, clipped to actual study dimensions.
 
 ## Prompt directions (summaries)
+
+The local table refinement adds `assets/table-oak-refined.png` (1774 × 887 px, source `exec-9640eac3-475f-496e-9860-c9d08fe4f08e.png`) with quieter diffuse honey-oak grain. It contains no lamps, light pools or objects. The previous oak is preserved.
+
+It also adds `assets/reading-book.png` (1536 × 1024 px, source `exec-46f479a1-84fa-4b8c-a9ea-574d56680b84.png`), an overhead open book with original RGBA transparency retained. Its faint marks are decorative, not source quotations or evidence. Live illumination is applied over both the paper and wood. A notebook and pencil are drawn in code. Only configured opaque screens participate in the blocking model.
+
+Exact submitted prompts and generation mode for these two local assets are recorded in [table-material-prompts.md](docs/table-material-prompts.md).
+
+The following local interaction refinement adds `assets/lamp-brass.png` (1254 × 1254 px, source `exec-68efa41a-2ed3-4757-8ea1-c43966830b2f.png`), generated with built-in imagegen and original RGBA transparency retained. It is a neutral antique brass shade cutout with no emitted beam, pool, halo or reading. Its exact prompt is in the same prompt record. The application draws the support, physical anchor, bulb emission and selection live; inactive sources retain a muted material body without contributing light. The table book and notebook navigate to the actual Field guide and study record without creating data.
 
 Night room: Richly detailed orthographic overhead literary library, ink-teal/aged brass/wood/stone/Persian rug, wicker chairs and peripheral books, ivy and sleeping cat. Very wide2:1. Completely empty central rug for the live2:1 table; four chairs outside it. Night atmosphere, no central lamp beams. No table, lamps, text, numbers, controls, panels or UI.
 

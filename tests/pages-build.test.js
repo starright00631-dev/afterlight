@@ -36,7 +36,7 @@ test('Pages build includes the authored app and locked PDF resources while exclu
     }
     assert.ok(moduleCount >= 25);
     assert.equal(await readFile(join(output, 'vendor/pdfjs/pdf.mjs'), 'utf8'), await readFile(join(root, 'node_modules/pdfjs-dist/build/pdf.mjs'), 'utf8'));
-    for (const file of ['assets/mark.svg', 'assets/room-day.png', 'assets/room-night.png', 'assets/table-oak.png', 'vendor/pdfjs/pdf.mjs', 'vendor/pdfjs/pdf.worker.mjs', 'vendor/pdfjs/LICENSE', 'NOTICE', 'CREDITS.md', 'licenses/pdfjs-dist-LICENSE.txt', 'licenses/napi-rs-canvas-LICENSE.txt']) assert.ok(files.includes(file), file);
+    for (const file of ['assets/mark.svg', 'assets/room-day.png', 'assets/room-night.png', 'assets/table-oak.png', 'assets/table-oak-refined.png', 'assets/reading-book.png', 'assets/lamp-brass.png', 'docs/table-material-prompts.md', 'vendor/pdfjs/pdf.mjs', 'vendor/pdfjs/pdf.worker.mjs', 'vendor/pdfjs/LICENSE', 'NOTICE', 'CREDITS.md', 'licenses/pdfjs-dist-LICENSE.txt', 'licenses/napi-rs-canvas-LICENSE.txt']) assert.ok(files.includes(file), file);
     for (const folder of ['cmaps', 'standard_fonts', 'wasm', 'iccs']) {
       for (const name of await readdir(join(root, 'node_modules', 'pdfjs-dist', folder))) if (name.startsWith('LICENSE')) assert.ok(files.includes(`vendor/pdfjs/${folder}/${name}`), name);
     }
