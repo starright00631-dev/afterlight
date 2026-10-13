@@ -1,64 +1,41 @@
-# Afterlight 3.3.0 — release verification
+# Afterlight 3.4.0 — release verification
 
-Verified on 2026-10-12. This release includes the local tabletop refinements, book/record navigation, coherent table resizing, larger README screenshots and standalone release packaging. The underlying ideal point-source model and retained study format are unchanged.
+13 October 2026. This release adds shared scheduling across projects, a selected-day planner, bounded source review, dated work outcomes and preview-first reading intake. The optical model and retained study formats remain unchanged. Workspace storage is v4 with validated v3/v2 migration.
 
-## Environment and automated checks
+## Source checks
 
-| Check | Result |
+Windows; Node **24.15.0**, Python **3.14.4**, locked PDF.js **6.4.299**. A clean `npm ci --no-audit --no-fund` succeeded after restarting the identified application servers to release Windows' native PDF dependency lock. No unrelated process was stopped.
+
+| Check | Observed result |
 | --- | --- |
-| Windows x64, Node 24.15.0 / npm 11.12.1, `npm test` | 146 passed; 0 failed, skipped or cancelled |
-| Windows x64, Node 22.13.0 / npm 10.9.2, `npm test` | 146 passed; 0 failed, skipped or cancelled |
-| `npm run check` on both versions | Passed |
-| Standard-library packaging regressions | 4 passed |
-| Retained study, HTML and calculated CSV reconciliation | Passed; all fields and exporter bytes matched |
-| `npm run build:pages` | Passed; 234 public files, PDF.js 6.4.299 |
+| `npm run check` | Application and service syntax passed. |
+| `npm test` | **275 passed**, zero failures or skips. |
+| Python packaging regressions | **6 passed**. |
+| Studio export reconciliation | Original records and calculated lux preserved; retained HTML/CSV match byte for byte. |
+| Workbench export reconciliation | Workspace round trip identical; accepted event IDs and UTC times match. |
+| Selected-day refinement reconciliation | Proposal leaves state unchanged; **8 accepted allocations**, **225 planned / 250 open / 35 rest minutes**; prior records and identities preserved. |
+| Static build | **244 public files**, PDF.js 6.4.299, provider assistance disabled. |
 
-The minimum-version runtime was downloaded from the official Node.js release and its ZIP SHA-256 matched the official SHASUMS256.txt. It was used only in child processes; installed Node and system PATH were unchanged. The test script uses `--experimental-test-isolation=none`, which works on both tested Node versions; the unprefixed flag from 3.2.0 was incompatible with Node 22.13.
+Static build ID: `bb5e47b4cacbb6a9afb2cfdb78d8c19a9b65492f1cebf8d745e6c49c620b213a`.
 
-The GitHub verification workflow runs Node 22.13.0 and Node 24 on Windows and Ubuntu, including syntax checks, application tests, packaging regressions, export reconciliation and the browser build. Windows launcher tests are intentionally skipped on non-Windows hosts. [Workflow results](https://github.com/starright00631-dev/afterlight/actions/workflows/ci.yml) identify the actual outcome for each revision. A separate Pages workflow validates and deploys the static application.
+## Browser and evidence
 
-Browser build ID: `b41717f3653bd3c293b231fc4cac8df928b76ef3a55fe63d51f0c6c7218f2284`. This identifies authored browser modules, runtime capabilities and illustration assets; documentation-only changes do not alter it.
+The [workbench acceptance](WORKBENCH-ACCEPTANCE.md), [reading/export clarity acceptance](CLARITY-ACCEPTANCE.md) and [Week refinement acceptance](WEEK-REFINEMENT-ACCEPTANCE.md) retain the local implementation checks, synthetic fixtures and actual responsive screenshots. Their 3.3.0 labels record the package version before the release bump; they are historical checks of the implemented changes, not new claims about the old public release.
 
-## Reading-table acceptance
+The 3.4.0 local server mounted the retained shared calendar. A **1920 × 1080** widescreen check verified named reservations, selected-day context, unfinished prerequisite guards, capacity totals and no horizontal document overflow in day and night appearances. New README images are actual full-page captures of that labelled example workspace, **1904 × 1375** pixels. The screenshot API supplied JPEG bytes; they were decoded to PNG without resizing or invented detail. No private workspace or provider credentials appear in those images.
 
-- Surface geometry, rulers, field samples and inverse pointer positions share one orthographic transform. Size changes submit width and depth atomically. Invalid shrinking preserves the previous scene and explains equipment outside the proposed bounds; coordinates do not silently rescale or clamp.
-- Neutral oak, book and brass assets retain live light compositing. Disabled or fully blocked contributions add no pool light. Procedural drawing remains available when image loading fails. Day/night atmosphere does not affect the scientific calculation.
-- Off-centre drags preserve the original grip, including compact and short fixture offsets. Focused tests cover small first movements, zero-motion selection, bounds, pointer ownership, cancellation, read-only changes and fallback-to-loaded artwork.
-- The book opens the real Field guide; the notebook opens the actual study record. Return to table restores canvas focus. Navigation does not create records or edit geometry. Touch requires a matching release; movement, cancellation, capture loss or a disappearing prop does not activate a shortcut. Ordinary labelled controls supply keyboard access when decorative paper is omitted.
-- Covered prediction readings and rasters remain covered. Signed differences retain symmetric scale limits and B minus A values. Hover cues supply action names without revealing numerical results.
+The [3.3.0 verification report](RELEASE-3.3.0.md), optical export fixtures and previously published archive are retained. Its archive SHA-256 remains `3d8040d524c9d4a0f9c3273b81fb20e811a46d9e4593096165103d2bf68badef`.
 
-The preceding local acceptance inspected 1366 × 900 desktop, 390 × 844 phone and 668 × 518 compact layouts. Neither smaller layout overflowed horizontally; the primary action fit inside each viewport. Native off-centre dragging matched numeric controls, paper and keyboard shortcuts reached the intended destinations, and read-only navigation kept geometry controls disabled. These checks are complemented by current automated input, route, resize and raster regressions.
+## Distribution checks
 
-## Actual 3.3 browser and planner checks
+A candidate ZIP was extracted into a fresh directory containing spaces with no dependencies or neighboring planning store. Its actual Windows BAT installed the locked dependencies, started a matching 3.4.0 loopback server and reused the same identified PID on a second invocation. Explicit-port BAT startup also succeeded from outside the application directory. Ten served runtime/style/artwork files matched the extracted bytes by SHA-256.
 
-Public README images were captured from a separate local example workspace using the running 3.3.0 application. They show no private workspace or provider credentials.
+The extracted application passed syntax checks, **275 tests**, all three export verifiers and the same **244-file** static build with the identical build ID above. The clean local application mounted the starter Studio; the static build on a separate fresh origin mounted Studio, restored the synthetic workspace through the confirmation flow, displayed **510 available / 225 planned / 250 open** minutes and opened the source-linked Desk. Neither tab recorded warning/error console messages. The static runtime explicitly keeps assistance disabled and PDF processing in-browser.
 
-- The shared-table example has a 2.4 × 1.2 m surface, two 40 cd lamps at height 0.5 m, positions (0.8, 0.6)/(1.6, 0.6), and two matching measurement points. Both readings are 183.8 lx, selected-point uniformity is 100%, and enabled intensity is 80 cd. These values survived reload and day/night switching.
-- The explicitly labelled built-in research-brief project contains the real 30 → 45 → 60 → 30 minute dependency chain. At 90 minutes per day, 19:00 start and five-minute rest gaps, the planner puts 165 minutes of work plus 15 minutes of rest into two days. The 60-minute draft spans five minutes on the first day and 55 on the second. The UI displayed these blocks and the correct completion date. Export calendar reported scheduled blocks exported; automated calendar tests verify the generated data.
-- Desk displayed the retained passages, two linked ideas and its existing practice/draft actions. Its local Codex status reported a signed-in account and explicitly stated that authentication status does not test inference. No assistance request or source submission was made for this release check.
-
-| README capture | Dimensions | What it shows |
-| --- | --- | --- |
-| [Night Studio](readme-studio-night.png) | 1905 × 972 | Live balanced example, brass fixtures and reading objects |
-| [Day Studio](readme-studio-day.png) | 1905 × 972 | Same geometry and calculated results |
-| [Week planner](readme-planner.png) | 1905 × 972 | Authored dependency/capacity example and scheduled blocks |
-
-Browser capture supplied JPEG pixels. They were transcoded to PNG without resizing, upscaling, retouching or generated UI substitutions. README displays individual linked images at full available width. Prior smaller acceptance captures and deterministic export fixtures remain available; they are not presented as newly recorded experiments.
-
-## CLI, runtime and packaging contract
-
-Afterlight has no standalone `afterlight` command or MCP server. `npm start` starts its loopback Node server. `Start-Afterlight.bat` invokes the Windows launcher, checks the supported Node version, installs locked dependencies if needed, and verifies application/version/root identity before opening or reusing a server. Port conflicts do not terminate unrelated processes.
-
-Local optional assistance supports Codex CLI, Claude CLI, Ollama, DeepSeek and OpenAI-compatible APIs. Installed Codex 0.159.1 and Claude Code 2.1.247 version/help checks confirmed the used flags. Native CLI child-process version checks passed. Windows requires a directly executable native binary; `AFTERLIGHT_CODEX_PATH` / `AFTERLIGHT_CLAUDE_PATH` can point to it. A `.cmd`-only wrapper is insufficient with the deliberate `shell:false` boundary. Authentication and connection probes are separate from inference; compatible provider access still depends on the user's endpoint, account and model.
-
-The static build disables all provider connections and keeps PDF reading in the browser. Core Studio, Desk, Library, Week, Quiet and exports need no model provider. Opening `index.html` from disk is unsupported; serve the application over HTTP.
-
-Release packaging reads committed repository documentation exclusively. A sibling development OpenSpec store cannot alter release bytes. Standard-library tests build a standalone spaced checkout without node_modules or an OpenSpec store, reconcile every ZIP member/hash, prove same-input reproducibility and exact documentation bytes, and verify replacement refusal, required-evidence failures, private-input exclusion and preserved prior archives. Python 3.9+ is required only for maintainers building the ZIP.
-
-A real 3.3.0 candidate was extracted into a fresh directory containing spaces, without installed dependencies. Invoking its actual BAT from outside that directory installed three locked packages and reached matching loopback health. A second invocation reused the same verified PID. Ten served application/module/style/artwork/PNG files matched the extracted bytes by SHA-256. Its standalone packaging dry-run resolved all 96 public payload files without a sibling planning store. The extracted application mounted in the browser with the expected starter values and no captured warning/error logs. Library and Quiet also remained available in the separate release example workspace.
-
-The ZIP manifest lists payload sizes and SHA-256 hashes, excluding its own hash; the external receipt records archive and manifest hashes. Runtime logs, portable QA binaries, credentials, installed dependencies, caches, raw forensic records and unrelated prototypes are excluded. Source and artwork retain PolyForm Noncommercial 1.0.0; third-party notices remain separate.
+Packaging verifies archive CRC, exact membership and every payload hash. The final archive preserves the candidate's runtime/assets; only release documentation and Git attributes change after candidate testing. Calendar fixtures preserve their exported CRLF bytes in Git on Windows and Linux. The preserved 3.3.0 report is byte-identical to the earlier archive's report. The final manifest and receipt accompany the download. Remote GitHub CI and Pages results for the published commit are linked from the release notes after publication; this report records local candidate verification.
 
 ## Limits
 
-This is illustrative Canvas2D relief with an ideal direct-light calculation, not a full 3D lighting engine or calibrated physical-room model. Targets are personal goals. No learning, sleep, comfort, compliance or productivity outcome has been established. The retained export fixture's observation remains explicitly synthetic; no real meter readings were fabricated. Local provider inference, printed-PDF pagination and every possible browser/device/provider configuration have not been tested by this release pass. Workspace data stays local to each browser origin; changing origin requires an explicit backup/import.
+The calendar is a deterministic scheduling heuristic with explicit acceptance, not automatic account synchronization or measured productivity. PDF intake keeps extracted text and supports selectable-text PDFs within documented limits; it has no OCR or original-page viewer. Source review uses user criteria and fixed 1/3/7-day revisit rules; it does not grade understanding or establish learning gains. Timer duration and user-reported work outcomes remain distinct.
+
+The lighting room is a Canvas 2D projection with an ideal direct-light model; decorative artwork contributes no calculated light. Real provider inference, printed-PDF pagination and every possible device/provider environment are not established by this release pass. Localhost storage remains separate for each origin. No assistant request with user material was sent during release verification.

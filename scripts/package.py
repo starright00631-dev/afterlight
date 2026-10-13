@@ -20,6 +20,27 @@ CURRENT_QA_FILES = (
     "studio-report.html", "studio-readings.csv", "studio-study.json", "workspace-export.json",
     "readme-studio-night.png", "readme-studio-day.png", "readme-planner.png",
 )
+WORKBENCH_FILES = (
+    "docs/study-planner-rationale.md", "qa/WORKBENCH-ACCEPTANCE.md",
+    "qa/workbench-export.json", "qa/workbench-calendar.ics", "qa/workbench-rea-artifact.json",
+    "qa/workbench-week-night.jpg", "qa/workbench-week-day.jpg", "qa/workbench-week-phone.jpg",
+    "qa/workbench-review-hidden.jpg", "qa/workbench-review-phone.jpg", "qa/workbench-compact.jpg",
+    "qa/workbench-static.jpg",
+    "qa/CLARITY-ACCEPTANCE.md",
+    "qa/clarity-calendar-day.jpg",
+    "qa/clarity-calendar-night.jpg",
+    "qa/clarity-calendar-phone.jpg",
+    "qa/clarity-pdf-compact.jpg",
+    "qa/clarity-pdf-phone.jpg",
+    "qa/clarity-exports.jpg",
+    "qa/clarity-workspace.json",
+    "qa/clarity-readings.csv",
+    "qa/WEEK-REFINEMENT-ACCEPTANCE.md", "qa/week-refinement-day.png", "qa/week-refinement-night.png",
+    "qa/week-refinement-phone.png", "qa/week-refinement-compact.png", "qa/week-refinement-proposed.png",
+    "qa/week-refinement-static.png", "qa/week-refinement-before.json", "qa/week-refinement-preview.json",
+    "qa/week-refinement-workspace.json", "qa/week-refinement-calendar.ics",
+    "qa/RELEASE-3.3.0.md", "qa/readme-week-day.png", "qa/readme-week-night.png",
+)
 # Committed documentation is the release source of truth. A neighboring
 # development OpenSpec store must never change a checkout's packaged bytes.
 PLANNING_DOCS = (
@@ -77,6 +98,11 @@ def payload() -> tuple[str, dict[str, bytes]]:
     files["qa/CURRENT-REPORT.md"] = source_file(report)
     for name in CURRENT_QA_FILES:
         files["qa/" + name] = source_file(ROOT / "qa" / name)
+    # This verifier must travel with its explicitly selected, synthetic UI
+    # fixtures. Other local QA files remain excluded by the inclusion policy.
+    if "scripts/verify-workbench-export.mjs" in files:
+        for name in WORKBENCH_FILES:
+            files[name] = source_file(ROOT / name)
 
     for name in PLANNING_DOCS:
         destination = "docs/openspec/" + name

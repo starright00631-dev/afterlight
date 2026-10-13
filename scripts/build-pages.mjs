@@ -4,7 +4,7 @@ import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-export const PAGES_FILES = Object.freeze(['index.html', 'style.css', 'studio.css', 'app.js', 'domain.js', 'persistence.js', 'calendar.js', 'optics.js', 'studies.js', 'studio-ui.js', 'studio-view-state.js', 'studio-renderer.js', 'field-difference.js', 'runtime-capabilities.js', 'client-services.js', 'browser-pdf.js']);
+export const PAGES_FILES = Object.freeze(['index.html', 'style.css', 'studio.css', 'app.js', 'domain.js', 'persistence.js', 'calendar.js', 'optics.js', 'studies.js', 'studio-ui.js', 'studio-view-state.js', 'studio-renderer.js', 'field-difference.js', 'runtime-capabilities.js', 'client-services.js', 'browser-pdf.js', 'workspace-planner.js', 'workbench-state.js', 'work-sessions.js', 'agenda-ui.js', 'review-sessions.js', 'review-ui.js', 'source-intake.js', 'calendar-overview.js', 'calendar-overview.css', 'planning-inspector.js']);
 const ASSETS = ['mark.svg', 'room-day.png', 'room-night.png', 'table-oak.png', 'table-oak-refined.png', 'reading-book.png', 'lamp-brass.png'];
 export const BROWSER_CAPABILITIES = Object.freeze({ mode: 'browser', assistants: false, pdf: 'browser', storage: 'browser-local' });
 const hash = (content) => createHash('sha256').update(content).digest('hex');
@@ -34,7 +34,7 @@ export function createBrowserGraph({ inputs, assets = {}, version, pdfJsVersion 
     graph[file] = file.endsWith('.js') ? text.replace(/(\bfrom\s*|\bimport\s*\(\s*|\bimport\s*)(['"])(\.\/[^'"\r\n]+\.m?js(?:[?#][^'"\r\n]*)?)(\2)/g,
       (match, prefix, quote, specifier) => `${prefix}${quote}${reference(specifier)}${quote}`) : text;
   }
-  graph['index.html'] = graph['index.html'].replace(/(\b(?:src|href)=)(['"])(\.\/(?:app\.js|style\.css|studio\.css))(?:\?[^'"]*)?\2/g,
+  graph['index.html'] = graph['index.html'].replace(/(\b(?:src|href)=)(['"])(\.\/(?:app\.js|style\.css|studio\.css|calendar-overview\.css))(?:\?[^'"]*)?\2/g,
     (match, prefix, quote, specifier) => `${prefix}${quote}${reference(specifier)}${quote}`);
   return { buildId, inputs: graph };
 }

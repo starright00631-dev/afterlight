@@ -4,6 +4,8 @@
 
 Afterlight is an interactive lighting studio and a source-linked workspace. It connects a question to its evidence, a decision you can explain, and a plan you can carry out. The illustrated reading room is the setting; the calculations, retained records and practical next actions are the work.
 
+**Version 3.4.0** adds one shared calendar, a selected-day planning view, bounded source review and dated work outcomes. PDF intake now previews extracted text before saving. See the [reference and implementation rationale](docs/study-planner-rationale.md) and [release verification](qa/CURRENT-REPORT.md).
+
 [Browser demo](https://starright00631-dev.github.io/afterlight/) · [Releases](https://github.com/starright00631-dev/afterlight/releases) · [Planner](#a-planner-that-shows-what-fits) · [Local setup](#choose-how-to-run) · [Contributor guide](AGENTS.md)
 
 [![Afterlight Studio in night appearance, showing live lamps and measurement points, exact controls, calculated readings and study actions](qa/readme-studio-night.png)](qa/readme-studio-night.png)
@@ -35,28 +37,33 @@ In Room view, the book opens the **Field guide** and the notebook opens the **St
 
 ## A planner that shows what fits
 
-**Week** turns named outputs into timed work blocks. Choose a starting date, time of day, daily budget and rest gap; give each action an estimate, prerequisites, optional deadline and status. Editing those inputs recalculates the plan immediately. A scheduled block opens its action in **Desk**, where its draft, supporting idea and focus time remain together.
+**Week** gives every project one shared calendar. Explicitly adopt a project's window, then set availability, date exceptions, fixed commitments, rest and a useful minimum block length. Earlier project plans remain intact. An action retains its project, estimate, prerequisites and optional deadline.
 
-The planner follows explicit rules in [domain.js](domain.js):
+Generate a **proposal**, inspect it, then **accept** its sessions. A proposal creates no reservations or completed work. Keep an action in the inbox until it belongs in a plan; place or move a session using a labelled form, pin its time, or unschedule it with immediate Undo. Changed constraints expose conflicts rather than silently moving accepted work.
 
-- Prerequisites are placed before dependent actions. A dependent action's earlier deadline also gives its prerequisites priority.
-- Ready actions are ordered by their effective deadline, then their order in the action list.
-- Longer actions can span days. Rest between blocks consumes the same daily budget; no rest is charged before the first or after the final block.
-- Completed actions leave the unfinished-work schedule. Blocked work, missing or cyclic prerequisites, impossible deadlines and unplaced minutes remain visible with a reason.
-- A finish date appears only when all unfinished work can be placed.
+The week timeline puts all seven days on one clock scale, with visible task names. Selecting a day shows its reservations, unfinished prerequisites and source context beside the map. Choose an exact free interval to see validated session choices; placement subtracts effort already reserved elsewhere and prefills that interval's date and time. Short gaps stay visible without implying useful work can fit.
 
-[![Afterlight Week showing estimated actions, prerequisites, daily capacity, rest gaps and scheduled work blocks](qa/readme-planner.png)](qa/readme-planner.png)
+[![Afterlight shared week with named sessions, available intervals and selected-day details](qa/readme-week-day.png)](qa/readme-week-day.png)
 
-**Reproduce the built-in example:** in **Data and project settings**, add the example project, then open Week. Its four actions form a dependency chain: define the brief's finish line (**30 min**), select evidence (**45 min**), write the brief (**60 min**), and review its claim (**30 min**). With **90 minutes a day**, a **19:00** start and **5-minute** rest gaps, the actual scheduler produces:
+During a proposal, **Accepted / Proposed** compares both views on the same clock scale. Proposed times remain unreserved until **Accept these sessions**. Inspection starts no timer; **Start session** explicitly starts work and uses the chosen reservation's duration, while the full task estimate stays separate. Move and unschedule remain available in the accepted view. See the [refinement checks and responsive screenshots](qa/WEEK-REFINEMENT-ACCEPTANCE.md).
 
-| Day | Scheduled work |
-| --- | --- |
-| **1** | 19:00–19:30 define the output; 19:35–20:20 select evidence; 20:25–20:30 begin the draft. |
-| **2** | 19:00–19:55 finish the draft; 20:00–20:30 review the claim. |
+The screenshot uses a labelled example workspace with a fixed commitment and a closed day. Day and night appearances show the same reservations and capacity.
 
-That is **165 work minutes plus 15 rest minutes**, filling two 90-minute windows. An earlier deadline or a smaller budget can leave work unplaced; the conflict stays in the plan so you can change the estimate, scope or date.
+[![Afterlight shared week in night appearance](qa/readme-week-night.png)](qa/readme-week-night.png)
 
-The interface plans seven days with the same daily window. It uses a deterministic scheduling heuristic, rather than an optimized calendar or a productivity prediction. **Export calendar** downloads an `.ics` file containing scheduled work blocks, with rest represented by gaps; it does not configure reminders or synchronize a calendar. Event times are floating local times interpreted by your calendar application. Default dates and practice queues use the Asia/Shanghai calendar.
+The shared planner in [workspace-planner.js](workspace-planner.js) follows explicit rules:
+
+- Prerequisites precede dependent work; earlier deadlines propagate to prerequisites. Starting a work session requires prerequisites to be **actually complete**.
+- All projects consume the same free intervals. Commitments, retained allocations and rest count against those intervals.
+- Long actions can span days; the useful minimum avoids arbitrary tiny fragments. A whole short action can still fit.
+- Blocked work, cyclic or missing dependencies, impossible deadlines and unplaced effort remain visible with reasons. A finish date requires all work to fit.
+- Matching allocations keep their identities; valid pins stay fixed. Session history preserves the original allocation link when a later plan replaces its reservation.
+
+The built-in research-brief example has four actions: define the output (**30 min**), select evidence (**45 min**), write the brief (**60 min**), and review its claim (**30 min**). These are **165 estimated work minutes**. Add a commitment or another project's task and propose again to see the shared capacity change. Acceptance does not change their completion status.
+
+**Desk** shows today's accepted sessions and ready work across projects. Original estimates, your explicit remaining estimate and elapsed focus time stay separate. **Quiet** closes work with a user-reported outcome, output, next step and optional revised effort; partial work remains unfinished. Historical output and duration remain inspectable after replanning.
+
+**Download calendar (.ics)** downloads accepted planned allocations as `.ics` events with stable block identities and explicit UTC timestamps corresponding to the Asia/Shanghai calendar. It does not configure reminders or synchronize an account. The scheduler is a deterministic heuristic; it does not measure productivity.
 
 ## One study, five workspaces
 
@@ -65,12 +72,18 @@ The interface plans seven days with the same daily window. It uses a determinist
 | **Studio** | Test predictions, compare arrangements and retain a decision. Real meter observations remain separate. | **Use in my work** keeps the study report and reason in Desk. **Plan the check** creates a Week action linked back to the study, with a measurement template in its draft. |
 | **Desk** | Read sources beside kept passages, explanations, recall attempts and action drafts. Record focus time and report completion yourself. | An idea links to its original passage and can become an action with **Put it to work**. Drafts and scheduled blocks refer to the same action. |
 | **Library** | Search and preserve the project's original imported text and its passage anchors. | Open a source in Desk; follow its kept ideas and attached actions in the source map. Sources retained as study-decision evidence cannot be deleted through the interface. |
-| **Week** | Fit unfinished work to estimates, prerequisites, deadlines and rest gaps, and expose conflicts. | Open a scheduled block to work on its draft; return to its attached idea or lighting study. |
-| **Quiet** | Save what changed and one concrete starting point for later. Optionally use a timer and locally synthesized rain. | **Plan this next step** opens an action form with the handoff prefilled. The handoff also appears when you return to Desk. |
+| **Week** | Share availability across projects; review proposals around commitments, prerequisites, deadlines and rest. | Accept or manually place sessions; open their drafts or planned source-review queues. |
+| **Quiet** | Close active work with an explicit outcome, retained output, revised effort and next step; keep a handoff and optional quiet timer. | Session history opens the correct action and project. **Plan this next step** opens a prefilled action form; the handoff returns in Desk. |
 
 For example, retain a balanced lighting arrangement, use its report in Desk, then plan a 15-minute measurement check. The action draft records the selected arrangement, calculated point values and blank fields for observed lux, instrument, date and ambient conditions. Adding a plan creates no measurement and completes no task automatically.
 
 Desk practice hides the reference while you write, then lets you reveal the original passage and assess your answer. **Again**, **Uncertain** and **Understood** use simple 1-, 3- and 7-day revisit intervals. These are your assessments, not automatic grades or evidence of mastery.
+
+## Source review that keeps its context
+
+Keep a passage in **Ideas**, write a question and add your own answer criteria. **Practice** starts a bounded queue from due questions in one or all projects. Your answer saves while the original passage, criteria and earlier reference answers stay hidden. Reveal the comparison, assess the answer yourself, and continue to the next question. **I couldn't recall**, **Skip** and **Undo** have separate, inspectable effects; skipping creates no assessment or new due date.
+
+Each assessment retains the question, passage and criteria as they were at that time. Later edits do not rewrite that evidence. Unfinished queues and answers survive reload and source navigation. Set aside review time in Week without changing review dates. A planned review exposes its elapsed timer and leads to Quiet for an explicit work outcome. Revisit rules remain fixed at **1, 3 or 7 days**; there is no automatic grading, mastery score or adaptive FSRS model.
 
 ## Choose how to run
 
@@ -84,7 +97,7 @@ Open the [browser demo](https://starright00631-dev.github.io/afterlight/) withou
 | Workspace/study backups, HTML/CSV reports and other exports | Available | Available |
 | Optional model-provider assistance | Disabled | Available when you configure a provider |
 
-The browser build serves its code, artwork and PDF.js resources from the same site. No Afterlight account or provider is required. Use a current browser with JavaScript, Canvas 2D and working browser storage. Serve the application over HTTP; opening `index.html` directly from disk is unsupported.
+The browser build serves its code, artwork and PDF.js resources from the same site. No Afterlight account or provider is required. Use a current browser with JavaScript, Canvas 2D and working browser storage. Serve the application over HTTP with JavaScript MIME types for `.js`/`.mjs` and `application/wasm` for `.wasm`; opening `index.html` directly from disk is unsupported.
 
 ### Windows
 
@@ -109,9 +122,21 @@ Open **http://127.0.0.1:5180/**. Keep the terminal open; **Ctrl+C** stops the se
 
 Sources, notes and studies stay in browser-local storage, with no automatic cloud synchronization. The demo and each local origin have separate records. Clearing site data can remove your work.
 
-Use **Data and project settings → Export desk** for a complete workspace backup, including sources. **Export study** provides restorable JSON, HTML and calculated CSV; study-only JSON retains source references, not original source documents. Imports validate supported records and recompute calculations. Browser printing is available, with print-preview and PDF-pagination verification limits recorded in QA.
+Use **Backups and examples → Save backup (.json)** for a complete workspace copy, including reading text and the planner. **Restore backup (.json)** checks records and links, then asks before replacing this browser's workspace.
 
-Text and Markdown can be pasted or imported. Digital PDF intake supports **20 MiB**, **80 pages** and **120,000 extracted characters**, subject to the **160-passage** source limit. Image-only and password-protected PDFs are not supported; there is no OCR. The reader retains extracted text, not original PDF bytes or a page-image viewer. Imported material does not automatically become a validated simulation.
+| Download | Useful for | Where |
+| --- | --- | --- |
+| Workspace `.json` | Moving or restoring all your projects, readings, notes, calendar and lighting studies | Backups and examples |
+| Calendar `.ics` | Adding accepted planned sessions to a calendar app; this is a downloaded snapshot | Week |
+| Lighting `.csv` | Opening calculated lux, targets and any meter observations from saved arrangements in Excel for your own charts or comparisons | Studio → Export study → Readings for Excel |
+| Report `.html` | Reading or printing a lighting study with its evidence; the browser can print it to PDF | Studio → Export study |
+| Study `.json` | Restoring one lighting study; source references are retained, but original reading documents are not included | Studio → Export study |
+
+CSV is optional for reading and planning and cannot restore a workspace. Imports validate supported records and recompute calculations. Browser print-preview and PDF-pagination verification limits remain recorded in QA.
+
+In **Desk** or **Library**, choose **Add a reading**. Select a PDF, text or Markdown file, inspect its text preview, then choose **Add reading**. Selecting a file alone saves nothing. Use **+** beside a passage to keep a note, write a review question with answer criteria, or name an output with **Put it to work**. A reading can be unrelated to lighting.
+
+PDF intake supports **20 MiB**, **80 pages**, **120,000 extracted characters** and **2,000 passages** per reading. A text-based Chinese PDF is supported when its characters can be extracted. Image-only and password-protected PDFs require a transcript or unlocked copy; **Paste text** accepts a transcript, but there is no built-in OCR. Check tables and equations against the PDF. Afterlight retains extracted text, not the original PDF bytes or a page-image viewer. Adding material creates no automatic simulation, review assessment or completed task.
 
 ### Optional assistance on localhost
 
@@ -180,6 +205,8 @@ The generated site is written to `dist/pages`. Serve that folder through HTTP fo
 | `npm test` | Run tests for the model, records, planner, adapters, renderer, build and launcher. |
 | `npm run build:pages` | Build the provider-disabled static site with bundled PDF.js resources and a file-hash manifest. |
 | `node scripts/verify-studio-export.mjs` | Reconcile the retained QA workspace, study, HTML and CSV export fixtures. |
+| `node scripts/verify-workbench-export.mjs` | Check workspace migration, retained source/work records and stable calendar events. |
+| `node scripts/verify-week-refinement.mjs` | Check proposal isolation, accepted reservations, preserved records and matching UTC events. |
 
 The current [verification report](qa/CURRENT-REPORT.md) records release checks and remaining limits. Automated checks do not replace browser or physical measurement checks. See [AGENTS.md](AGENTS.md) for architecture, privacy boundaries and contributor verification rules. Maintainer packaging additionally requires Python 3.9+; Python is not needed to run the application or npm tests.
 

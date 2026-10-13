@@ -38,7 +38,7 @@ function assertRejected(mutate, base = richState()) {
   storage.setItem(SAVE_KEY, serialized);
   const loaded = loadState(storage);
   assert.match(loaded.notice, /could not be read/i);
-  assert.equal(loaded.state.version, 3);
+  assert.equal(loaded.state.version, 4);
   assert.equal(loaded.state.sources.length, 0);
   assert.equal(loaded.state.projects[0].example, false);
   assert.equal(storage.getItem(SAVE_KEY), serialized);
@@ -187,7 +187,7 @@ test('accumulated action time defaults safely and persists separately from a new
   assert.equal(validateState(state).actions.find((action) => action.id === current.id).spentMs, 0);
   current.spentMs = 60000;
   current.spentMs += sessionElapsed(state.session, 160000);
-  state.session = { actionId: state.actions[2].id, running: false, startedAt: null, elapsedMs: 0, goalMinutes: 30 };
+  state.session = { actionId: state.actions[2].id, running: false, startedAt: null, elapsedMs: 0, goalMinutes: 30, blockId: null, sessionStartedAt: null };
   const storage = memoryStorage();
   assert.equal(saveState(storage, state), true);
   const loaded = loadState(storage);
@@ -227,16 +227,16 @@ test('legacy desks without a lab get an empty deterministic lab while preserving
   delete legacy.studio;
   delete legacy.lab;
   const storage = memoryStorage();
-  storage.setItem(SAVE_KEY, JSON.stringify(legacy));
+  storage.setItem(LEGACY_SAVE_KEY, JSON.stringify(legacy));
   const loaded = loadState(storage);
   assert.equal(loaded.notice, '');
   assert.deepEqual(loaded.state.lab, createLabState());
   assert.equal(loaded.state.lab.experiments.length, 0);
   const { lab, studio, version, ...desk } = loaded.state;
   const {version:legacyVersion,...legacyDesk}=legacy;
-  assert.equal(version,3);
+  assert.equal(version,4);
   assert.deepEqual(desk, legacyDesk);
-  assert.equal(storage.getItem(SAVE_KEY), JSON.stringify(legacy), 'loading does not rewrite the original backup');
+  assert.equal(storage.getItem(LEGACY_SAVE_KEY), JSON.stringify(legacy), 'loading does not rewrite the original backup');
 });
 
 test('a complete light experiment survives save and reload with independent scenes and derived evidence', () => {

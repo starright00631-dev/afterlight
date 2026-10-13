@@ -1,0 +1,722 @@
+{
+  "format": "afterlight",
+  "exportedAt": "2026-10-13T05:19:17.080Z",
+  "state": {
+    "version": 4,
+    "projects": [
+      {
+        "id": "project-a2890977-ef5a-4c42-83c5-558ddb72b753",
+        "title": "Light for a shared table",
+        "question": "How can both reading places meet the light levels I choose?",
+        "example": false,
+        "createdAt": "2026-10-13T02:35:14.585Z",
+        "plan": {
+          "startDate": "2026-10-13",
+          "days": 7,
+          "dailyMinutes": 90,
+          "startTime": "19:00",
+          "restMinutes": 5
+        },
+        "closing": {
+          "note": "",
+          "nextAction": "",
+          "updatedAt": null
+        }
+      },
+      {
+        "id": "project-8bb7aecc-fc96-4531-ab19-fb3b29875f93",
+        "title": "Example · A small research brief",
+        "question": "How can I turn a vague research task into a plan I can finish?",
+        "example": true,
+        "createdAt": "2026-10-13T02:38:44.343Z",
+        "plan": {
+          "startDate": "2026-10-13",
+          "days": 7,
+          "dailyMinutes": 90,
+          "startTime": "19:00",
+          "restMinutes": 5
+        },
+        "closing": {
+          "note": "",
+          "nextAction": "",
+          "updatedAt": null
+        }
+      }
+    ],
+    "activeProjectId": "project-8bb7aecc-fc96-4531-ab19-fb3b29875f93",
+    "view": "week",
+    "selectedSourceId": "source-7fd75596-2b4b-4bcd-8799-d7fc479f343a",
+    "selectedIdeaId": "idea-0a186c34-80f8-47ab-b382-7841d8d5e510",
+    "sources": [
+      {
+        "id": "source-240ccc35-f969-4965-9b26-883ee355ea7f",
+        "projectId": "project-a2890977-ef5a-4c42-83c5-558ddb72b753",
+        "title": "pdf-intake-example",
+        "kind": "pdf",
+        "text": "Synthetic example: Keep a source passage beside your explanation.\n\nSynthetic example: Turn a question into a review and a concrete next action.",
+        "paragraphs": [
+          {
+            "id": "p-0-b8xd8p",
+            "text": "Synthetic example: Keep a source passage beside your explanation.",
+            "index": 0
+          },
+          {
+            "id": "p-1-2zcihl",
+            "text": "Synthetic example: Turn a question into a review and a concrete next action.",
+            "index": 1
+          }
+        ],
+        "createdAt": "2026-10-13T02:36:34.460Z"
+      },
+      {
+        "id": "source-b1534196-a41e-4fcf-b561-c896e750580d",
+        "projectId": "project-a2890977-ef5a-4c42-83c5-558ddb72b753",
+        "title": "pdf-intake-cjk",
+        "kind": "pdf",
+        "text": "知识测试",
+        "paragraphs": [
+          {
+            "id": "p-0-t1l6dm",
+            "text": "知识测试",
+            "index": 0
+          }
+        ],
+        "createdAt": "2026-10-13T02:37:06.449Z"
+      },
+      {
+        "id": "source-7fd75596-2b4b-4bcd-8799-d7fc479f343a",
+        "projectId": "project-8bb7aecc-fc96-4531-ab19-fb3b29875f93",
+        "title": "Example notes · Planning a research brief",
+        "kind": "example",
+        "text": "Begin with an output you can inspect. “Research the topic” leaves the finish line unclear. “Write a one-page brief with a claim, evidence, and an unresolved question” gives the session a concrete purpose.\n\nSeparate evidence from interpretation. Keep the passage that informed your idea, then write your own explanation beside it. A link back to the passage makes a later disagreement easier to investigate.\n\nDependencies change the order of work. A draft may need selected evidence first; a review needs an existing draft. A plan that ignores those relationships can look full while putting work in an impossible order.\n\nTime is a constraint, not a promise. Estimates and short breaks must fit the available window. When they do not, reduce the scope or move work to another day. End a session by recording the next specific action.",
+        "paragraphs": [
+          {
+            "id": "p-0-ryj2ye",
+            "text": "Begin with an output you can inspect. “Research the topic” leaves the finish line unclear. “Write a one-page brief with a claim, evidence, and an unresolved question” gives the session a concrete purpose.",
+            "index": 0
+          },
+          {
+            "id": "p-1-12wtpgm",
+            "text": "Separate evidence from interpretation. Keep the passage that informed your idea, then write your own explanation beside it. A link back to the passage makes a later disagreement easier to investigate.",
+            "index": 1
+          },
+          {
+            "id": "p-2-19i5kds",
+            "text": "Dependencies change the order of work. A draft may need selected evidence first; a review needs an existing draft. A plan that ignores those relationships can look full while putting work in an impossible order.",
+            "index": 2
+          },
+          {
+            "id": "p-3-ly9znf",
+            "text": "Time is a constraint, not a promise. Estimates and short breaks must fit the available window. When they do not, reduce the scope or move work to another day. End a session by recording the next specific action.",
+            "index": 3
+          }
+        ],
+        "createdAt": "2026-10-13T02:38:44.343Z"
+      }
+    ],
+    "ideas": [
+      {
+        "id": "idea-a77d27a1-ebb8-4fcc-af67-03d45705b6c5",
+        "projectId": "project-a2890977-ef5a-4c42-83c5-558ddb72b753",
+        "sourceId": "source-240ccc35-f969-4965-9b26-883ee355ea7f",
+        "paragraphId": "p-0-b8xd8p",
+        "title": "Synthetic example: Keep a source passage beside your explanation.",
+        "explanation": "Synthetic QA note: a passage stays attached to its source so a later answer can be compared with the original.",
+        "question": "How does keeping a passage support later review?",
+        "answerCriteria": "Mention the source link and comparison against the original passage.",
+        "createdAt": "2026-10-13T02:36:41.076Z",
+        "origin": "user"
+      },
+      {
+        "id": "idea-0a186c34-80f8-47ab-b382-7841d8d5e510",
+        "projectId": "project-8bb7aecc-fc96-4531-ab19-fb3b29875f93",
+        "sourceId": "source-7fd75596-2b4b-4bcd-8799-d7fc479f343a",
+        "paragraphId": "p-0-ryj2ye",
+        "title": "Define an inspectable output",
+        "explanation": "A concrete deliverable makes the finish line visible.",
+        "question": "Rewrite a vague task as an output someone could inspect.",
+        "answerCriteria": "",
+        "createdAt": "2026-10-13T02:38:44.343Z",
+        "origin": "user"
+      },
+      {
+        "id": "idea-665badea-5f50-4dc1-b56d-a6b7f539377b",
+        "projectId": "project-8bb7aecc-fc96-4531-ab19-fb3b29875f93",
+        "sourceId": "source-7fd75596-2b4b-4bcd-8799-d7fc479f343a",
+        "paragraphId": "p-2-19i5kds",
+        "title": "Respect dependencies and capacity",
+        "explanation": "Preparation must finish before dependent work; breaks also consume the available window.",
+        "question": "Which part of your next action must exist before you can begin?",
+        "answerCriteria": "",
+        "createdAt": "2026-10-13T02:38:44.343Z",
+        "origin": "user"
+      }
+    ],
+    "attempts": [],
+    "actions": [
+      {
+        "id": "action-6bd28442-c023-428d-ba47-411117f6f42f",
+        "projectId": "project-8bb7aecc-fc96-4531-ab19-fb3b29875f93",
+        "title": "Define the brief’s question and finish line",
+        "minutes": 30,
+        "ideaId": "idea-0a186c34-80f8-47ab-b382-7841d8d5e510",
+        "status": "todo",
+        "dependsOn": [],
+        "deadline": null,
+        "draft": "",
+        "completedAt": null,
+        "spentMs": 0,
+        "remainingMinutes": null,
+        "reviewMinutes": null,
+        "reviewIdeaIds": null,
+        "reviewMaxItems": null,
+        "studyId": null
+      },
+      {
+        "id": "action-af2508fc-c025-4c5f-b8c8-1bdce1f5fe0b",
+        "projectId": "project-8bb7aecc-fc96-4531-ab19-fb3b29875f93",
+        "title": "Select two passages that support a claim",
+        "minutes": 45,
+        "ideaId": "idea-0a186c34-80f8-47ab-b382-7841d8d5e510",
+        "status": "todo",
+        "dependsOn": [
+          "action-6bd28442-c023-428d-ba47-411117f6f42f"
+        ],
+        "deadline": null,
+        "draft": "",
+        "completedAt": null,
+        "spentMs": 0,
+        "remainingMinutes": null,
+        "reviewMinutes": null,
+        "reviewIdeaIds": null,
+        "reviewMaxItems": null,
+        "studyId": null
+      },
+      {
+        "id": "action-bb60266a-24d2-4d57-bea5-256a407b9d9d",
+        "projectId": "project-8bb7aecc-fc96-4531-ab19-fb3b29875f93",
+        "title": "Write a one-page brief",
+        "minutes": 60,
+        "ideaId": "idea-665badea-5f50-4dc1-b56d-a6b7f539377b",
+        "status": "todo",
+        "dependsOn": [
+          "action-af2508fc-c025-4c5f-b8c8-1bdce1f5fe0b"
+        ],
+        "deadline": null,
+        "draft": "",
+        "completedAt": null,
+        "spentMs": 0,
+        "remainingMinutes": null,
+        "reviewMinutes": null,
+        "reviewIdeaIds": null,
+        "reviewMaxItems": null,
+        "studyId": null
+      },
+      {
+        "id": "action-c430c5db-d936-4ef6-9c21-49ce8aa61fb3",
+        "projectId": "project-8bb7aecc-fc96-4531-ab19-fb3b29875f93",
+        "title": "Review the claim against the source",
+        "minutes": 30,
+        "ideaId": "idea-665badea-5f50-4dc1-b56d-a6b7f539377b",
+        "status": "todo",
+        "dependsOn": [
+          "action-bb60266a-24d2-4d57-bea5-256a407b9d9d"
+        ],
+        "deadline": "2026-10-15",
+        "draft": "",
+        "completedAt": null,
+        "spentMs": 0,
+        "remainingMinutes": null,
+        "reviewMinutes": null,
+        "reviewIdeaIds": null,
+        "reviewMaxItems": null,
+        "studyId": null
+      },
+      {
+        "id": "action-3b039325-8330-4437-a31a-4cd3599cd545",
+        "projectId": "project-8bb7aecc-fc96-4531-ab19-fb3b29875f93",
+        "title": "Local QA · Frame the next source question",
+        "minutes": 30,
+        "ideaId": "idea-0a186c34-80f8-47ab-b382-7841d8d5e510",
+        "status": "todo",
+        "dependsOn": [],
+        "deadline": null,
+        "draft": "",
+        "completedAt": null,
+        "spentMs": 0,
+        "remainingMinutes": null,
+        "reviewMinutes": null,
+        "reviewIdeaIds": null,
+        "reviewMaxItems": null,
+        "studyId": null
+      },
+      {
+        "id": "action-2c4049c8-ad01-407f-b8eb-d83a45447a04",
+        "projectId": "project-8bb7aecc-fc96-4531-ab19-fb3b29875f93",
+        "title": "Local QA · Check the planning assumptions",
+        "minutes": 30,
+        "ideaId": null,
+        "status": "todo",
+        "dependsOn": [],
+        "deadline": null,
+        "draft": "",
+        "completedAt": null,
+        "spentMs": 0,
+        "remainingMinutes": null,
+        "reviewMinutes": null,
+        "reviewIdeaIds": null,
+        "reviewMaxItems": null,
+        "studyId": null
+      }
+    ],
+    "session": null,
+    "quiet": null,
+    "settings": {
+      "night": false
+    },
+    "lab": {
+      "version": 1,
+      "challengeId": "distance",
+      "scene": {
+        "width": 6,
+        "depth": 4,
+        "lamps": [
+          {
+            "id": "lamp-a",
+            "x": 3,
+            "y": 2,
+            "height": 0.8,
+            "intensity": 32,
+            "enabled": true
+          }
+        ],
+        "detectors": [
+          {
+            "id": "detector-a",
+            "label": "Centre",
+            "x": 3,
+            "y": 2
+          }
+        ],
+        "screens": []
+      },
+      "experiments": [],
+      "pending": null
+    },
+    "studio": {
+      "version": 1,
+      "activeStudyId": "study-4ad1dce0-8d5a-4545-9d58-35ed424bc325",
+      "studies": [
+        {
+          "version": 1,
+          "id": "study-4ad1dce0-8d5a-4545-9d58-35ed424bc325",
+          "projectId": "project-a2890977-ef5a-4c42-83c5-558ddb72b753",
+          "kind": "personal",
+          "challengeId": "free",
+          "title": "Example · A shared table",
+          "task": "Compare light at two work points on a shared table.",
+          "question": "Which arrangement meets the point targets, and what should I check in reality?",
+          "example": true,
+          "createdAt": "2026-10-13T02:35:14.593Z",
+          "updatedAt": "2026-10-13T03:13:51.750Z",
+          "modelVersion": "point-light-1",
+          "geometryRevision": 1,
+          "targets": {
+            "revision": 1,
+            "minLux": 150,
+            "maxLux": 200,
+            "minUniformity": 0.9,
+            "intensityBudget": null
+          },
+          "scene": {
+            "width": 2.4,
+            "depth": 1.2,
+            "lamps": [
+              {
+                "id": "lamp-a",
+                "x": 0.8,
+                "y": 0.6,
+                "height": 0.5,
+                "intensity": 60,
+                "enabled": true
+              }
+            ],
+            "detectors": [
+              {
+                "id": "point-a",
+                "label": "Workspace A",
+                "x": 0.8,
+                "y": 0.6
+              },
+              {
+                "id": "point-b",
+                "label": "Workspace B",
+                "x": 1.6,
+                "y": 0.6
+              }
+            ],
+            "screens": []
+          },
+          "alternatives": [
+            {
+              "id": "alternative-da7d6ef3-2f0a-441b-9d3d-06381ba38470",
+              "name": "Synthetic QA · baseline arrangement",
+              "parentId": null,
+              "createdAt": "2026-10-13T03:13:51.750Z",
+              "modelVersion": "point-light-1",
+              "geometryRevision": 1,
+              "scene": {
+                "width": 2.4,
+                "depth": 1.2,
+                "lamps": [
+                  {
+                    "id": "lamp-a",
+                    "x": 0.8,
+                    "y": 0.6,
+                    "height": 0.5,
+                    "intensity": 60,
+                    "enabled": true
+                  }
+                ],
+                "detectors": [
+                  {
+                    "id": "point-a",
+                    "label": "Workspace A",
+                    "x": 0.8,
+                    "y": 0.6
+                  },
+                  {
+                    "id": "point-b",
+                    "label": "Workspace B",
+                    "x": 1.6,
+                    "y": 0.6
+                  }
+                ],
+                "screens": []
+              },
+              "readings": {
+                "detectors": [
+                  {
+                    "id": "point-a",
+                    "label": "Workspace A",
+                    "lux": 240,
+                    "contributions": [
+                      {
+                        "lampId": "lamp-a",
+                        "lux": 240,
+                        "unblockedLux": 240,
+                        "distance": 0.5,
+                        "cosine": 1,
+                        "blockedBy": []
+                      }
+                    ]
+                  },
+                  {
+                    "id": "point-b",
+                    "label": "Workspace B",
+                    "lux": 35.730265618191915,
+                    "contributions": [
+                      {
+                        "lampId": "lamp-a",
+                        "lux": 35.730265618191915,
+                        "unblockedLux": 35.730265618191915,
+                        "distance": 0.9433981132056604,
+                        "cosine": 0.52999894000318,
+                        "blockedBy": []
+                      }
+                    ]
+                  }
+                ],
+                "minimumLux": 35.730265618191915,
+                "maximumLux": 240,
+                "averageLux": 137.86513280909597,
+                "uniformity": 0.14887610674246632,
+                "totalIntensity": 60
+              }
+            }
+          ],
+          "experiments": [],
+          "pending": null,
+          "staged": null,
+          "decision": null,
+          "observations": [],
+          "lastFinalizedId": null,
+          "workingParentId": "alternative-da7d6ef3-2f0a-441b-9d3d-06381ba38470"
+        },
+        {
+          "version": 1,
+          "id": "study-b2046322-a817-43dd-a61a-fe0c66582cf8",
+          "projectId": "project-a2890977-ef5a-4c42-83c5-558ddb72b753",
+          "kind": "commission",
+          "challengeId": "distance",
+          "title": "Bring the light closer",
+          "task": "Keep the 32 cd lamp directly above the centre detector. Change its height to reach 180–220 lx.",
+          "question": "Which arrangement meets the point targets, and what should I check in reality?",
+          "example": true,
+          "createdAt": "2026-10-13T02:35:14.595Z",
+          "updatedAt": "2026-10-13T02:35:14.595Z",
+          "modelVersion": "point-light-1",
+          "geometryRevision": 1,
+          "targets": {
+            "revision": 1,
+            "minLux": 180,
+            "maxLux": 220,
+            "minUniformity": 0,
+            "intensityBudget": null
+          },
+          "scene": {
+            "width": 6,
+            "depth": 4,
+            "lamps": [
+              {
+                "id": "lamp-a",
+                "x": 3,
+                "y": 2,
+                "height": 0.8,
+                "intensity": 32,
+                "enabled": true
+              }
+            ],
+            "detectors": [
+              {
+                "id": "detector-a",
+                "label": "Centre",
+                "x": 3,
+                "y": 2
+              }
+            ],
+            "screens": []
+          },
+          "alternatives": [],
+          "experiments": [],
+          "pending": null,
+          "staged": null,
+          "decision": null,
+          "observations": [],
+          "lastFinalizedId": null,
+          "workingParentId": null
+        },
+        {
+          "version": 1,
+          "id": "study-abd591fb-818e-42bd-94fb-553a355038b6",
+          "projectId": "project-a2890977-ef5a-4c42-83c5-558ddb72b753",
+          "kind": "commission",
+          "challengeId": "shadow",
+          "title": "Recover the hidden reading",
+          "task": "Keep the 120 cd lamp at its original position and height. Adjust the screen until the far detector receives at least 30 lx.",
+          "question": "Which arrangement meets the point targets, and what should I check in reality?",
+          "example": true,
+          "createdAt": "2026-10-13T02:35:14.595Z",
+          "updatedAt": "2026-10-13T02:35:14.595Z",
+          "modelVersion": "point-light-1",
+          "geometryRevision": 1,
+          "targets": {
+            "revision": 1,
+            "minLux": 30,
+            "maxLux": 10000000,
+            "minUniformity": 0,
+            "intensityBudget": null
+          },
+          "scene": {
+            "width": 6,
+            "depth": 4,
+            "lamps": [
+              {
+                "id": "lamp-a",
+                "x": 2.4,
+                "y": 2,
+                "height": 0.75,
+                "intensity": 120,
+                "enabled": true
+              }
+            ],
+            "detectors": [
+              {
+                "id": "detector-a",
+                "label": "Far side",
+                "x": 3.6,
+                "y": 2
+              }
+            ],
+            "screens": [
+              {
+                "id": "screen-a",
+                "x1": 3,
+                "y1": 1.4,
+                "x2": 3,
+                "y2": 2.6,
+                "height": 0.7,
+                "enabled": true
+              }
+            ]
+          },
+          "alternatives": [],
+          "experiments": [],
+          "pending": null,
+          "staged": null,
+          "decision": null,
+          "observations": [],
+          "lastFinalizedId": null,
+          "workingParentId": null
+        },
+        {
+          "version": 1,
+          "id": "study-edab9bf9-72ad-448d-a1e9-ec3aa08eb638",
+          "projectId": "project-a2890977-ef5a-4c42-83c5-558ddb72b753",
+          "kind": "commission",
+          "challengeId": "balance",
+          "title": "Make both places useful",
+          "task": "Light both fixed work areas to 150–200 lx, with at least 90% minimum-to-maximum uniformity and no more than 90 cd total enabled intensity.",
+          "question": "Which arrangement meets the point targets, and what should I check in reality?",
+          "example": true,
+          "createdAt": "2026-10-13T02:35:14.595Z",
+          "updatedAt": "2026-10-13T02:35:14.595Z",
+          "modelVersion": "point-light-1",
+          "geometryRevision": 1,
+          "targets": {
+            "revision": 1,
+            "minLux": 150,
+            "maxLux": 200,
+            "minUniformity": 0.9,
+            "intensityBudget": 90
+          },
+          "scene": {
+            "width": 6,
+            "depth": 4,
+            "lamps": [
+              {
+                "id": "lamp-a",
+                "x": 2.5,
+                "y": 2,
+                "height": 0.5,
+                "intensity": 60,
+                "enabled": true
+              },
+              {
+                "id": "lamp-b",
+                "x": 3.5,
+                "y": 2,
+                "height": 0.5,
+                "intensity": 10,
+                "enabled": true
+              }
+            ],
+            "detectors": [
+              {
+                "id": "detector-a",
+                "label": "Left workspace",
+                "x": 2.5,
+                "y": 2
+              },
+              {
+                "id": "detector-b",
+                "label": "Right workspace",
+                "x": 3.5,
+                "y": 2
+              }
+            ],
+            "screens": []
+          },
+          "alternatives": [],
+          "experiments": [],
+          "pending": null,
+          "staged": null,
+          "decision": null,
+          "observations": [],
+          "lastFinalizedId": null,
+          "workingParentId": null
+        }
+      ]
+    },
+    "workbench": {
+      "version": 1,
+      "calendar": {
+        "timeZone": "Asia/Shanghai",
+        "startDate": "2026-10-13",
+        "days": 7,
+        "defaultWindows": [
+          {
+            "startMinute": 1140,
+            "endMinute": 1230
+          }
+        ],
+        "overrides": [
+          {
+            "date": "2026-10-16",
+            "windows": []
+          }
+        ],
+        "commitments": [
+          {
+            "id": "commitment-0591e35f-114d-4516-be60-f7b708965411",
+            "title": "Example · seminar",
+            "date": "2026-10-13",
+            "startMinute": 1140,
+            "endMinute": 1170
+          }
+        ],
+        "restMinutes": 5,
+        "minBlockMinutes": 15
+      },
+      "backlogIds": [],
+      "blocks": [
+        {
+          "id": "block-bf307d23-e008-4801-9ae1-b5a50b5d727b",
+          "actionId": "action-6bd28442-c023-428d-ba47-411117f6f42f",
+          "date": "2026-10-13",
+          "startMinute": 1170,
+          "minutes": 30,
+          "pinned": false,
+          "status": "planned"
+        },
+        {
+          "id": "block-08c21153-d215-47cf-a889-3fed0d1cd83a",
+          "actionId": "action-af2508fc-c025-4c5f-b8c8-1bdce1f5fe0b",
+          "date": "2026-10-13",
+          "startMinute": 1205,
+          "minutes": 25,
+          "pinned": false,
+          "status": "planned"
+        },
+        {
+          "id": "block-f0f1cb26-23ad-40ea-8864-9d259fbcc505",
+          "actionId": "action-af2508fc-c025-4c5f-b8c8-1bdce1f5fe0b",
+          "date": "2026-10-14",
+          "startMinute": 1140,
+          "minutes": 20,
+          "pinned": false,
+          "status": "planned"
+        },
+        {
+          "id": "block-cfa0bb14-8c8a-418d-9aff-de95ceb3db1f",
+          "actionId": "action-bb60266a-24d2-4d57-bea5-256a407b9d9d",
+          "date": "2026-10-14",
+          "startMinute": 1165,
+          "minutes": 60,
+          "pinned": false,
+          "status": "planned"
+        },
+        {
+          "id": "block-19448458-54dd-4d2d-bf53-da807697b813",
+          "actionId": "action-c430c5db-d936-4ef6-9c21-49ce8aa61fb3",
+          "date": "2026-10-15",
+          "startMinute": 1140,
+          "minutes": 30,
+          "pinned": false,
+          "status": "planned"
+        },
+        {
+          "id": "block-e38f53a2-b47c-496e-a4d9-248fe3e5c0e4",
+          "actionId": "action-3b039325-8330-4437-a31a-4cd3599cd545",
+          "date": "2026-10-15",
+          "startMinute": 1175,
+          "minutes": 30,
+          "pinned": true,
+          "status": "planned"
+        }
+      ],
+      "sessions": []
+    },
+    "reviewSession": null
+  }
+}

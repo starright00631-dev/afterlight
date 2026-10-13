@@ -1,8 +1,11 @@
 import { createState, splitSource, scheduleActions, sessionElapsed } from './domain.js';
 import { createLabState, validateLabState } from './optics.js';
 import { createStudio, validateStudio, recoverLegacyStudy, hasLegacyLabWork } from './studies.js';
+import { createWorkbench, validateWorkbench } from './workbench-state.js';
+import { validateReviewSession } from './review-sessions.js';
 
-export const SAVE_KEY = 'afterlight-v3';
+export const SAVE_KEY = 'afterlight-v4';
+export const PRIOR_SAVE_KEY = 'afterlight-v3';
 export const LEGACY_SAVE_KEY = 'afterlight-v2';
 
 function record(value, name) {
@@ -53,7 +56,8 @@ function oneOf(value, values, name) {
 
 export function validateState(input) {
   record(input, 'State');
-  if (![2,3].includes(input.version)) throw new RangeError('Unsupported save version.');
+  if (![2,3,4].includes(input.version)) throw new RangeError('Unsupported save version.');
+  const upgrading = input.version < 4;
   const identifiers = new Set();
   function unique(value, name) {
     const checked = id(value, name);
@@ -119,6 +123,7 @@ export function validateState(input) {
     return { id: unique(raw.id, 'idea ID'), projectId, sourceId: source.id,
       paragraphId: id(raw.paragraphId, 'paragraph reference'), title: text(raw.title, 300, 'idea title', true),
       explanation: text(raw.explanation, 100000, 'idea explanation'), question: text(raw.question, 4000, 'practice question'),
+      answerCriteria: text(upgrading ? (raw.answerCriteria ?? '') : raw.answerCriteria, 100000, 'answer criteria'),
       createdAt: timestamp(raw.createdAt, 'idea creation'), origin: oneOf(raw.origin, ['user', 'ai'], 'idea origin') };
   });
   const ideaMap = new Map(ideas.map((idea) => [idea.id, idea]));
@@ -129,8 +134,29 @@ export function validateState(input) {
     const createdAt = timestamp(raw.createdAt, 'attempt creation');
     const dueAt = timestamp(raw.dueAt, 'review date');
     if (dueAt < createdAt) throw new RangeError('A review date cannot precede its attempt.');
+    const contextKeys = ['promptSnapshot', 'criteriaSnapshot', 'referenceSnapshot', 'sourceId', 'paragraphId'];
+    const context = Object.fromEntries(contextKeys.map(key => [key, upgrading ? (raw[key] ?? null) : raw[key]]));
+    const missingContext = contextKeys.every(key => context[key] === null);
+    if (!missingContext) {
+      context.promptSnapshot = text(context.promptSnapshot, 4000, 'original practice question');
+      context.criteriaSnapshot = text(context.criteriaSnapshot, 100000, 'original answer criteria');
+      context.referenceSnapshot = text(context.referenceSnapshot, 1_000_000, 'original reference passage', true);
+      context.sourceId = id(context.sourceId, 'attempt source');
+      context.paragraphId = id(context.paragraphId, 'attempt paragraph');
+      const idea = ideaMap.get(ideaId);
+      const source = sourceMap.get(context.sourceId);
+      const paragraph = source?.paragraphs.find(item => item.id === context.paragraphId);
+      if (!paragraph || source.projectId !== idea.projectId || context.sourceId !== idea.sourceId || context.paragraphId !== idea.paragraphId || paragraph.text !== context.referenceSnapshot) {
+        throw new RangeError('An attempt reference must match its immutable source passage.');
+      }
+    }
+    const sessionId = (upgrading && raw.sessionId == null) || raw.sessionId === null ? null : id(raw.sessionId, 'attempt review session');
+    if (missingContext && sessionId !== null) throw new RangeError('A session assessment must retain original question context.');
+    const couldNotRecall = bool(upgrading ? (raw.couldNotRecall ?? false) : raw.couldNotRecall, 'recall failure');
+    const rating = oneOf(raw.rating, ['again', 'uncertain', 'understood'], 'self-assessment');
+    if (couldNotRecall && rating !== 'again') throw new RangeError('A failed recall must use the Again assessment.');
     return { id: unique(raw.id, 'attempt ID'), ideaId, answer: text(raw.answer, 100000, 'attempt answer'),
-      rating: oneOf(raw.rating, ['again', 'uncertain', 'understood'], 'self-assessment'), createdAt, dueAt };
+      rating, createdAt, dueAt, ...context, couldNotRecall, sessionId };
   });
   const actions = array(input.actions, 500, 'actions').map((raw) => {
     record(raw, 'Action');
@@ -142,10 +168,21 @@ export function validateState(input) {
     if ((status === 'done') !== (completedAt !== null)) throw new RangeError('Completion timestamps must match action status.');
     const dependsOn = array(raw.dependsOn, 500, 'dependencies').map((value) => id(value, 'dependency reference'));
     if (new Set(dependsOn).size !== dependsOn.length) throw new RangeError('Duplicate dependency references.');
+    const reviewIdeaIds = raw.reviewIdeaIds == null ? null : array(raw.reviewIdeaIds, 50, 'planned review question IDs').map(value => {
+      id(value, 'planned review question');
+      if (!ideaMap.has(value)) throw new RangeError('A planned review question is missing.');
+      return value;
+    });
+    if (reviewIdeaIds !== null && (!reviewIdeaIds.length || new Set(reviewIdeaIds).size !== reviewIdeaIds.length)) throw new RangeError('Planned review questions must be nonempty and unique.');
+    const reviewMaxItems = raw.reviewMaxItems == null ? null : number(raw.reviewMaxItems, 1, 50, 'planned review item limit');
+    if (reviewIdeaIds !== null && reviewMaxItems !== null && reviewIdeaIds.length > reviewMaxItems) throw new RangeError('Planned review questions exceed the retained item limit.');
     return { id: unique(raw.id, 'action ID'), projectId, title: text(raw.title, 300, 'action title', true),
       minutes: number(raw.minutes, 1, 10080, 'action estimate'), ideaId, status, dependsOn,
       deadline: calendar(raw.deadline, 'action deadline', true), draft: text(raw.draft, 1_000_000, 'action draft'), completedAt,
       spentMs: raw.spentMs === undefined ? 0 : number(raw.spentMs, 0, Number.MAX_SAFE_INTEGER, 'accumulated focus time'),
+      remainingMinutes: (upgrading && raw.remainingMinutes == null) || raw.remainingMinutes === null ? null : number(raw.remainingMinutes, 0, 10080, 'remaining estimate'),
+      reviewMinutes: (upgrading && raw.reviewMinutes == null) || raw.reviewMinutes === null ? null : number(raw.reviewMinutes, 1, 120, 'review budget'),
+      reviewIdeaIds, reviewMaxItems,
       studyId: raw.studyId == null ? null : id(raw.studyId, 'action study') };
   });
   const actionMap = new Map(actions.map((action) => [action.id, action]));
@@ -168,7 +205,9 @@ export function validateState(input) {
     session = { actionId, running: bool(raw.running, 'session running'),
       startedAt: raw.startedAt === null ? null : number(raw.startedAt, 0, Number.MAX_SAFE_INTEGER, 'session start'),
       elapsedMs: number(raw.elapsedMs, 0, Number.MAX_SAFE_INTEGER, 'elapsed session time'),
-      goalMinutes: number(raw.goalMinutes, 1, 10080, 'session goal') };
+      goalMinutes: number(raw.goalMinutes, 1, 10080, 'session goal'),
+      blockId: (upgrading && raw.blockId == null) || raw.blockId === null ? null : id(raw.blockId, 'session block'),
+      sessionStartedAt: timestamp(upgrading ? (raw.sessionStartedAt ?? null) : raw.sessionStartedAt, 'dated session start', true) };
     // Validate relationships without advancing or mutating the saved timer.
     sessionElapsed(session, session.startedAt ?? 0);
   }
@@ -184,7 +223,7 @@ export function validateState(input) {
   record(input.settings, 'Settings');
   const lab = input.lab === undefined ? createLabState() : validateLabState(input.lab);
   let studio;
-  if(input.version===3)studio=validateStudio(input.studio,{projectIds:[...projectMap.keys()],sources});
+  if(input.version>=3)studio=validateStudio(input.studio,{projectIds:[...projectMap.keys()],sources});
   else{
     studio=createStudio(activeProjectId);
     if(hasLegacyLabWork(lab)){
@@ -196,9 +235,17 @@ export function validateState(input) {
   for(const action of actions){
     if(action.studyId!==null){const study=studio.studies.find(s=>s.id===action.studyId);if(!study||study.projectId!==action.projectId)throw new RangeError('An action study must exist in the same project.');}
   }
-  return { version: 3, projects, activeProjectId,
+  const workbench = validateWorkbench(upgrading ? (input.workbench ?? createWorkbench()) : input.workbench, actions, { unique });
+  if (session?.blockId !== null && session?.blockId !== undefined && workbench.blocks.find(block => block.id === session.blockId)?.actionId !== session.actionId) {
+    throw new RangeError('The active session block must belong to its action.');
+  }
+  if (!upgrading && input.reviewSession === undefined) throw new TypeError('A v4 workspace must include its review session field.');
+  const reviewSession = validateReviewSession(upgrading ? (input.reviewSession ?? null) : input.reviewSession, { projects, sources, ideas, attempts });
+  if (reviewSession !== null) unique(reviewSession.id, 'review session ID');
+  return { version: 4, projects, activeProjectId,
     view: ['studio','studies','guide'].includes(input.view) ? 'lab' : oneOf(input.view, ['lab', 'desk', 'library', 'week', 'quiet'], 'view'), selectedSourceId, selectedIdeaId,
-    sources, ideas, attempts, actions, session, quiet, settings: { night: bool(input.settings.night, 'night atmosphere') }, lab, studio };
+    sources, ideas, attempts, actions, session, quiet, settings: { night: bool(input.settings.night, 'night atmosphere') }, lab, studio,
+    workbench, reviewSession };
 }
 
 function freshState(){const state=validateState(createState());state.view='lab';return state;}
@@ -207,7 +254,8 @@ export function loadState(storage) {
   let saved, key=SAVE_KEY;
   try {
     saved=storage.getItem(SAVE_KEY);
-    // Even an empty/corrupt v3 entry takes precedence: never hide it behind v2.
+    // Even an empty/corrupt newer entry takes precedence over older backups.
+    if(saved===null){saved=storage.getItem(PRIOR_SAVE_KEY);key=PRIOR_SAVE_KEY;}
     if(saved===null){saved=storage.getItem(LEGACY_SAVE_KEY);key=LEGACY_SAVE_KEY;}
   }
   catch { return { state: freshState(), notice: 'Saving is unavailable. You can keep working in this session and export your notes.' }; }
@@ -215,8 +263,10 @@ export function loadState(storage) {
   try {
     if (typeof saved !== 'string' || saved.length > 25_000_000) throw new RangeError('Invalid save size.');
     const raw=JSON.parse(saved);
+    if(key===SAVE_KEY&&raw.version!==4)throw new RangeError('Unsupported current save version.');
+    if(key===PRIOR_SAVE_KEY&&raw.version!==3)throw new RangeError('Unsupported previous save version.');
     if(key===LEGACY_SAVE_KEY&&raw.version!==2)throw new RangeError('Unsupported legacy save version.');
-    return { state: validateState(raw), notice: '', migrated:raw.version===2, migrationNotice:raw.version===2?'Previous work recovered into the new studio; the legacy copy remains untouched.':'' };
+    return { state: validateState(raw), notice: '', migrated:raw.version<4, migrationNotice:raw.version<4?'Previous work recovered. Original project windows and old saves remain untouched; adopt one shared calendar when ready.':'' };
   } catch {
     return { state: freshState(), notice: 'The saved desk could not be read. A fresh project is ready; the invalid record has not been overwritten.', recoveryRaw:saved,recoveryKey:key };
   }
@@ -225,10 +275,16 @@ export function loadState(storage) {
 export function saveState(storage, state) {
   try {
     const canonical=JSON.stringify(validateState(state));
+    if(canonical.length>25_000_000)throw new RangeError('Workspace exceeds the readable save size limit.');
     const previous=storage.getItem(SAVE_KEY);
     if(previous!==null){
       let unreadable=false;
-      try{validateState(JSON.parse(previous));}catch{unreadable=true;}
+      try{
+        if(typeof previous!=='string'||previous.length>25_000_000)throw new RangeError('Invalid previous save size.');
+        const parsed=JSON.parse(previous);
+        if(parsed.version!==4)throw new RangeError('Unsupported current save version.');
+        validateState(parsed);
+      }catch{unreadable=true;}
       if(unreadable)storage.setItem(SAVE_KEY+'.unreadable',previous);
     }
     storage.setItem(SAVE_KEY,canonical);return true;

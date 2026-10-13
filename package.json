@@ -1,6 +1,6 @@
 {
   "name": "afterlight",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "private": true,
   "type": "module",
   "description": "A playable lighting study studio with evidence, source-linked work and provider-neutral assistance.",

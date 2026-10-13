@@ -1,4 +1,4 @@
-# Afterlight 3.3: three-minute Reading Room demonstration
+# Afterlight 3.4: Reading Room and shared-work demonstration
 
 Show one investigation through **Arrange → Predict → Compare → Choose**. These controls open real editing, prediction, saved-pair comparison and decision work. Keep the visitor's interaction central; describe the ideal model before presenting a calculation as evidence.
 
@@ -34,11 +34,19 @@ Use **Choose** and retain B. Record a reason tied to the point evidence, then a 
 
 ## 2:10–3:00 — Take the evidence into work
 
-Choose **Export study → Download HTML**, the verified report-download path. Show configuration, results, target margins, original prediction, conclusion, decision and scientific boundary together. Mention **Calculated CSV** for numbers and **Restorable study JSON** for the configuration. Full source content requires the separate workspace export. Printing the downloaded HTML from a normal browser remains a manual acceptance check; do not claim a printed PDF has been verified.
+Choose **Export study → Download report (.html)**, the verified report-download path. Show configuration, results, target margins, original prediction, conclusion, decision and scientific boundary together. Mention **Readings for Excel (.csv)** for numbers and **Save study (.json)** for the configuration. Full source content requires **Backups and examples → Save backup (.json)**. Printing the downloaded HTML from a normal browser remains a manual acceptance check; do not claim a printed PDF has been verified.
 
 Show **Check with a real reading** as an optional next step. Enter only an actual measurement with its instrument, time and context; leave the example's observations empty during this demonstration. Calculated and measured values stay distinct.
 
 Use the retained decision in source-linked work or schedule the concrete measurement check. Week and Quiet support finishing and returning to this investigation. End by giving the judge control of a lamp, point or screen so the interactive core can be tried directly.
+
+## Optional extension — make a practical next step fit
+
+Use **Plan the check** to create a source-linked measurement action. In **Week**, adopt a shared window explicitly, add a fixed commitment and inspect the named day ribbons. Select a free interval to see validated placement choices. Compare **Accepted / Proposed**, then accept the sessions. Neither inspection nor acceptance starts a timer or completes work.
+
+Select an accepted reservation and use **Start session**. In **Quiet**, close it with the actual output, an explicit partial/completed outcome and a revised remaining estimate when needed. The history keeps elapsed duration and reported progress separate.
+
+In **Desk**, choose **Add a reading**, inspect a selectable-text PDF preview, then explicitly add it. Keep a passage, write a question and criteria, and start **Practice**. Write before revealing the passage; assess the answer yourself. Skip records no assessment. This demonstrates traceable review, not automatic grading or measured learning gains.
 
 ## Disclosure and closest comparisons
 

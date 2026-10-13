@@ -1,0 +1,79 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Afterlight//Accepted workspace plan//EN
+CALSCALE:GREGORIAN
+X-WR-CALNAME:Afterlight shared week
+X-WR-TIMEZONE:Asia/Shanghai
+BEGIN:VEVENT
+UID:block-846cf3db-0c19-4c4d-97ed-5ca55f4d49d2@afterlight.local
+DTSTAMP:20261013T015558Z
+DTSTART:20261013T120500Z
+DTEND:20261013T122000Z
+SUMMARY:Define the brief’s question and finish line
+STATUS:CONFIRMED
+DESCRIPTION:Afterlight shared week\nAccepted allocation: 15 minutes. Asia/S
+ hanghai civil time\, exported as UTC. Allocation status: planned\; this is
+  not an actual work-session record. No background reminder or calendar syn
+ chronization is configured.
+END:VEVENT
+BEGIN:VEVENT
+UID:block-95903c61-a4c5-4d7d-816e-f5a061185f6d@afterlight.local
+DTSTAMP:20261013T015558Z
+DTSTART:20261014T110000Z
+DTEND:20261014T114500Z
+SUMMARY:Select two passages that support a claim
+STATUS:CONFIRMED
+DESCRIPTION:Afterlight shared week\nAccepted allocation: 45 minutes. Asia/S
+ hanghai civil time\, exported as UTC. Allocation status: planned\; this is
+  not an actual work-session record. No background reminder or calendar syn
+ chronization is configured.
+END:VEVENT
+BEGIN:VEVENT
+UID:block-6ec63a0f-4c15-463a-b60f-3af002dd1418@afterlight.local
+DTSTAMP:20261013T015558Z
+DTSTART:20261014T115000Z
+DTEND:20261014T123000Z
+SUMMARY:Write a one-page brief
+STATUS:CONFIRMED
+DESCRIPTION:Afterlight shared week\nAccepted allocation: 40 minutes. Asia/S
+ hanghai civil time\, exported as UTC. Allocation status: planned\; this is
+  not an actual work-session record. No background reminder or calendar syn
+ chronization is configured.
+END:VEVENT
+BEGIN:VEVENT
+UID:block-79940a66-3cb3-47be-92b2-d47b0ac49157@afterlight.local
+DTSTAMP:20261013T015558Z
+DTSTART:20261015T110000Z
+DTEND:20261015T112000Z
+SUMMARY:Write a one-page brief
+STATUS:CONFIRMED
+DESCRIPTION:Afterlight shared week\nAccepted allocation: 20 minutes. Asia/S
+ hanghai civil time\, exported as UTC. Allocation status: planned\; this is
+  not an actual work-session record. No background reminder or calendar syn
+ chronization is configured.
+END:VEVENT
+BEGIN:VEVENT
+UID:block-2ce84bab-6074-4b22-adb3-0419c8780f35@afterlight.local
+DTSTAMP:20261013T015558Z
+DTSTART:20261015T112500Z
+DTEND:20261015T115500Z
+SUMMARY:Review the claim against the source
+STATUS:CONFIRMED
+DESCRIPTION:Afterlight shared week\nAccepted allocation: 30 minutes. Asia/S
+ hanghai civil time\, exported as UTC. Allocation status: planned\; this is
+  not an actual work-session record. No background reminder or calendar syn
+ chronization is configured.
+END:VEVENT
+BEGIN:VEVENT
+UID:block-4ed20b68-3d83-4a4e-8ae4-f84e5570ab47@afterlight.local
+DTSTAMP:20261013T015558Z
+DTSTART:20261015T121500Z
+DTEND:20261015T123000Z
+SUMMARY:Measure light at both reading points
+STATUS:CONFIRMED
+DESCRIPTION:Afterlight shared week\nAccepted allocation: 15 minutes. Asia/S
+ hanghai civil time\, exported as UTC. Allocation status: planned\; this is
+  not an actual work-session record. No background reminder or calendar syn
+ chronization is configured.
+END:VEVENT
+END:VCALENDAR

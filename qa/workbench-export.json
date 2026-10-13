@@ -1,0 +1,671 @@
+{
+  "format": "afterlight",
+  "exportedAt": "2026-10-13T01:56:00.829Z",
+  "state": {
+    "version": 4,
+    "projects": [
+      {
+        "id": "project-29fd9359-40ab-45ce-a470-64bb95fb5843",
+        "title": "Light for a shared table",
+        "question": "How can both reading places meet the light levels I choose?",
+        "example": false,
+        "createdAt": "2026-10-13T01:35:39.845Z",
+        "plan": {
+          "startDate": "2026-10-13",
+          "days": 7,
+          "dailyMinutes": 90,
+          "startTime": "19:00",
+          "restMinutes": 5
+        },
+        "closing": {
+          "note": "",
+          "nextAction": "",
+          "updatedAt": null
+        }
+      },
+      {
+        "id": "project-59d1569d-482b-4fc8-b70f-4b268274a347",
+        "title": "Example · A small research brief",
+        "question": "How can I turn a vague research task into a plan I can finish?",
+        "example": true,
+        "createdAt": "2026-10-13T01:38:12.671Z",
+        "plan": {
+          "startDate": "2026-10-13",
+          "days": 7,
+          "dailyMinutes": 90,
+          "startTime": "19:00",
+          "restMinutes": 5
+        },
+        "closing": {
+          "note": "Checked the dependency question against the original passage. A partial answer missed capacity; revisit tomorrow.",
+          "nextAction": "Apply the dependency rule to the two-source brief.",
+          "updatedAt": "2026-10-13T01:50:42.849Z"
+        }
+      }
+    ],
+    "activeProjectId": "project-29fd9359-40ab-45ce-a470-64bb95fb5843",
+    "view": "week",
+    "selectedSourceId": null,
+    "selectedIdeaId": null,
+    "sources": [
+      {
+        "id": "source-07ec002b-5b32-41d2-936f-082107e38bf1",
+        "projectId": "project-59d1569d-482b-4fc8-b70f-4b268274a347",
+        "title": "Example notes · Planning a research brief",
+        "kind": "example",
+        "text": "Begin with an output you can inspect. “Research the topic” leaves the finish line unclear. “Write a one-page brief with a claim, evidence, and an unresolved question” gives the session a concrete purpose.\n\nSeparate evidence from interpretation. Keep the passage that informed your idea, then write your own explanation beside it. A link back to the passage makes a later disagreement easier to investigate.\n\nDependencies change the order of work. A draft may need selected evidence first; a review needs an existing draft. A plan that ignores those relationships can look full while putting work in an impossible order.\n\nTime is a constraint, not a promise. Estimates and short breaks must fit the available window. When they do not, reduce the scope or move work to another day. End a session by recording the next specific action.",
+        "paragraphs": [
+          {
+            "id": "p-0-ryj2ye",
+            "text": "Begin with an output you can inspect. “Research the topic” leaves the finish line unclear. “Write a one-page brief with a claim, evidence, and an unresolved question” gives the session a concrete purpose.",
+            "index": 0
+          },
+          {
+            "id": "p-1-12wtpgm",
+            "text": "Separate evidence from interpretation. Keep the passage that informed your idea, then write your own explanation beside it. A link back to the passage makes a later disagreement easier to investigate.",
+            "index": 1
+          },
+          {
+            "id": "p-2-19i5kds",
+            "text": "Dependencies change the order of work. A draft may need selected evidence first; a review needs an existing draft. A plan that ignores those relationships can look full while putting work in an impossible order.",
+            "index": 2
+          },
+          {
+            "id": "p-3-ly9znf",
+            "text": "Time is a constraint, not a promise. Estimates and short breaks must fit the available window. When they do not, reduce the scope or move work to another day. End a session by recording the next specific action.",
+            "index": 3
+          }
+        ],
+        "createdAt": "2026-10-13T01:38:12.671Z"
+      }
+    ],
+    "ideas": [
+      {
+        "id": "idea-9b917a96-0a46-4c81-bb0b-78ce16265432",
+        "projectId": "project-59d1569d-482b-4fc8-b70f-4b268274a347",
+        "sourceId": "source-07ec002b-5b32-41d2-936f-082107e38bf1",
+        "paragraphId": "p-0-ryj2ye",
+        "title": "Define an inspectable output",
+        "explanation": "A concrete deliverable makes the finish line visible.",
+        "question": "Rewrite a vague task as an output someone could inspect.",
+        "answerCriteria": "Name a concrete deliverable, the evidence it needs, and an unresolved question.",
+        "createdAt": "2026-10-13T01:38:12.671Z",
+        "origin": "user"
+      },
+      {
+        "id": "idea-28a9bc2f-8db5-4e8d-96f6-65f470457595",
+        "projectId": "project-59d1569d-482b-4fc8-b70f-4b268274a347",
+        "sourceId": "source-07ec002b-5b32-41d2-936f-082107e38bf1",
+        "paragraphId": "p-2-19i5kds",
+        "title": "Respect dependencies and capacity",
+        "explanation": "Preparation must finish before dependent work; breaks also consume the available window.",
+        "question": "Which part of your next action must exist before you can begin?",
+        "answerCriteria": "",
+        "createdAt": "2026-10-13T01:38:12.671Z",
+        "origin": "user"
+      }
+    ],
+    "attempts": [
+      {
+        "id": "attempt-62de6d29-88d5-47fa-8c3b-be1079d690bd",
+        "ideaId": "idea-9b917a96-0a46-4c81-bb0b-78ce16265432",
+        "answer": "Write a one-page brief with a claim, two linked pieces of evidence, and an unresolved question.",
+        "rating": "uncertain",
+        "createdAt": "2026-10-13T01:43:44.234Z",
+        "dueAt": "2026-10-16T01:43:44.234Z",
+        "promptSnapshot": "Rewrite a vague task as an output someone could inspect.",
+        "criteriaSnapshot": "Name a concrete deliverable, the evidence it needs, and an unresolved question.",
+        "referenceSnapshot": "Begin with an output you can inspect. “Research the topic” leaves the finish line unclear. “Write a one-page brief with a claim, evidence, and an unresolved question” gives the session a concrete purpose.",
+        "sourceId": "source-07ec002b-5b32-41d2-936f-082107e38bf1",
+        "paragraphId": "p-0-ryj2ye",
+        "couldNotRecall": false,
+        "sessionId": "review-3900b969-6162-4088-bd17-418a79bb621c"
+      },
+      {
+        "id": "attempt-36876835-b1a2-4089-addd-0d80cfc897fe",
+        "ideaId": "idea-28a9bc2f-8db5-4e8d-96f6-65f470457595",
+        "answer": "A draft needs selected evidence first.",
+        "rating": "again",
+        "createdAt": "2026-10-13T01:48:51.049Z",
+        "dueAt": "2026-10-14T01:48:51.049Z",
+        "promptSnapshot": "Which part of your next action must exist before you can begin?",
+        "criteriaSnapshot": "",
+        "referenceSnapshot": "Dependencies change the order of work. A draft may need selected evidence first; a review needs an existing draft. A plan that ignores those relationships can look full while putting work in an impossible order.",
+        "sourceId": "source-07ec002b-5b32-41d2-936f-082107e38bf1",
+        "paragraphId": "p-2-19i5kds",
+        "couldNotRecall": true,
+        "sessionId": "review-4cfc6092-de74-4111-adcc-2034c4dafbb8"
+      }
+    ],
+    "actions": [
+      {
+        "id": "action-c65c4fe1-5275-43e0-9dfa-5b840b517156",
+        "projectId": "project-59d1569d-482b-4fc8-b70f-4b268274a347",
+        "title": "Define the brief’s question and finish line",
+        "minutes": 30,
+        "ideaId": "idea-9b917a96-0a46-4c81-bb0b-78ce16265432",
+        "status": "todo",
+        "dependsOn": [],
+        "deadline": null,
+        "draft": "Drafted a one-page brief outline: claim, two sources, and an unresolved assumption.",
+        "completedAt": null,
+        "spentMs": 31807,
+        "remainingMinutes": 15,
+        "reviewMinutes": null,
+        "reviewIdeaIds": null,
+        "reviewMaxItems": null,
+        "studyId": null
+      },
+      {
+        "id": "action-6a8b0427-067f-41aa-af4b-c26fbcd82c80",
+        "projectId": "project-59d1569d-482b-4fc8-b70f-4b268274a347",
+        "title": "Select two passages that support a claim",
+        "minutes": 45,
+        "ideaId": "idea-9b917a96-0a46-4c81-bb0b-78ce16265432",
+        "status": "todo",
+        "dependsOn": [
+          "action-c65c4fe1-5275-43e0-9dfa-5b840b517156"
+        ],
+        "deadline": null,
+        "draft": "",
+        "completedAt": null,
+        "spentMs": 0,
+        "remainingMinutes": null,
+        "reviewMinutes": null,
+        "reviewIdeaIds": null,
+        "reviewMaxItems": null,
+        "studyId": null
+      },
+      {
+        "id": "action-c9e22b95-f108-41fd-a114-3fdb5331e641",
+        "projectId": "project-59d1569d-482b-4fc8-b70f-4b268274a347",
+        "title": "Write a one-page brief",
+        "minutes": 60,
+        "ideaId": "idea-28a9bc2f-8db5-4e8d-96f6-65f470457595",
+        "status": "todo",
+        "dependsOn": [
+          "action-6a8b0427-067f-41aa-af4b-c26fbcd82c80"
+        ],
+        "deadline": null,
+        "draft": "",
+        "completedAt": null,
+        "spentMs": 0,
+        "remainingMinutes": null,
+        "reviewMinutes": null,
+        "reviewIdeaIds": null,
+        "reviewMaxItems": null,
+        "studyId": null
+      },
+      {
+        "id": "action-75a65c9e-2b62-4845-8005-e03209935ef1",
+        "projectId": "project-59d1569d-482b-4fc8-b70f-4b268274a347",
+        "title": "Review the claim against the source",
+        "minutes": 30,
+        "ideaId": "idea-28a9bc2f-8db5-4e8d-96f6-65f470457595",
+        "status": "todo",
+        "dependsOn": [
+          "action-c9e22b95-f108-41fd-a114-3fdb5331e641"
+        ],
+        "deadline": "2026-10-15",
+        "draft": "",
+        "completedAt": null,
+        "spentMs": 0,
+        "remainingMinutes": null,
+        "reviewMinutes": null,
+        "reviewIdeaIds": null,
+        "reviewMaxItems": null,
+        "studyId": null
+      },
+      {
+        "id": "action-d9092968-3fa0-4aad-948f-18b1b79bc30f",
+        "projectId": "project-59d1569d-482b-4fc8-b70f-4b268274a347",
+        "title": "Review 1 source question",
+        "minutes": 10,
+        "ideaId": null,
+        "status": "done",
+        "dependsOn": [],
+        "deadline": null,
+        "draft": "Checked the dependency question against the original passage. A partial answer missed capacity; revisit tomorrow.",
+        "completedAt": "2026-10-13T01:50:42.849Z",
+        "spentMs": 173285,
+        "remainingMinutes": 0,
+        "reviewMinutes": 10,
+        "reviewIdeaIds": [
+          "idea-28a9bc2f-8db5-4e8d-96f6-65f470457595"
+        ],
+        "reviewMaxItems": 5,
+        "studyId": null
+      },
+      {
+        "id": "action-9f3a12c8-bbd7-45ee-86ea-d1cf96f78406",
+        "projectId": "project-29fd9359-40ab-45ce-a470-64bb95fb5843",
+        "title": "Measure light at both reading points",
+        "minutes": 15,
+        "ideaId": null,
+        "status": "todo",
+        "dependsOn": [],
+        "deadline": null,
+        "draft": "",
+        "completedAt": null,
+        "spentMs": 0,
+        "remainingMinutes": null,
+        "reviewMinutes": null,
+        "reviewIdeaIds": null,
+        "reviewMaxItems": null,
+        "studyId": null
+      }
+    ],
+    "session": null,
+    "quiet": null,
+    "settings": {
+      "night": false
+    },
+    "lab": {
+      "version": 1,
+      "challengeId": "distance",
+      "scene": {
+        "width": 6,
+        "depth": 4,
+        "lamps": [
+          {
+            "id": "lamp-a",
+            "x": 3,
+            "y": 2,
+            "height": 0.8,
+            "intensity": 32,
+            "enabled": true
+          }
+        ],
+        "detectors": [
+          {
+            "id": "detector-a",
+            "label": "Centre",
+            "x": 3,
+            "y": 2
+          }
+        ],
+        "screens": []
+      },
+      "experiments": [],
+      "pending": null
+    },
+    "studio": {
+      "version": 1,
+      "activeStudyId": "study-90a59e23-144a-47a0-8ede-14d1be3d44b1",
+      "studies": [
+        {
+          "version": 1,
+          "id": "study-90a59e23-144a-47a0-8ede-14d1be3d44b1",
+          "projectId": "project-29fd9359-40ab-45ce-a470-64bb95fb5843",
+          "kind": "personal",
+          "challengeId": "free",
+          "title": "Example · A shared table",
+          "task": "Compare light at two work points on a shared table.",
+          "question": "Which arrangement meets the point targets, and what should I check in reality?",
+          "example": true,
+          "createdAt": "2026-10-13T01:35:39.848Z",
+          "updatedAt": "2026-10-13T01:35:39.848Z",
+          "modelVersion": "point-light-1",
+          "geometryRevision": 1,
+          "targets": {
+            "revision": 1,
+            "minLux": 150,
+            "maxLux": 200,
+            "minUniformity": 0.9,
+            "intensityBudget": null
+          },
+          "scene": {
+            "width": 2.4,
+            "depth": 1.2,
+            "lamps": [
+              {
+                "id": "lamp-a",
+                "x": 0.8,
+                "y": 0.6,
+                "height": 0.5,
+                "intensity": 60,
+                "enabled": true
+              }
+            ],
+            "detectors": [
+              {
+                "id": "point-a",
+                "label": "Workspace A",
+                "x": 0.8,
+                "y": 0.6
+              },
+              {
+                "id": "point-b",
+                "label": "Workspace B",
+                "x": 1.6,
+                "y": 0.6
+              }
+            ],
+            "screens": []
+          },
+          "alternatives": [],
+          "experiments": [],
+          "pending": null,
+          "staged": null,
+          "decision": null,
+          "observations": [],
+          "lastFinalizedId": null,
+          "workingParentId": null
+        },
+        {
+          "version": 1,
+          "id": "study-9f24fc05-a065-427a-b285-4b8082459894",
+          "projectId": "project-29fd9359-40ab-45ce-a470-64bb95fb5843",
+          "kind": "commission",
+          "challengeId": "distance",
+          "title": "Bring the light closer",
+          "task": "Keep the 32 cd lamp directly above the centre detector. Change its height to reach 180–220 lx.",
+          "question": "Which arrangement meets the point targets, and what should I check in reality?",
+          "example": true,
+          "createdAt": "2026-10-13T01:35:39.848Z",
+          "updatedAt": "2026-10-13T01:35:39.848Z",
+          "modelVersion": "point-light-1",
+          "geometryRevision": 1,
+          "targets": {
+            "revision": 1,
+            "minLux": 180,
+            "maxLux": 220,
+            "minUniformity": 0,
+            "intensityBudget": null
+          },
+          "scene": {
+            "width": 6,
+            "depth": 4,
+            "lamps": [
+              {
+                "id": "lamp-a",
+                "x": 3,
+                "y": 2,
+                "height": 0.8,
+                "intensity": 32,
+                "enabled": true
+              }
+            ],
+            "detectors": [
+              {
+                "id": "detector-a",
+                "label": "Centre",
+                "x": 3,
+                "y": 2
+              }
+            ],
+            "screens": []
+          },
+          "alternatives": [],
+          "experiments": [],
+          "pending": null,
+          "staged": null,
+          "decision": null,
+          "observations": [],
+          "lastFinalizedId": null,
+          "workingParentId": null
+        },
+        {
+          "version": 1,
+          "id": "study-779c3e6d-f508-4851-abc8-0329fd1c8128",
+          "projectId": "project-29fd9359-40ab-45ce-a470-64bb95fb5843",
+          "kind": "commission",
+          "challengeId": "shadow",
+          "title": "Recover the hidden reading",
+          "task": "Keep the 120 cd lamp at its original position and height. Adjust the screen until the far detector receives at least 30 lx.",
+          "question": "Which arrangement meets the point targets, and what should I check in reality?",
+          "example": true,
+          "createdAt": "2026-10-13T01:35:39.848Z",
+          "updatedAt": "2026-10-13T01:35:39.848Z",
+          "modelVersion": "point-light-1",
+          "geometryRevision": 1,
+          "targets": {
+            "revision": 1,
+            "minLux": 30,
+            "maxLux": 10000000,
+            "minUniformity": 0,
+            "intensityBudget": null
+          },
+          "scene": {
+            "width": 6,
+            "depth": 4,
+            "lamps": [
+              {
+                "id": "lamp-a",
+                "x": 2.4,
+                "y": 2,
+                "height": 0.75,
+                "intensity": 120,
+                "enabled": true
+              }
+            ],
+            "detectors": [
+              {
+                "id": "detector-a",
+                "label": "Far side",
+                "x": 3.6,
+                "y": 2
+              }
+            ],
+            "screens": [
+              {
+                "id": "screen-a",
+                "x1": 3,
+                "y1": 1.4,
+                "x2": 3,
+                "y2": 2.6,
+                "height": 0.7,
+                "enabled": true
+              }
+            ]
+          },
+          "alternatives": [],
+          "experiments": [],
+          "pending": null,
+          "staged": null,
+          "decision": null,
+          "observations": [],
+          "lastFinalizedId": null,
+          "workingParentId": null
+        },
+        {
+          "version": 1,
+          "id": "study-e8daf53d-9409-464f-a231-5deaea6cef32",
+          "projectId": "project-29fd9359-40ab-45ce-a470-64bb95fb5843",
+          "kind": "commission",
+          "challengeId": "balance",
+          "title": "Make both places useful",
+          "task": "Light both fixed work areas to 150–200 lx, with at least 90% minimum-to-maximum uniformity and no more than 90 cd total enabled intensity.",
+          "question": "Which arrangement meets the point targets, and what should I check in reality?",
+          "example": true,
+          "createdAt": "2026-10-13T01:35:39.848Z",
+          "updatedAt": "2026-10-13T01:35:39.848Z",
+          "modelVersion": "point-light-1",
+          "geometryRevision": 1,
+          "targets": {
+            "revision": 1,
+            "minLux": 150,
+            "maxLux": 200,
+            "minUniformity": 0.9,
+            "intensityBudget": 90
+          },
+          "scene": {
+            "width": 6,
+            "depth": 4,
+            "lamps": [
+              {
+                "id": "lamp-a",
+                "x": 2.5,
+                "y": 2,
+                "height": 0.5,
+                "intensity": 60,
+                "enabled": true
+              },
+              {
+                "id": "lamp-b",
+                "x": 3.5,
+                "y": 2,
+                "height": 0.5,
+                "intensity": 10,
+                "enabled": true
+              }
+            ],
+            "detectors": [
+              {
+                "id": "detector-a",
+                "label": "Left workspace",
+                "x": 2.5,
+                "y": 2
+              },
+              {
+                "id": "detector-b",
+                "label": "Right workspace",
+                "x": 3.5,
+                "y": 2
+              }
+            ],
+            "screens": []
+          },
+          "alternatives": [],
+          "experiments": [],
+          "pending": null,
+          "staged": null,
+          "decision": null,
+          "observations": [],
+          "lastFinalizedId": null,
+          "workingParentId": null
+        }
+      ]
+    },
+    "workbench": {
+      "version": 1,
+      "calendar": {
+        "timeZone": "Asia/Shanghai",
+        "startDate": "2026-10-13",
+        "days": 7,
+        "defaultWindows": [
+          {
+            "startMinute": 1140,
+            "endMinute": 1230
+          }
+        ],
+        "overrides": [],
+        "commitments": [
+          {
+            "id": "commitment-a4b17bd8-433d-49df-85cd-d2dfde98ac7f",
+            "title": "Evening seminar",
+            "date": "2026-10-13",
+            "startMinute": 1140,
+            "endMinute": 1170
+          }
+        ],
+        "restMinutes": 5,
+        "minBlockMinutes": 15
+      },
+      "backlogIds": [],
+      "blocks": [
+        {
+          "id": "block-af3c2571-3516-43aa-8e77-303282bc3e5f",
+          "actionId": "action-c65c4fe1-5275-43e0-9dfa-5b840b517156",
+          "date": "2026-10-13",
+          "startMinute": 1170,
+          "minutes": 30,
+          "pinned": true,
+          "status": "done"
+        },
+        {
+          "id": "block-846cf3db-0c19-4c4d-97ed-5ca55f4d49d2",
+          "actionId": "action-c65c4fe1-5275-43e0-9dfa-5b840b517156",
+          "date": "2026-10-13",
+          "startMinute": 1205,
+          "minutes": 15,
+          "pinned": false,
+          "status": "planned"
+        },
+        {
+          "id": "block-95903c61-a4c5-4d7d-816e-f5a061185f6d",
+          "actionId": "action-6a8b0427-067f-41aa-af4b-c26fbcd82c80",
+          "date": "2026-10-14",
+          "startMinute": 1140,
+          "minutes": 45,
+          "pinned": false,
+          "status": "planned"
+        },
+        {
+          "id": "block-6ec63a0f-4c15-463a-b60f-3af002dd1418",
+          "actionId": "action-c9e22b95-f108-41fd-a114-3fdb5331e641",
+          "date": "2026-10-14",
+          "startMinute": 1190,
+          "minutes": 40,
+          "pinned": false,
+          "status": "planned"
+        },
+        {
+          "id": "block-79940a66-3cb3-47be-92b2-d47b0ac49157",
+          "actionId": "action-c9e22b95-f108-41fd-a114-3fdb5331e641",
+          "date": "2026-10-15",
+          "startMinute": 1140,
+          "minutes": 20,
+          "pinned": false,
+          "status": "planned"
+        },
+        {
+          "id": "block-2ce84bab-6074-4b22-adb3-0419c8780f35",
+          "actionId": "action-75a65c9e-2b62-4845-8005-e03209935ef1",
+          "date": "2026-10-15",
+          "startMinute": 1165,
+          "minutes": 30,
+          "pinned": false,
+          "status": "planned"
+        },
+        {
+          "id": "block-b692174d-12f0-413e-8f61-a59560e90352",
+          "actionId": "action-d9092968-3fa0-4aad-948f-18b1b79bc30f",
+          "date": "2026-10-15",
+          "startMinute": 1200,
+          "minutes": 10,
+          "pinned": false,
+          "status": "done"
+        },
+        {
+          "id": "block-4ed20b68-3d83-4a4e-8ae4-f84e5570ab47",
+          "actionId": "action-9f3a12c8-bbd7-45ee-86ea-d1cf96f78406",
+          "date": "2026-10-15",
+          "startMinute": 1215,
+          "minutes": 15,
+          "pinned": false,
+          "status": "planned"
+        }
+      ],
+      "sessions": [
+        {
+          "id": "work-session-a7427fef-956a-4857-bbf0-7bcfe7cdc10d",
+          "actionId": "action-c65c4fe1-5275-43e0-9dfa-5b840b517156",
+          "actionTitle": "Define the brief’s question and finish line",
+          "blockId": "block-af3c2571-3516-43aa-8e77-303282bc3e5f",
+          "startedAt": "2026-10-13T01:41:50.937Z",
+          "endedAt": "2026-10-13T01:42:22.744Z",
+          "durationMs": 31807,
+          "outcome": "continue",
+          "output": "Drafted a one-page brief outline: claim, two sources, and an unresolved assumption.",
+          "nextStep": "Select two passages that support the central claim.",
+          "remainingMinutesAfter": 15
+        },
+        {
+          "id": "work-session-8e202eac-3fce-47e4-b1a0-091c511f4c0c",
+          "actionId": "action-d9092968-3fa0-4aad-948f-18b1b79bc30f",
+          "actionTitle": "Review 1 source question",
+          "blockId": "block-b692174d-12f0-413e-8f61-a59560e90352",
+          "startedAt": "2026-10-13T01:45:47.851Z",
+          "endedAt": "2026-10-13T01:50:42.849Z",
+          "durationMs": 173285,
+          "outcome": "finished",
+          "output": "Checked the dependency question against the original passage. A partial answer missed capacity; revisit tomorrow.",
+          "nextStep": "Apply the dependency rule to the two-source brief.",
+          "remainingMinutesAfter": 0
+        }
+      ]
+    },
+    "reviewSession": null
+  }
+}

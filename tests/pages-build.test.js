@@ -46,7 +46,7 @@ test('Pages build includes the authored app and locked PDF resources while exclu
     const index = await readFile(join(output, 'index.html'), 'utf8');
     for (const view of ['lab', 'desk', 'library', 'week', 'quiet']) assert.ok(index.includes(`id="${view}-view"`));
     assert.match(index, /afterlight-runtime" content="browser/); assert.match(index, /connect-src 'self'/);
-    for (const file of ['app.js', 'style.css', 'studio.css']) assert.ok(index.includes(`./${file}?build=${manifest.buildId}`));
+    for (const file of ['app.js', 'style.css', 'studio.css', 'calendar-overview.css']) assert.ok(index.includes(`./${file}?build=${manifest.buildId}`));
     assert.ok(index.includes(`name="afterlight-build" content="${manifest.buildId}"`));
     const client = await readFile(join(output, 'client-services.js'), 'utf8'), pdfReader = await readFile(join(output, 'browser-pdf.js'), 'utf8');
     assert.ok(client.includes(`import('./browser-pdf.js?build=${manifest.buildId}')`));

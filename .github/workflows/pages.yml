@@ -24,6 +24,10 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm test
+      - run: python -m unittest discover -s tests -p package_test.py
+      - run: node scripts/verify-studio-export.mjs
+      - run: node scripts/verify-workbench-export.mjs
+      - run: node scripts/verify-week-refinement.mjs
       - run: npm run build:pages
       - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
       - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4

@@ -7,3 +7,5 @@
 *.woff binary
 *.woff2 binary
 qa/studio-readings.csv -text
+qa/workbench-calendar.ics -text whitespace=cr-at-eol
+qa/week-refinement-calendar.ics -text whitespace=cr-at-eol

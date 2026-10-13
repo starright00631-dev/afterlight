@@ -11,12 +11,16 @@ test('v2 migration preserves every original desk field and leaves its storage un
   const legacy=legacyState();legacy.lab=createLabState('distance');const before=structuredClone(legacy.lab.scene);legacy.lab.scene.lamps[0].height=0.4;
   legacy.lab.experiments.push(makeExperiment(before,legacy.lab.scene,{id:'legacy-retained',createdAt:TIME,challengeId:'distance',detectorId:'detector-a',prediction:'increase',hypothesis:'Original hypothesis.',note:'Original conclusion.'}));
   const storage=memoryStorage(),raw=JSON.stringify(legacy);storage.setItem(LEGACY_SAVE_KEY,raw);
-  const loaded=loadState(storage);assert.equal(loaded.migrated,true);assert.equal(loaded.state.version,3);assert.equal(storage.getItem(LEGACY_SAVE_KEY),raw);assert.equal(storage.getItem(SAVE_KEY),null);
-  for(const key of ['projects','sources','ideas','attempts','actions','session','quiet','settings','lab','activeProjectId','selectedSourceId','selectedIdeaId','view'])assert.deepEqual(loaded.state[key],legacy[key],key);
+  const loaded=loadState(storage);assert.equal(loaded.migrated,true);assert.equal(loaded.state.version,4);assert.equal(storage.getItem(LEGACY_SAVE_KEY),raw);assert.equal(storage.getItem(SAVE_KEY),null);
+  for(const key of ['projects','sources','quiet','settings','lab','activeProjectId','selectedSourceId','selectedIdeaId','view'])assert.deepEqual(loaded.state[key],legacy[key],key);
+  assert.deepEqual(loaded.state.ideas,legacy.ideas.map(idea=>({...idea,answerCriteria:''})));
+  assert.deepEqual(loaded.state.attempts,legacy.attempts.map(attempt=>({...attempt,promptSnapshot:null,criteriaSnapshot:null,referenceSnapshot:null,sourceId:null,paragraphId:null,couldNotRecall:false,sessionId:null})));
+  assert.deepEqual(loaded.state.actions,legacy.actions.map(action=>({...action,remainingMinutes:null,reviewMinutes:null,reviewIdeaIds:null,reviewMaxItems:null})));
+  assert.deepEqual(loaded.state.session,{...legacy.session,blockId:null,sessionStartedAt:null});
   const recovered=activeStudy(loaded.state.studio);assert.equal(recovered.projectId,null);assert.equal(recovered.kind,'recovered');assert.equal(recovered.experiments[0].id,'legacy-retained');assert.equal(recovered.scene.detectors.length,1);
   assert.equal(saveState(storage,loaded.state),true);assert.equal(storage.getItem(LEGACY_SAVE_KEY),raw);assert.deepEqual(loadState(storage).state,loaded.state);
 });
-test('valid v3 has priority and invalid or empty v3 cannot be hidden by valid v2',()=>{
+test('valid current save has priority and invalid or empty current data cannot be hidden by valid v2',()=>{
   const storage=memoryStorage(),legacy=createExampleState();storage.setItem(LEGACY_SAVE_KEY,JSON.stringify(legacy));const upgraded=validateState(legacy);upgraded.projects[0].title='My upgraded project';saveState(storage,upgraded);assert.equal(loadState(storage).state.projects[0].title,'My upgraded project');
   for(const raw of ['{broken','',JSON.stringify({...upgraded,studio:{version:1,activeStudyId:'missing',studies:[]}})]){storage.setItem(SAVE_KEY,raw);const recovered=loadState(storage);assert.match(recovered.notice,/could not be read/);assert.equal(recovered.recoveryRaw,raw);assert.equal(recovered.recoveryKey,SAVE_KEY);assert.equal(recovered.state.sources.length,0);assert.equal(storage.getItem(SAVE_KEY),raw);assert.equal(storage.getItem(LEGACY_SAVE_KEY),JSON.stringify(legacy));}
 });
@@ -33,8 +37,8 @@ test('action/study links and source evidence belong to the same explicit project
   const state=validateState(legacyState()),s=activeStudy(state.studio);state.actions[1].studyId=s.id;const a=saveAlternative(s,'A');s.scene.lamps[0].intensity=40;s.scene.lamps.push({id:'lamp-b',x:1.6,y:0.6,height:0.5,intensity:40,enabled:true});const b=saveAlternative(s,'B');chooseAlternative(s,a.id,b.id,b.id,'Even selected points.','',{sourceRefs:[{sourceId:state.sources[0].id,paragraphId:state.sources[0].paragraphs[0].id}]});assert.equal(validateState(state).actions[1].studyId,s.id);
   for(const mutate of [raw=>raw.actions[1].studyId='missing-study',raw=>{const other=createState().projects[0];raw.projects.push(other);raw.studio.studies[0].projectId=other.id;},raw=>raw.studio.studies[0].decision.sourceRefs[0].paragraphId='missing']){const bad=structuredClone(state);mutate(bad);assert.throws(()=>validateState(bad));}
 });
-test('fresh v3 starts in Studio and preserves unreadable v3 before a subsequent valid save',()=>{
-  const storage=memoryStorage(),fresh=loadState(storage);assert.equal(fresh.state.version,3);assert.equal(fresh.state.view,'lab');assert.equal(fresh.state.studio.studies[0].projectId,fresh.state.projects[0].id);assert.equal(fresh.state.studio.studies[0].example,true);
+test('fresh v4 starts in Studio and preserves unreadable v4 before a subsequent valid save',()=>{
+  const storage=memoryStorage(),fresh=loadState(storage);assert.equal(fresh.state.version,4);assert.equal(fresh.state.view,'lab');assert.equal(fresh.state.studio.studies[0].projectId,fresh.state.projects[0].id);assert.equal(fresh.state.studio.studies[0].example,true);
   storage.setItem(SAVE_KEY,'{broken');assert.equal(saveState(storage,fresh.state),true);assert.equal(storage.getItem(SAVE_KEY+'.unreadable'),'{broken');assert.equal(loadState(storage).notice,'');
 });
 test('recovered pending legacy predictions preserve empty original hypotheses and unique identity',()=>{

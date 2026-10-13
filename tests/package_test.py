@@ -28,6 +28,27 @@ RELEASE_QA = (
     "studio-compact.jpg", "studio-difference.jpg", "studio-report.html", "studio-readings.csv",
     "studio-study.json", "workspace-export.json", "readme-studio-night.png", "readme-studio-day.png", "readme-planner.png",
 )
+WORKBENCH_EVIDENCE = (
+    "docs/study-planner-rationale.md", "qa/WORKBENCH-ACCEPTANCE.md",
+    "qa/workbench-export.json", "qa/workbench-calendar.ics", "qa/workbench-rea-artifact.json",
+    "qa/workbench-week-night.jpg", "qa/workbench-week-day.jpg", "qa/workbench-week-phone.jpg",
+    "qa/workbench-review-hidden.jpg", "qa/workbench-review-phone.jpg", "qa/workbench-compact.jpg",
+    "qa/workbench-static.jpg",
+    "qa/CLARITY-ACCEPTANCE.md",
+    "qa/clarity-calendar-day.jpg",
+    "qa/clarity-calendar-night.jpg",
+    "qa/clarity-calendar-phone.jpg",
+    "qa/clarity-pdf-compact.jpg",
+    "qa/clarity-pdf-phone.jpg",
+    "qa/clarity-exports.jpg",
+    "qa/clarity-workspace.json",
+    "qa/clarity-readings.csv",
+    "qa/WEEK-REFINEMENT-ACCEPTANCE.md", "qa/week-refinement-day.png", "qa/week-refinement-night.png",
+    "qa/week-refinement-phone.png", "qa/week-refinement-compact.png", "qa/week-refinement-proposed.png",
+    "qa/week-refinement-static.png", "qa/week-refinement-before.json", "qa/week-refinement-preview.json",
+    "qa/week-refinement-workspace.json", "qa/week-refinement-calendar.ics",
+    "qa/RELEASE-3.3.0.md", "qa/readme-week-day.png", "qa/readme-week-night.png",
+)
 
 
 class ReleasePackaging(unittest.TestCase):
@@ -76,6 +97,50 @@ class ReleasePackaging(unittest.TestCase):
                                 cwd=self.workspace, capture_output=True, text=True, check=False)
         self.assertEqual(result.returncode == 0, success, result.stdout + result.stderr)
         return result
+
+    def add_workbench_inputs(self) -> None:
+        self.write("scripts/verify-workbench-export.mjs", "Public workbench verifier fixture\n")
+        for relative in WORKBENCH_EVIDENCE:
+            self.write(relative, "Selected synthetic workbench fixture: " + relative + "\n")
+
+    def test_workbench_verifier_travels_with_selected_evidence_and_rationale_only(self) -> None:
+        self.add_workbench_inputs()
+        for name in ("qa/workbench-private-notes.json", "qa/workbench-unselected.jpg", "qa/workbench-tests.log"):
+            self.write(name, "PRIVATE INPUT MUST NOT BE RELEASED\n")
+        planned = json.loads(self.run_packager("--dry-run").stdout)
+        required = set(WORKBENCH_EVIDENCE) | {"scripts/verify-workbench-export.mjs"}
+        self.assertTrue(required.issubset(planned["paths"]))
+        self.assertFalse(any("PRIVATE" in (self.root / name).read_text(encoding="utf-8") for name in planned["paths"]))
+        self.assertFalse(self.output.exists())
+        self.run_packager()
+        with zipfile.ZipFile(self.output) as archive:
+            members = set(archive.namelist())
+            for relative in required:
+                self.assertEqual(archive.read("afterlight/" + relative), (self.root / relative).read_bytes())
+            self.assertNotIn("afterlight/qa/workbench-private-notes.json", members)
+            self.assertNotIn("afterlight/qa/workbench-unselected.jpg", members)
+            self.assertNotIn("afterlight/qa/old-private-record.json", members)
+            manifest = json.loads(archive.read("afterlight/qa/release-manifest.json"))
+            self.assertTrue(required.issubset({entry["path"] for entry in manifest["files"]}))
+
+    def test_missing_workbench_inputs_fail_before_writing_or_replacing_an_archive(self) -> None:
+        self.add_workbench_inputs()
+        for relative in ("qa/workbench-export.json", "qa/workbench-review-hidden.jpg", "docs/study-planner-rationale.md"):
+            with self.subTest(relative=relative):
+                path = self.root / relative
+                saved = path.read_bytes()
+                path.unlink()
+                self.run_packager(success=False)
+                self.assertFalse(self.output.exists())
+                self.output.write_bytes(b"Retain the exact previous release")
+                self.run_packager("--replace", success=False)
+                self.assertEqual(self.output.read_bytes(), b"Retain the exact previous release")
+                self.assertFalse(self.output.with_name(self.output.name + ".building").exists())
+                self.assertFalse(self.output.with_suffix(".manifest.json").exists())
+                self.assertFalse(self.output.with_suffix(".receipt.json").exists())
+                self.assertFalse(list(self.workspace.glob("afterlight-v*-release.zip")))
+                self.output.unlink()
+                path.write_bytes(saved)
 
     def test_standalone_checkout_and_neighboring_plans_produce_same_release(self) -> None:
         first = json.loads(self.run_packager("--dry-run").stdout)

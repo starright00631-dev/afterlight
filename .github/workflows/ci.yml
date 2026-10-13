@@ -29,4 +29,6 @@ jobs:
       - run: npm test
       - run: python -m unittest discover -s tests -p package_test.py
       - run: node scripts/verify-studio-export.mjs
+      - run: node scripts/verify-workbench-export.mjs
+      - run: node scripts/verify-week-refinement.mjs
       - run: npm run build:pages

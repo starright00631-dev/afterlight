@@ -1,7 +1,12 @@
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import { fileURLToPath } from 'node:url';
 import { HttpError, aborted } from './errors.js';
 
 export const PDF_LIMITS = Object.freeze({ bytes: 20 * 1024 * 1024, pages: 80, characters: 120000 });
+// PDF.js's Node resource factory reads filesystem paths, not file:// strings.
+// Forward slashes also satisfy its trailing-slash check on Windows.
+const pdfResourceRoot = new URL('../../', import.meta.resolve('pdfjs-dist/legacy/build/pdf.mjs'));
+const resourcePath = folder => fileURLToPath(new URL(`${folder}/`, pdfResourceRoot)).replaceAll('\\', '/');
 
 export function pdfTitle(filename = '') {
   let value = String(filename).slice(0, 500);
@@ -13,7 +18,9 @@ export async function extractPdf(bytes, filename, signal) {
   aborted(signal);
   if (!bytes?.length || bytes.length > PDF_LIMITS.bytes) throw new HttpError(413, 'pdf_size', 'Choose a PDF smaller than 20 MB.');
   if (!Buffer.from(bytes).subarray(0, 1024).includes(Buffer.from('%PDF-'))) throw new HttpError(422, 'invalid_pdf', 'This file is not a readable PDF.');
-  const task = getDocument({ data: Uint8Array.from(bytes), verbosity: 0, disableFontFace: true, useSystemFonts: false, enableXfa: false, isEvalSupported: false, stopAtErrors: true });
+  const task = getDocument({ data: Uint8Array.from(bytes), verbosity: 0, disableFontFace: true, useSystemFonts: false, enableXfa: false, isEvalSupported: false, stopAtErrors: true,
+    cMapUrl: resourcePath('cmaps'), cMapPacked: true,
+    standardFontDataUrl: resourcePath('standard_fonts'), wasmUrl: resourcePath('wasm') });
   const cancel = () => { void task.destroy().catch(() => {}); };
   signal?.addEventListener('abort', cancel, { once: true });
   try {

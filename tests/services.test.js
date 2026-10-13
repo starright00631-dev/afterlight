@@ -5,6 +5,7 @@ import { request } from 'node:http';
 import { createServer, resolveStaticPath, validLocalRequest } from '../server.js';
 import { validateAssistInput, validateAssistOutput, parseCodexEvents, buildPrompt, createAssistant } from '../services/ai.js';
 import { extractPdf, pdfTitle } from '../services/pdf.js';
+import { syntheticCjkPdf } from './pdf-fixtures.js';
 
 const source = { title: 'Recall', paragraphs: [{ id: 'p-1', text: 'Retrieval practice means recalling an idea before looking at the answer.' }, { id: 'p-2', text: 'A break can help someone return with a clear next step.' }] };
 const input = { mode: 'explain', source, question: '', paragraphId: 'p-1' };
@@ -93,6 +94,13 @@ test('PDF.js extracts actual page text and rejects unreadable, empty and over-pa
   await assert.rejects(extractPdf(textPdf({ text: '' }), 'scan.pdf'), /no selectable text/);
   await assert.rejects(extractPdf(textPdf({ pages: 81 }), 'long.pdf'), /80 pages/);
   assert.equal(pdfTitle('C:\\folder\\my.pdf'), 'my');
+});
+
+test('local PDF extraction reads selectable Chinese text that requires bundled CMaps', async () => {
+  const result = await extractPdf(syntheticCjkPdf(), 'Chinese%20reading.pdf');
+  assert.equal(result.title, 'Chinese reading');
+  assert.equal(result.text, '知识测试');
+  assert.deepEqual(result.pages, [{ page: 1, text: '知识测试' }]);
 });
 
 test('static paths and request origins reject traversal and unrelated hosts', () => {

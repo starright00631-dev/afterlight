@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createClientServices, HOSTED_ASSISTANT_MESSAGE } from '../client-services.js';
+import { createClientServices, HOSTED_ASSISTANT_MESSAGE, LOCAL_PDF_UNAVAILABLE_MESSAGE, LOCAL_PDF_RESPONSE_MESSAGE } from '../client-services.js';
 import { RUNTIME_CAPABILITIES } from '../runtime-capabilities.js';
 import { BROWSER_PDF_LIMITS, createBrowserPdfReader } from '../browser-pdf.js';
 
@@ -24,7 +24,7 @@ test('hosted capabilities never send sources or credentials to server routes', a
 test('local server mode retains explicit status, provider, assistant and PDF routes', async () => {
   assert.equal(RUNTIME_CAPABILITIES.mode, 'local-server');
   const calls = [], signal = new AbortController().signal;
-  const client = createClientServices({ fetcher: async (url, options) => { calls.push({ url, options }); return Response.json({ ok: true }); } });
+  const client = createClientServices({ fetcher: async (url, options) => { calls.push({ url, options }); return Response.json(url === '/api/import' ? { title: 'Original name', text: 'Selectable text.', pages: [{ page: 1, text: 'Selectable text.' }] } : { ok: true }); } });
   await client.providerInventory(); await client.connectProvider({ id: 'compatible', apiKey: 'test-secret' }); await client.disconnectProvider({ id: 'compatible' });
   await client.assist({ source: { title: 'A source' } }, { signal });
   const file = { name: 'Original name.pdf' }; await client.readPdf(file, { signal });
@@ -44,6 +44,32 @@ test('pre-cancelled imports perform no upload or browser parsing', async () => {
     await assert.rejects(client.readPdf({ name: 'x.pdf' }, { signal: controller.signal }), error => error.name === 'AbortError');
   }
   assert.equal(started, 0);
+});
+
+test('local PDF errors explain an offline reader, unreadable replies and malformed success without masking PDF failures', async () => {
+  const file = { name: 'Synthetic.pdf' };
+  const unavailable = createClientServices({ fetcher: async () => { throw TypeError('Failed to fetch'); } });
+  await assert.rejects(unavailable.readPdf(file), error => error.message === LOCAL_PDF_UNAVAILABLE_MESSAGE);
+  for (const response of [new Response('<!doctype html>', { status: 404 }), Response.json({ ok: true }), Response.json({ title: 'Source', text: 'wrong', pages: [{ page: 1, text: 'Original.' }] }), Response.json(null)]) {
+    const client = createClientServices({ fetcher: async () => response });
+    await assert.rejects(client.readPdf(file), error => error.message === LOCAL_PDF_RESPONSE_MESSAGE);
+  }
+  for (const message of ['This PDF has no selectable text.', 'This PDF is password protected.', 'Choose a PDF with 80 pages or fewer.', 'Choose a PDF smaller than 20 MB.']) {
+    const client = createClientServices({ fetcher: async () => Response.json({ error: message }, { status: 422 }) });
+    await assert.rejects(client.readPdf(file), error => error.message === message);
+  }
+});
+
+test('local PDF cancellation remains an AbortError before, during and after the response', async () => {
+  const original = new DOMException('The operation was aborted.', 'AbortError');
+  const interrupted = createClientServices({ fetcher: async () => { throw original; } });
+  await assert.rejects(interrupted.readPdf({ name: 'Synthetic.pdf' }), error => error === original);
+  const controller = new AbortController();
+  const cancelled = createClientServices({ fetcher: async () => { controller.abort(); return Response.json({ error: 'Do not display a stale error.' }, { status: 422 }); } });
+  await assert.rejects(cancelled.readPdf({ name: 'Synthetic.pdf' }, { signal: controller.signal }), error => error.name === 'AbortError');
+  const bodyController = new AbortController();
+  const whileParsing = createClientServices({ fetcher: async () => ({ ok: true, json: async () => { bodyController.abort(); throw SyntaxError('Response interrupted'); } }) });
+  await assert.rejects(whileParsing.readPdf({ name: 'Synthetic.pdf' }, { signal: bodyController.signal }), error => error.name === 'AbortError');
 });
 
 // Synthetic PDF created solely to check selectable-text extraction; it contains no user material.
