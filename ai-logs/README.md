@@ -1,15 +1,15 @@
-# 重建提示词示例
+# Reconstructed Prompt Examples
 
-**性质声明：本目录不是原始 AI 对话日志。** 原始对话与私人提示词未随作品提交。以下示例依据 Afterlight 3.4.0 的最终实现整理，没有附加虚构的模型回复、执行时间、会话编号或成功记录。
+**Disclosure: this directory is not an original AI conversation log.** Original conversations and private prompts are excluded. These examples were reconstructed from the final Afterlight 3.4.0 implementation. They contain no fabricated model replies, execution times, session identifiers or success records.
 
-示例用于说明：怎样把需求写成有明确约束、输出边界和验收条件的提示词。它们可以用于复现类似工作，但不证明开发时实际使用过这些文字。
+They illustrate how requirements can be expressed as constraints, output boundaries and acceptance criteria. They can guide comparable work, but do not establish that these words were used during development.
 
-| 文件 | 关注的问题 |
+| File | Focus |
 | --- | --- |
-| [01-optics.md](01-optics.md) | 把物理知识转化为可操作且可核对的模型 |
-| [02-evidence.md](02-evidence.md) | 保留预测、比较、决策与实际观察之间的区别 |
-| [03-shared-planner.md](03-shared-planner.md) | 在共享时间容量中安排真正能放下的任务 |
-| [04-reading-review.md](04-reading-review.md) | 让文件导入与复习保持明确用途和原文联系 |
-| [05-interface-verification.md](05-interface-verification.md) | 在已有设计上改善界面，并用实际运行验证 |
+| [01-optics.md](01-optics.md) | Turn physical knowledge into an interactive, checkable model |
+| [02-evidence.md](02-evidence.md) | Keep predictions, comparisons, decisions and physical observations distinct |
+| [03-shared-planner.md](03-shared-planner.md) | Schedule work within genuinely shared capacity |
+| [04-reading-review.md](04-reading-review.md) | Give imports and review a clear purpose and preserve source context |
+| [05-interface-verification.md](05-interface-verification.md) | Refine the existing design and verify the running application |
 
-活动要求提供对话记录；本目录不包含该项原始材料。**这些示例不能作为真实开发历史的替代证明，主办方是否接受这种形式尚未确认。**
+The competition requests conversation records; this directory does not supply the original records. **These examples are not evidence of authentic development history. The organizer has not confirmed whether this alternative is acceptable.**

@@ -1,15 +1,15 @@
-# 提交核对
+# Submission checklist
 
-以下条目按需求方提供的活动要求摘录整理，截止时间为 **2026 年 10 月 13 日 18:00，Asia/Shanghai**。本说明不代表主办方审核或报名已提交。
+The requirements below were summarized from the event requirements supplied by the requester. The deadline is **13 October 2026, 18:00, Asia/Shanghai**. This document does not represent organizer approval or confirmation that these materials have been uploaded.
 
-| 要求 | 本地准备情况 |
+| Requirement | Prepared materials |
 | --- | --- |
-| 源代码 | 本目录含可独立运行的应用源码、锁定依赖、测试、素材和许可；完整公开仓库另有链接。 |
-| README：项目说明、功能状态、核心文件 | 已在 README 中提供。活动提供的具体模板未取得，当前采用自行整理的同等信息结构。 |
-| AI_USAGE.md | 已提供实际参与范围、成果边界与隐私说明。 |
-| ai-logs／对话记录 | 已提供明确标注的重建提示词示例。**未提供原始对话记录**，不得把示例称为真实历史日志；是否接受这种替代，未获主办方确认。 |
-| 3–8 张实际运行截图 | `screenshots/` 提供 6 张，来源和尺寸有说明。 |
-| 可访问网页或 3 分钟内视频 | 已有在线网页；另附 180 秒展示路线。路线文档不是已录制视频。 |
-| 非商业许可与第三方归属 | 保留 LICENSE、NOTICE、第三方说明和 licenses。 |
+| Source code | This directory contains independently runnable application source, locked dependencies, tests, assets, and licenses. A link to the complete public repository is also provided. |
+| README with project description, implementation status, and core files | These are included in `README.md`. The event's specific template was not available; this copy uses an independently organized structure containing the same information. |
+| `AI_USAGE.md` | Describes actual AI involvement, limits of the resulting work, and privacy boundaries. |
+| `ai-logs/` and conversation records | Clearly labelled reconstructed prompt examples are included. **Original conversations are not included.** The examples must not be described as authentic historical logs; organizer acceptance of this substitution has not been confirmed. |
+| 3–8 actual application screenshots | `screenshots/` contains 6 images with documented origins and dimensions. |
+| Accessible web demo or a video of at most 3 minutes | An online web demo is available. A 180-second presentation route is also included; the route document is not a recorded video. |
+| Noncommercial license and third-party attribution | `LICENSE`, `NOTICE`, third-party notices, and `licenses/` are retained. |
 
-原始对话、私人提示词、凭据、安装后的依赖和研究档案不应进入上传包。这里只准备材料；没有代替需求方发送报名表或向主办方提交。
+Original conversations, private prompts, credentials, installed dependencies, and research archives should remain outside the upload package. These materials prepare the submission; no registration form or submission to the organizers has been sent on the requester's behalf.

@@ -1,20 +1,20 @@
-# 01 · 可玩的灯光模型
+# 01: A Playable Lighting Model
 
-**重建示例，不是原始提示词或已执行的对话记录。** 根据最终实现整理，无模拟回复或执行日期。
+**Reconstructed example, not an original prompt or executed conversation record.** Derived from the final implementation; no simulated reply or execution date is supplied.
 
-## 示例提示词
+## Example prompt
 
-请在现有应用中实现一个可交互灯光工作台，让用户用调整、预测和检验理解距离、入射角与遮挡。
+Implement an interactive lighting table within the existing application. Let users explore distance, incidence angle and obstruction by adjusting a scene, making a prediction and checking the result.
 
-使用米、坎德拉和勒克斯。理想点光源对水平测点的直射照度采用 `E = I × h / (dx² + dy² + h²)^(3/2)`；多灯贡献相加，被配置的垂直不透明屏障阻断的直射贡献为零。不要把坎德拉解释为电功率。
+Use meters, candela and lux. Calculate direct illuminance from an ideal point source at a horizontal measurement point as `E = I × h / (dx² + dy² + h²)^(3/2)`. Add contributions from independent lamps. A direct path blocked by a configured opaque vertical screen contributes zero. Do not describe candela as electrical power.
 
-拖动位置与数值输入必须操作同一物理坐标。修改桌面尺寸时同时校验灯具、测点和屏障，不允许视觉尺寸与计算模型分离。房间插图与材质仅作装饰，不向计算额外加入照度。
+Dragging and numeric controls must operate on the same physical coordinates. Validate lamps, measurement points and screens together when the table dimensions change; visual dimensions must remain consistent with the calculation. Room illustrations and material images are decorative and add no illumination to the model.
 
-提供房间、光场和光线路径视图，并明确说明模型不含环境光、反射或真实灯具的方向分布。保留现有代码结构，不为这个交互引入大型框架。
+Provide Room, Light field and Paths views. State that the model excludes ambient light, reflections and directional output from real fixtures. Keep the existing code structure; do not introduce a large framework for this interaction.
 
-## 验收条件
+## Acceptance criteria
 
-- 32 cd 灯在测点正上方时，高度 0.8 m 与 0.4 m 的计算值分别约为 50 lx 与 200 lx。
-- 拖动、数值输入与导出使用一致的坐标和计算函数。
-- 遮挡只影响相应直接路径；取消操作或无效输入不破坏已有布局。
-- 所有读数标明是模型计算，不冒充物理测量或照明标准。
+- A 32 cd lamp directly above a measurement point produces approximately 50 lx at 0.8 m and 200 lx at 0.4 m.
+- Dragging, numeric controls and exports use consistent coordinates and the same calculation function.
+- Obstruction affects the relevant direct paths. Cancellation and invalid input preserve the existing scene.
+- Readings are identified as model calculations, not physical measurements or lighting standards.

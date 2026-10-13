@@ -1,42 +1,48 @@
-# 提交副本核查
+# Submission copy verification
 
-核查日期：**2026 年 10 月 13 日**。应用版本 **3.4.0**，工作空间格式 **v4**。这份说明记录真实软件检查，不是 AI 对话日志或学习效果评估。
+Verification date: **13 October 2026**. Application version: **3.4.0**. Workspace format: **v4**. This document records actual software checks; it is neither an AI conversation log nor an evaluation of learning outcomes.
 
-## 本目录的实际检查
+## Checks performed on this copy
 
-环境：Windows，Node **24.15.0**，锁定 PDF.js **6.4.299**。执行 `npm ci --no-audit --no-fund` 安装依赖。
+Environment: Windows, Node **24.15.0**, and locked PDF.js **6.4.299**. Dependencies were installed with `npm ci --no-audit --no-fund`.
 
-| 检查 | 观察结果 |
+| Check | Observed result |
 | --- | --- |
-| 本地启动 | 启动器达到对应 3.4.0 健康状态；从目录外调用实际 BAT，复用同一匹配服务。 |
-| `npm run check` | 应用与服务模块语法通过。 |
-| `npm test` | **275 通过，0 失败，0 跳过**。 |
-| 灯光导出核对 | 保留方案、原始研究记录与计算值匹配；HTML、CSV 与对应基准逐字节一致。 |
-| 工作空间核对 | JSON 校验及往返一致；实际会话、剩余估算、来源与已确认日历关联匹配。 |
-| 选中日期核对 | 拟议视图不改变备份；8 个已确认预约，225 分钟计划、250 分钟空闲、35 分钟休息；没有虚构实际工作或评估。 |
-| `npm run build:pages` | **244 个公开文件**，辅助关闭，PDF 在浏览器中处理。 |
-| 实际运行 | 本目录运行的 Studio 恢复公开示例，昼夜读数一致，未记录警告／错误控制台消息；六张截图有来源说明。 |
+| Local launch | The launcher reached the matching 3.4.0 health state. Invoking the actual BAT file from outside the directory reused the same matching service. |
+| `npm run check` | Application and service module syntax checks passed. |
+| `npm test` | **275 passed, 0 failed, 0 skipped.** |
+| Lighting export reconciliation | Retained arrangements, original study records, and calculated values matched. HTML and CSV were byte-for-byte identical to their corresponding baselines. |
+| Workspace reconciliation | JSON validation and round-trip checks matched. Actual sessions, remaining estimates, sources, and accepted calendar relationships were retained. |
+| Selected-day reconciliation | Viewing a proposal did not change the backup. The fixture contained 8 accepted reservations, 225 planned minutes, 250 free minutes, and 35 rest minutes, without invented actual work or assessments. |
+| `npm run build:pages` | **244 public files**, with model assistance disabled and PDF processing in the browser. |
+| Actual execution | Studio in this copy restored the public example. Day and night readings matched, and no warning or error console messages were recorded. The six screenshots have documented origins. |
 
-静态应用构建标识：
+Static application build identifier:
 
 ```text
 bb5e47b4cacbb6a9afb2cfdb78d8c19a9b65492f1cebf8d745e6c49c620b213a
 ```
 
-准备过程中首次启动发现源码选择遗漏了 `services/answer.schema.json`。补齐该已公开的应用架构文件后，重新启动与完整测试通过。运行代码与原发布版本保持一致；一个构建测试的开发目录排除名称改为通用称谓，公开文档与素材说明重新整理，私人提示词不随副本提供。
+The first launch during preparation exposed an omission of `services/answer.schema.json` from the selected source files. After adding that already-public application schema, launch and the complete test run passed. Runtime code remains consistent with the published version. A development-directory exclusion name in one build test was changed to a generic description, public documentation and asset descriptions were reorganized, and private prompts were excluded from this copy.
 
-## 对应公开版本的检查
+## English refinement and deployment instructions
 
-3.4.0 对应代码提交 `24acf055ca0ed1871f9f8a32a7c832be305e29ba`。原发布维护流程还包含 **6 项打包回归**；这些属于原发布检查，本提交副本不带维护打包器或原始开发档案。
+All submission documentation is in English. The five prompt examples remain explicitly reconstructed, and original conversations remain private. The README and deployment guide distinguish a visitor's own localhost from a public site, provide explicit port selection for Windows/PowerShell/macOS/Linux and include a standalone GitHub Pages workflow.
 
-- [Windows／Ubuntu，Node 22.13／24 的四组检查通过](https://github.com/starright00631-dev/afterlight/actions/runs/38356630466)。
-- [公开网页部署成功](https://github.com/starright00631-dev/afterlight/actions/runs/38356630435)。
-- [版本发布与原归档校验信息](https://github.com/starright00631-dev/afterlight/releases/tag/v3.4.0)。
+A fresh dependency installation, explicit-port launcher startup on `5241`, actual BAT matching-server reuse and the 244-file static build passed after the documentation update. Port 5241 is a verification choice, not a required application address. Runtime/service/assets and tests retain the earlier verified behavior; the changes concern documentation and deployment configuration.
 
-公开网页在发布检查中标识 3.4.0，应用构建标识与上面一致。公开测试示例不是私人用户经历，字段中注明的合成观察不是真实仪器测量。
+## Checks for the corresponding public release
 
-## 隐私与能力边界
+Release 3.4.0 corresponds to code commit `24acf055ca0ed1871f9f8a32a7c832be305e29ba`. Its original release maintenance process also included **6 packaging regression checks**. Those are checks of the original release; this submission copy does not include the maintenance packager or original development archives.
 
-原始私人对话、素材生成提示词、API 密钥、账户资料、分析原档案与已安装依赖不进入提交 ZIP。`ai-logs/` 是重建提示词示例，不是已执行历史；是否可替代活动的对话记录要求未获确认。
+- [Four Windows/Ubuntu checks with Node 22.13/24 passed](https://github.com/starright00631-dev/afterlight/actions/runs/38356630466).
+- [Public web deployment succeeded](https://github.com/starright00631-dev/afterlight/actions/runs/38356630435).
+- [Release and original archive verification information](https://github.com/starright00631-dev/afterlight/releases/tag/v3.4.0).
 
-静态源码检查没有执行应用，关联图存在容量限制，不能替代运行检查。真实模型推理、打印 PDF 分页、全部设备环境与学习成效没有由本次核查证明。灯光是理想直射计算，复习由用户自评，计划需要明确接受，计时不会自动完成工作。同一来源的同时标签页不合并修改；建议每个工作空间只用一个活动标签页。
+The public page identified itself as 3.4.0 during release verification, with the same application build identifier shown above. Public test examples are not private user experiences. Observations labelled synthetic in the fixtures are not real instrument measurements.
+
+## Privacy and capability boundaries
+
+Original private conversations, asset-generation prompts, API keys, account details, raw analysis archives, and installed dependencies are excluded from the submission ZIP. `ai-logs/` contains reconstructed prompt examples rather than an executed history. Whether those examples can substitute for the event's conversation-record requirement has not been confirmed.
+
+Static source inspection did not execute the app, and its relationship graphs had capacity limits; it does not replace runtime verification. These checks do not establish successful real model inference, printed PDF pagination, operation on every device, or improved learning outcomes. Lighting uses an ideal direct-light model. Review is assessed by the user. Plans require explicit acceptance, and timers do not complete work automatically. Concurrent tabs on the same origin do not merge edits; use one active tab per workspace.

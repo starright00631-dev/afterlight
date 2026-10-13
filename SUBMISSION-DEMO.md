@@ -1,18 +1,18 @@
-# Afterlight：180 秒演示路线
+# Afterlight: a 180-second demonstration
 
-演示入口：https://starright00631-dev.github.io/afterlight/
+Demo: https://starright00631-dev.github.io/afterlight/
 
-公开网页不需要模型账户。以下是建议的展示路线，**不是已录制的视频或已发生的对话**。
+The public web app does not require a model account. The route below is a suggested presentation script, **not a recorded video or a historical conversation**.
 
-| 时间 | 操作 | 展示重点 |
+| Time | Action | What to show |
 | --- | --- | --- |
-| 0:00–0:20 | 在 Studio 切换昼夜，移动灯具或查看精确坐标。 | 房间是视觉背景，灯具、光场与数值实时运行；昼夜不改变同一模型。 |
-| 0:20–1:10 | 打开 Distance。保留 32 cd、0.8 m 的基线；提交“变亮”的预测与平方反比解释，再把高度改成 0.4 m 并运行。 | 先预测再揭示：50 lx → 200 lx。分别保存计算结果与自己的结论。 |
-| 1:10–1:35 | 打开已保存的共享桌研究，比较相同桌面与测量点的两种布置，保留选择理由。 | 相同测量条件、签名差值、原始方案不会被后来编辑改写。准备好的示例须标明为示例。 |
-| 1:35–2:15 | 在 Week 查看共享时间、固定安排和空档，比较 Accepted／Proposed；明确接受会话。 | 拟议计划不算预约，接受不算完成。难以安排的工作保留理由。 |
-| 2:15–2:45 | 在 Desk 打开原文与问题；先写答案再揭示参照。展示 Quiet 的结果与下一步字段。 | 来源可追溯，理解由用户自评；实际结果、估算和计时分开。 |
-| 2:45–3:00 | 展示备份与日历导出的用途，并让观众尝试一个灯具或日期。 | 给出可操作入口，说明它保存什么、能继续做什么。 |
+| 0:00–0:20 | In Studio, switch between day and night, move a lamp, or inspect its exact coordinates. | The room provides the visual setting; lamps, light fields, and readings run interactively. Switching the visual theme does not change the physical model. |
+| 0:20–1:10 | Open Distance. Keep the baseline at 32 cd and 0.8 m. Submit a prediction that the reading will increase, explain the inverse-square relationship, then change the height to 0.4 m and run the model. | Predict before revealing: 50 lx → 200 lx. Save the calculated result and your own conclusion separately. |
+| 1:10–1:35 | Open a saved shared-table study. Compare two arrangements with the same table and measurement points, and retain a reason for choosing one. | Keep measurement conditions consistent, inspect signed differences, and show that later edits do not rewrite saved arrangements. Identify any prepared example as an example. |
+| 1:35–2:15 | In Week, inspect shared availability, commitments, and free slots. Compare Accepted and Proposed, then explicitly accept a session. | A proposal is not a reservation; accepting it does not complete the work. Work that cannot be scheduled retains an explanation. |
+| 2:15–2:45 | In Desk, open a source and a question. Write an answer before revealing the reference. Show Quiet's outcome and next-step fields. | Sources remain traceable, understanding is assessed by the user, and outcomes, estimates, and elapsed time are separate records. |
+| 2:45–3:00 | Explain the purposes of workspace backup and calendar export, then invite the audience to change a lamp or a date. | Give the audience an actionable entry point and explain what each export preserves. |
 
-准备 Week 时可使用 **Backups and examples → Add an example project**。示例研究简报有四个动作：确定输出 30 分钟、选择证据 45 分钟、写简报 60 分钟、检查主张 30 分钟；165 分钟是任务估算，不是实际完成记录。若使用自己的研究布置，必须读它当时的实际计算值。
+To prepare Week, use **Backups and examples → Add an example project**. The example research brief has four actions: define the output (30 minutes), choose evidence (45 minutes), write the brief (60 minutes), and check the claims (30 minutes). The total of 165 minutes is an estimate, not a record of completed work. When showing your own study arrangement, read its actual calculated values.
 
-真实测量字段在演示中保持空白，除非确有测量。不要把模型照度、正确预测、接受计划或倒计时解释成学习／健康效果。可选辅助不进入此路线，避免把环境连接状态当成真实推理成功。
+Leave real measurement fields empty unless a measurement was actually taken. Do not present calculated illuminance, a correct prediction, an accepted plan, or a countdown as proof of learning or health benefits. Optional model assistance is outside this route: an available connection does not establish that a real inference succeeded.

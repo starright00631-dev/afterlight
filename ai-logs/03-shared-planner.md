@@ -1,21 +1,21 @@
-# 03 · 共享日历与可容纳的计划
+# 03: A Shared Calendar and Work That Fits
 
-**重建示例，不是原始提示词或已执行的对话记录。** 根据最终实现整理，无模拟回复或执行日期。
+**Reconstructed example, not an original prompt or executed conversation record.** Derived from the final implementation; no simulated reply or execution date is supplied.
 
-## 示例提示词
+## Example prompt
 
-请在现有 Week 页面上改善计划实用性，保留现有视觉方向，不更换成另一款日历产品。
+Improve the usefulness of the existing Week page. Keep its visual direction rather than replace it with a different calendar product.
 
-所有项目共享一份可用时间。明确采用原有时间窗口，保留旧项目计划。支持固定承诺、按日例外、休息、最小有用时段、估算、截止日期和前置任务。承诺、已接受预约与休息消耗同一容量；长任务可分配到多天，无法安放的工作必须显示原因。
+All projects must share one availability budget. Adopt an existing window explicitly and retain earlier project plans. Support fixed commitments, date exceptions, rest, useful minimum blocks, estimates, deadlines and prerequisites. Commitments, accepted reservations and rest consume the same capacity. Long actions can span days; unplaced work must retain an explanation.
 
-把拟议计划、已接受预约与实际工作记录分开。生成建议不预约、不完成任务。接受前重新验证约束；保留有效固定时段和稳定预约标识。真正开始任务须以前置任务实际完成为条件。
+Separate proposals, accepted reservations and actual work records. Generating a proposal neither reserves time nor completes a task. Revalidate constraints before acceptance. Preserve valid pins and stable reservation identities. Starting work requires prerequisites to be actually complete.
 
-七天使用同一时间尺度。点选一天或空档时显示具体预约、来源、未完成前置任务与经过校验的放置选择；扣除其他日期已经预约的剩余工作。查看不启动计时器。移动、取消和撤销须保持历史引用，无效保存保留输入。
+Use one clock scale across all seven days. Selecting a day or gap should expose reservations, source context, unfinished prerequisites and validated placement choices. Deduct effort already reserved on other dates before offering more work. Inspection must not start a timer. Move, unschedule and Undo must preserve historical references; an invalid save must retain entered values.
 
-## 验收条件
+## Acceptance criteria
 
-- 多项目不能重复使用同一时间容量。
-- 建议视图明确标注未接受，切换前后使用同一时钟范围。
-- 截止日期不可满足、循环依赖与未安放工作均有明确说明。
-- 分段预约启动时采用该段分钟数，不冒用整个任务估算。
-- 日历导出仅包含已接受预约，保留稳定标识与对应上海民用时间的 UTC 时间；不宣称账户同步。
+- Different projects cannot spend the same time capacity twice.
+- Proposed sessions are clearly unaccepted. Accepted and Proposed views use the same clock extent.
+- Impossible deadlines, cyclic dependencies and unplaced work have explicit explanations.
+- Starting a split reservation uses that session's minutes, not the whole task estimate.
+- Calendar export includes accepted reservations only, with stable identifiers and explicit UTC times corresponding to Asia/Shanghai civil time. It does not imply calendar-account synchronization.

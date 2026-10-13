@@ -1,66 +1,90 @@
-# Afterlight · 把知识变成可以尝试的行动
+# Afterlight · Turn knowledge into playable action
 
-**Midnight Academy 参赛作品｜应用版本 3.4.0**
+**Midnight Academy submission | Application version 3.4.0**
 
-Afterlight 是一个可以操作的灯光实验与学习工作空间。用户先调整灯具、提出预测、检验解释，再把证据、阅读笔记和下一步工作连接起来。共享日历展示时间实际能容纳的任务；结束工作时，留下结果和下次继续的位置。
+Afterlight is an interactive lighting studio and a source-linked learning workspace. Adjust a scene, commit a prediction and test an explanation. Keep the resulting evidence, connect it to a reading or decision, and give the next useful action a place in a shared calendar. At the end of work, retain the output and a clear place to resume.
 
-夜间阅读室提供视觉背景。作品的核心是 **问题 → 预测 → 证据 → 选择 → 具体行动 → 已确认时段 → 实际工作结果**。
+The day/night reading room provides the setting. The practical connection is **question → prediction → evidence → decision → concrete action → accepted time → reported outcome**.
 
-[在线演示](https://starright00631-dev.github.io/afterlight/) · [完整代码仓库](https://github.com/starright00631-dev/afterlight) · [3.4.0 发布版](https://github.com/starright00631-dev/afterlight/releases/tag/v3.4.0) · [AI 使用说明](AI_USAGE.md) · [三分钟演示路线](SUBMISSION-DEMO.md)
+[Live demo](https://starright00631-dev.github.io/afterlight/) · [Source repository](https://github.com/starright00631-dev/afterlight) · [3.4.0 release](https://github.com/starright00631-dev/afterlight/releases/tag/v3.4.0) · [AI use](AI_USAGE.md) · [Deployment guide](DEPLOYMENT.md) · [Three-minute demonstration](SUBMISSION-DEMO.md)
 
-![运行中的夜间灯光工作台](screenshots/01-studio-night.png)
+![The running night lighting studio](screenshots/01-studio-night.png)
 
-## 功能实现状态
+## Implementation status
 
-| 功能 | 状态 | 可以实际完成的操作 |
+| Feature | Status | Working behavior |
 | --- | --- | --- |
-| 灯光工作台 | 已实现 | 拖动灯具与测量点；调整高度、强度、桌面尺寸和遮挡屏；查看照度、光场与光路。 |
-| 预测与证据 | 已实现 | 先提交预测再揭示结果；分别保存原始条件、解释、结果和结论；比较匹配的保存方案并保留选择理由。 |
-| 阅读与来源 | 已实现 | 导入 PDF、文本或 Markdown，先检查文字预览再保存；把笔记、问题和任务关联到原文段落。 |
-| 来源关联复习 | 已实现 | 隐藏参考内容后作答，再揭示原文和自定标准；明确评估、跳过或撤销；历史保留当时的问题与原文。 |
-| 共享计划 | 已实现 | 跨项目共用可用时间；加入固定安排、关闭日期、休息、任务依赖和截止日期；查看未能安排的工作。 |
-| 日历可视化 | 已实现 | 七天使用相同时间刻度；选择日期查看任务与空档；比较已确认／拟议时段，明确接受后才产生预约。 |
-| 工作与交接 | 已实现 | 明确开始工作，在 Quiet 保存完成／部分完成／阻塞结果、产出、剩余估算及下一步。计时不会自动完成任务。 |
-| 文件交换 | 已实现 | 工作空间 JSON 备份与恢复、已确认日历 ICS、灯光 HTML 报告、Excel 用 CSV 和单个研究 JSON。 |
-| 昼夜与小屏布局 | 已实现 | 同一套数据切换昼夜视觉；桌面并排、小屏纵向布局；提供触摸与键盘对应控件。 |
-| 可选模型辅助 | 已实现，需配置环境 | 本地服务可接入已配置的 CLI／兼容 API；公开演示关闭此功能。本次不声称已验证真实模型推理。 |
-| 扫描件 OCR、日历账户同步、自动评分 | 未实现 | 不是当前版本的承诺；扫描件需文字稿，日历导出是快照，理解程度由用户评估。 |
+| Lighting studio | Implemented | Move lamps and measurement points; change height, intensity, table dimensions and screens; inspect calculated lux, fields and paths. |
+| Prediction and evidence | Implemented | Commit a prediction before revealing results; preserve original conditions, explanation, results and separate conclusions; compare matching saved arrangements and retain a reasoned decision. |
+| Reading and sources | Implemented | Preview PDF, text or Markdown before explicitly saving it; attach notes, questions and actions to original paragraphs. |
+| Source-linked review | Implemented | Write while references are hidden, then reveal the passage and personal criteria; explicitly assess, skip or undo; retain the question and passage used at assessment time. |
+| Shared planning | Implemented | Projects share availability, commitments, closed dates and rest; respect prerequisites, deadlines and remaining estimates; explain work that does not fit. |
+| Calendar visualization | Implemented | Seven days share one clock scale; select a day to inspect reservations and gaps; compare Accepted/Proposed, then explicitly accept sessions. |
+| Work and handoff | Implemented | Start explicitly; use Quiet to record finished, partial or blocked work, output, remaining effort and next step. A timer does not complete a task. |
+| File exchange | Implemented | Complete workspace JSON backup/restore, accepted-session ICS, lighting HTML reports, Excel CSV and individual study JSON. |
+| Appearance and small screens | Implemented | Day/night share the same data; desktop panels stack on smaller screens; labelled controls support touch and keyboard access. |
+| Optional model assistance | Implemented; needs a configured environment | Local CLI or compatible API adapters are available. The hosted demo disables assistance. Release checks do not establish real model inference. |
+| OCR, calendar-account synchronization, automatic grading | Not implemented | Scanned pages need a transcript, calendar export is a snapshot, and review is self-assessed. |
 
-![运行中的共享日历与选中日期](screenshots/03-week-day.png)
+![The running shared calendar and selected-day inspector](screenshots/03-week-day.png)
 
-## 有用的知识在哪里
+## What knowledge becomes playable?
 
-灯光实验把距离、入射角、强度叠加和直射遮挡变成可改变、可预测的规则。模型使用米、坎德拉和勒克斯。理想点灯对水平测量点的贡献为：
+Lighting experiments make distance, incidence angle, additive intensity and direct obstruction adjustable and testable. The model uses metres, candela and lux. An ideal point lamp contributes to a horizontal sample point:
 
 ```text
 E = I × h / (dx² + dy² + h²)^(3/2)
 ```
 
-正下方简化为 `E = I / h²`。例如保持 **32 cd**，高度从 **0.8 m** 降到 **0.4 m**，计算值从 **50 lx** 变成 **200 lx**。这些是确定性模型结果，不是现实房间的测量。
+Directly beneath the lamp this becomes `E = I / h²`. Keep intensity at **32 cd** and change height from **0.8 m** to **0.4 m**: the calculation changes from **50 lx** to **200 lx**. These are model outputs, not physical-room measurements.
 
-另一类知识来自用户自己的阅读材料：保留原文段落、自己的解释、回忆问题与答案标准，再把理解转成可检查的产出。计划器负责判断下一步是否能放进时间，而不把“有计划”当成“已完成”。
+Your reading supplies another kind of knowledge: retain the original passage, your explanation, a recall question and answer criteria, then turn it into an inspectable output. The planner asks whether that next action fits the available time; planning it does not establish that it happened.
 
-## 如何运行
+## Run on your own computer
 
-### 直接体验
+### Use the hosted demo
 
-打开 [在线演示](https://starright00631-dev.github.io/afterlight/)。核心功能无需账户或模型服务。数据保存在当前浏览器中；使用一个活动标签页，避免同时编辑同一工作空间。
+Open [the public demo](https://starright00631-dev.github.io/afterlight/) from any suitable computer. No local installation or model account is needed. The demo and each local address have separate browser records.
 
-### 本地应用
+### Install locally
 
-需要 **Node.js 22.13 或更新版本**，推荐 Node 24 LTS。首次安装依赖需要联网。
+Install **Node.js 22.13 or newer**, preferably Node 24 LTS. Extract the entire submission folder. First dependency installation requires internet access.
 
-- Windows：在本目录双击 **Start-Afterlight.bat**。
-- Windows、macOS、Linux：在本目录运行：
+On Windows, double-click **Start-Afterlight.bat**. On Windows, macOS or Linux, open a terminal in the extracted folder and run:
 
 ```bash
 npm ci
 npm start
 ```
 
-然后访问 `http://127.0.0.1:5180/`。服务绑定到本机回环地址。不要直接打开 `index.html`。不同域名和端口拥有独立的浏览器记录；搬迁前保存工作空间备份。
+Read the address printed by the launcher/server; the default is `http://127.0.0.1:5180/`. **127.0.0.1 means the computer you are using**, so run Afterlight on that computer before opening its local address. It is not a shared public link or the developer's computer address. The application folder can be anywhere; no `D:\work` path is required.
 
-### 检查源码
+### Choose another port
+
+If 5180 is occupied, choose an unused port explicitly. For example, from the application folder on Windows:
+
+```powershell
+.\Start-Afterlight.bat -Port 5188
+```
+
+Or start the server in PowerShell:
+
+```powershell
+$env:PORT = '5188'
+npm start
+```
+
+On macOS/Linux:
+
+```bash
+PORT=5188 npm start
+```
+
+Open the resulting `http://127.0.0.1:5188/`. This example is configurable, not a required entry point. The launcher preserves unrelated processes and never silently chooses a different port. Changing a hostname or port changes the browser storage origin; export a workspace backup before moving. Use one active tab per workspace because simultaneous edits are not merged.
+
+For a link other people can open on their own devices, follow [the deployment guide](DEPLOYMENT.md). Keep the local provider server on loopback; publish the generated static browser edition. Opening `index.html` directly from disk is unsupported.
+
+## Inspect the source
 
 ```bash
 npm run check
@@ -71,45 +95,46 @@ node scripts/verify-week-refinement.mjs
 npm run build:pages
 ```
 
-[独立提交 ZIP](https://github.com/starright00631-dev/afterlight/releases/download/v3.4.0/afterlight-submission.zip) 保留完整应用代码、锁定依赖、浏览器构建脚本和 Node 测试，并排除私人对话、原始素材生成提示词、开发研究档案、已安装依赖及本地凭据。排除范围指该 ZIP 和本次新增 AI 记录材料；公开仓库保留既有维护历史与合法署名。本概要提供当前仓库的项目说明。
+The [independent submission ZIP](https://github.com/starright00631-dev/afterlight/releases/download/v3.4.0/afterlight-submission.zip) includes application code, locked dependencies, a browser build, Node tests and a Pages workflow. That ZIP excludes private conversations, original image-generation prompts, development research archives, installed dependencies and credentials. The public repository retains its existing maintenance history and attribution. Deliberate multilingual PDF fixtures remain in the tests to check text extraction; submission documentation is in English.
 
-## 核心文件清单
+## Core files
 
-| 文件 | 作用 |
+| Files | Responsibility |
 | --- | --- |
-| `index.html`、`app.js`、`style.css` | 五个工作空间的入口、连接和界面。 |
-| `optics.js` | 直射照度、遮挡、物理坐标与输入校验。 |
-| `studio-renderer.js`、`studio.css` | 实时桌面投影、拖动、光场、光路及素材显示。 |
-| `studies.js`、`field-difference.js` | 冻结预测、保存方案、比较、选择与证据导出。 |
-| `studio-ui.js`、`studio-view-state.js` | 研究控件、结果遮盖和只读状态。 |
-| `source-intake.js`、`browser-pdf.js`、`services/pdf.js` | 文字／文件预览、显式保存及 PDF 文字提取。 |
-| `domain.js` | 原文分段、段落锚点、复习日期和基础记录。 |
-| `workspace-planner.js`、`calendar.js` | 共享容量、依赖、时段校验和日历导出。 |
-| `agenda-ui.js`、`calendar-overview.js`、`calendar-overview.css`、`planning-inspector.js` | 七天图、日期详情、预约管理和有效放置候选。 |
-| `review-sessions.js`、`review-ui.js` | 有界复习队列、隐藏／揭示、评估快照及撤销。 |
-| `workbench-state.js`、`work-sessions.js` | 计划关联、实际工作结果与剩余估算。 |
-| `persistence.js` | v4 工作空间校验、v3/v2 迁移与恢复边界。 |
-| `server.js`、`client-services.js`、`runtime-capabilities.js`、`services/` | 本地 HTTP、PDF 路由与可选辅助；区分本地和公开浏览器能力。 |
-| `scripts/`、`tests/` | Windows 启动、静态构建、源码检查、导出核对与回归测试。 |
-| `assets/`、`licenses/` | 装饰位图／标识与第三方许可。 |
+| `index.html`, `app.js`, `style.css` | The five workspace destinations and their connections. |
+| `optics.js` | Direct illuminance, obstruction, physical coordinates and input validation. |
+| `studio-renderer.js`, `studio.css` | Live projection, dragging, fields, paths and material rendering. |
+| `studies.js`, `field-difference.js` | Frozen predictions, saved arrangements, comparison, decisions and evidence exports. |
+| `studio-ui.js`, `studio-view-state.js` | Study controls, covered results and read-only states. |
+| `source-intake.js`, `browser-pdf.js`, `services/pdf.js` | Read-only intake previews, explicit saving and PDF text extraction. |
+| `domain.js` | Source paragraphs, anchors, review dates and basic records. |
+| `workspace-planner.js`, `calendar.js` | Shared capacity, dependencies, placement checks and calendar exports. |
+| `agenda-ui.js`, `calendar-overview.js`, `calendar-overview.css`, `planning-inspector.js` | The week map, selected-day context, reservation management and validated placement alternatives. |
+| `review-sessions.js`, `review-ui.js` | Bounded queues, reveal/assessment snapshots and Undo. |
+| `workbench-state.js`, `work-sessions.js` | Allocation links, actual outcomes and remaining estimates. |
+| `persistence.js` | v4 workspace validation, v3/v2 migration and recovery. |
+| `server.js`, `client-services.js`, `runtime-capabilities.js`, `services/` | Local HTTP/PDF and optional assistance; explicit local/hosted boundaries. |
+| `scripts/`, `tests/`, `.github/workflows/pages.yml` | Windows launch, static build, checks and deployment. |
+| `assets/`, `licenses/` | Decorative assets, identity and third-party licenses. |
 
-## 提交材料
+## Submission materials
 
-| 材料 | 位置 |
+| Requirement | Location |
 | --- | --- |
-| 源代码与运行入口 | 当前仓库的应用文件、`services/`、`scripts/`、`tests/`，以及发布版附带的独立提交 ZIP；入口为 `Start-Afterlight.bat` 或 `npm start`。 |
-| 项目说明、实现状态、核心文件 | 本概要及仓库 README。 |
-| AI 参与说明 | [AI_USAGE.md](AI_USAGE.md)。 |
-| 提示词材料 | [ai-logs/](ai-logs/README.md)：明确标注的重建示例，**不是原始对话或历史日志**。原始内容因隐私未提供。是否可替代活动所需对话记录，需主办方确认。 |
-| 实际运行截图 | [screenshots/](screenshots/README.md)，共 6 张，不使用生成概念图冒充运行界面。 |
-| 演示 | [在线网页](https://starright00631-dev.github.io/afterlight/)，另附 [180 秒演示路线](SUBMISSION-DEMO.md)。 |
-| 验证与边界 | [VERIFICATION.md](SUBMISSION-VERIFICATION.md)。 |
-| 公开素材来源 | 仓库既有说明见 [CREDITS.md](CREDITS.md)；独立提交 ZIP 的公开摘要不含原始生成提示词。 |
+| Source and entry point | Application files, `services/`, `scripts/`, `tests/`; `Start-Afterlight.bat` or `npm start`. |
+| Project, status and core files | This overview and the repository README. |
+| AI participation | [AI_USAGE.md](AI_USAGE.md). |
+| Prompt material | [ai-logs/](ai-logs/README.md): clearly labelled reconstructed examples, **not original conversations or historical logs**. Original conversations remain private; organizer acceptance of this alternative is unconfirmed. |
+| Actual screenshots | [screenshots/](screenshots/README.md): six images from the running app. |
+| Demonstration | [Live website](https://starright00631-dev.github.io/afterlight/) and [180-second demonstration route](SUBMISSION-DEMO.md). The route is not a recorded video. |
+| Installation and publication | [DEPLOYMENT.md](DEPLOYMENT.md). |
+| Verification | [VERIFICATION.md](SUBMISSION-VERIFICATION.md). |
+| Asset provenance | Existing repository attribution is in [CREDITS.md](CREDITS.md). The independent ZIP contains a public summary without original generation prompts. |
 
-## 边界与许可
+## Limits and license
 
-这是 Canvas 2D 投影与理想直射光模型；没有环境光、反射、眩光、光谱或真实房间校准。房间和纸本等装饰不参与计算，坎德拉不是电功率。目标范围是用户／练习设定，不是照明合规认证。
+The lighting room is a Canvas 2D projection and an ideal direct-light model. It omits ambient light, reflections, glare, spectrum and physical-room calibration. Decorations contribute no numerical illumination. Candela is not electrical power; targets are personal or exercise goals, not compliance certifications.
 
-PDF 支持可提取文字的文件，限制为 **20 MiB、80 页、120,000 字符、2,000 段落**，不含 OCR 或原始页图查看器。计划是确定性启发式；复习采用固定 **1／3／7 天**自评回访，不证明效率、掌握程度、学习增益或睡眠健康效果。更多限制见验证说明。
+PDF intake requires extractable text and is bounded at **20 MiB, 80 pages, 120,000 characters and 2,000 paragraphs**. It has no OCR or original-page viewer. Planning is a deterministic heuristic; source review uses fixed **1/3/7-day** self-assessed revisit intervals. No productivity, mastery, learning or sleep benefit is established.
 
-原始代码、文档与原创装饰素材按 [PolyForm Noncommercial 1.0.0](LICENSE) 提供，限非商业使用。保留 [NOTICE](NOTICE)、[第三方说明](THIRD-PARTY-NOTICES.md) 和 `licenses/`。PDF.js 保留 Apache 2.0 许可，其可选本地 Canvas 依赖保留 MIT 许可。
+Original code, documentation and artwork are source-available for noncommercial use under [PolyForm Noncommercial 1.0.0](LICENSE). Preserve [NOTICE](NOTICE), [third-party notices](THIRD-PARTY-NOTICES.md) and `licenses/`. PDF.js retains Apache 2.0 terms; its optional local Canvas dependency retains MIT terms.

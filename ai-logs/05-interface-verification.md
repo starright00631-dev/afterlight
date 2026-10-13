@@ -1,21 +1,21 @@
-# 05 · 保留设计方向的界面验证
+# 05: Refine the Existing Interface and Verify It
 
-**重建示例，不是原始提示词或已执行的对话记录。** 根据最终实现整理，无模拟回复或执行日期。
+**Reconstructed example, not an original prompt or executed conversation record.** Derived from the final implementation; no simulated reply or execution date is supplied.
 
-## 示例提示词
+## Example prompt
 
-请继续完善已有阅读室界面。保留昼夜环境、木材、纸张和黄铜的视觉语言，以及 Studio、Desk、Library、Week、Quiet 五个入口。改进应服务实际操作，不增加没有用途的模块、口号或装饰数据。
+Refine the existing reading-room interface. Preserve the day/night environment, wood, paper and brass materials, and the five destinations: Studio, Desk, Library, Week and Quiet. Changes must support practical interaction; do not add purposeless modules, slogans or decorative statistics.
 
-工作台的艺术素材只是环境与材质；灯、测点、屏障、光场和读数必须保持实时互动。拖动目标、选中状态和数值输入要清楚，书本与笔记本若可点击，应通向实际功能，并提供等价的文字按钮。
+Table artwork supplies only the environment and material. Lamps, measurement points, screens, fields and readings must stay interactive. Make drag targets, selection and numeric controls clear. If the book and notebook are clickable, connect them to actual functions and provide equivalent labeled buttons.
 
-日历优先呈现任务名称和选中一天的具体信息，完整任务列表可收起。空计划首先提供添加任务。手机与小屏笔记本上，表单、确认和错误信息不能被遮挡；颜色不能成为唯一状态提示。保留键盘路径、焦点可见性与减少动画偏好。
+Prioritize task names and selected-day detail in the calendar; the full task list can be a secondary disclosure. An empty plan should offer Add an action first. On phones and compact laptops, forms, confirmation controls and errors must remain reachable. Color must not be the only state signal. Preserve keyboard routes, visible focus and reduced-motion preferences.
 
-检查源代码及打包后的实际运行版本。截图应来自应用，不用概念图冒充完成效果，不把示例数据写成真实成果。测试范围与尚未验证的部分分别说明。
+Inspect both source and packaged applications in actual operation. Capture screenshots from the application; do not substitute concept images or present example data as real accomplishments. Report checked behavior separately from anything not established.
 
-## 验收条件
+## Acceptance criteria
 
-- 昼夜、桌面、小屏笔记本与手机均可完成关键流程，无水平溢出。
-- 选择、查看、开始、保存与接受的动作含义明确。
-- 验证导出可恢复，失败操作不修改原记录。
-- 本地版本与静态版本保持同一核心功能，静态版本关闭模型服务连接。
-- 保存实际截图与检查说明，不虚构模型推理、效率提升或健康效果。
+- Key flows work in day/night appearances on desktop, compact laptop and phone layouts, without horizontal overflow.
+- Select, inspect, start, save and accept have clear, distinct meanings.
+- Verify exported data can be restored and failed operations preserve existing records.
+- Local and static editions retain the same core functions. The static edition disables provider connections.
+- Retain actual screenshots and verification notes. Do not fabricate model inference, productivity gains or health outcomes.

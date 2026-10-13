@@ -109,6 +109,8 @@ The browser build serves its code, artwork and PDF.js resources from the same si
 
 Node is not bundled; first dependency installation needs internet access. The server binds to loopback. The launcher uses Windows PowerShell, reuses a matching Afterlight server and reports port collisions without terminating unrelated processes.
 
+The application can be extracted anywhere. `127.0.0.1` refers to the computer running it, so another computer must start its own copy or use the public demo. Always use the address printed by the launcher. To choose an unused Windows port, run `Start-Afterlight.bat -Port 5188` from the application folder.
+
 ### Windows, macOS or Linux terminal
 
 From the extracted application folder:
@@ -118,7 +120,9 @@ npm ci
 npm start
 ```
 
-Open **http://127.0.0.1:5180/**. Keep the terminal open; **Ctrl+C** stops the server. Different ports or hostnames have separate browser storage, so export your workspace before changing origin.
+Open the printed address (default **http://127.0.0.1:5180/**). Keep the terminal open; **Ctrl+C** stops the server. Different ports or hostnames have separate browser storage, so export your workspace before changing origin.
+
+For another port, set `$env:PORT = '5188'` before `npm start` in PowerShell, or run `PORT=5188 npm start` in a macOS/Linux shell; then use the printed URL. For a public link, build and publish `dist/pages` instead of exposing the loopback provider server. [DEPLOYMENT.md](DEPLOYMENT.md) explains ports, GitHub Pages, other static hosts and troubleshooting. Its GitHub Pages setup follows [the official publishing-source guide](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
 
 ## Sources, privacy and backups
 
@@ -198,7 +202,7 @@ Personal targets and example commissions are not lighting standards or evidence 
 | Windows launch and provider-disabled browser build | Implemented | `Start-Afterlight.bat`, `scripts/launch.ps1`, `scripts/build-pages.mjs` |
 | OCR, calendar-account synchronization, automatic grading | Not implemented | Outside the current scope |
 
-The [submission overview](SUBMISSION.md) provides a Chinese project brief and a three-minute demonstration route. [AI_USAGE.md](AI_USAGE.md) describes actual AI involvement. Original private conversations are withheld; `ai-logs/` contains explicitly reconstructed prompt examples, not authentic transcripts. Organizer acceptance of that alternative is unconfirmed.
+The [submission overview](SUBMISSION.md) provides an English project brief and a three-minute demonstration route. [AI_USAGE.md](AI_USAGE.md) describes actual AI involvement. Original private conversations are withheld; `ai-logs/` contains explicitly reconstructed prompt examples, not authentic transcripts. Organizer acceptance of that alternative is unconfirmed.
 
 ## Development and verification
 

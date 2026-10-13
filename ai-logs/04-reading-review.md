@@ -1,20 +1,20 @@
-# 04 · 可理解的导入与来源关联复习
+# 04: Understandable Imports and Source-Linked Review
 
-**重建示例，不是原始提示词或已执行的对话记录。** 根据最终实现整理，无模拟回复或执行日期。
+**Reconstructed example, not an original prompt or executed conversation record.** Derived from the final implementation; no simulated reply or execution date is supplied.
 
-## 示例提示词
+## Example prompt
 
-请让阅读导入和复习的用途清晰可见，用户不应因为选了文件就不知道发生了什么。
+Make reading intake and review understandable. Selecting a file should not leave the user unsure what has happened.
 
-PDF、文本或 Markdown 先进入只读预览，只有明确选择“添加阅读”才保存。取消、延迟返回、重复添加或保存失败不得污染已有记录。PDF 仅提取文字，限制为 20 MiB、80 页、120000 字符和 2000 段；扫描件、加密文件与提取不足应给出可理解的说明及粘贴文字路径，不伪装成 OCR 或 PDF 页面查看器。
+Preview PDF, text or Markdown content without saving it. Save only after an explicit Add reading action. Cancellation, late responses, duplicate additions or failed persistence must not alter existing records. Extract PDF text within limits of 20 MiB, 80 pages, 120,000 characters and 2,000 passages. For scans, protected files or insufficient extracted text, explain the limitation and offer Paste text. Do not imply OCR or an original-page viewer.
 
-保留原文段落锚点。用户可从段落建立想法、问题、答案条件及实际输出任务。复习先隐藏原文让用户作答，再揭示参照并自评。队列有边界，草稿与位置可恢复；评估冻结当时的问题、条件和原文，后续编辑不重写历史。
+Keep original paragraph anchors. Let users create ideas, questions, answer criteria and concrete output tasks from a passage. During review, hide the source while the user answers, then reveal the reference for self-assessment. Bound the queue and preserve drafts and position. Each assessment must freeze the question, criteria and source at that time; later edits must not rewrite history.
 
-使用透明的 1／3／7 天回访规则。跳过不创建评估或改动回访日期；撤销不覆盖之后的其他工作。区分完整工作空间 JSON、已接受日历 ICS 与灯光数据 CSV，明确 CSV 不用于恢复工作空间。
+Use transparent 1-, 3- and 7-day revisit rules. Skip creates no assessment or new due date. Undo must not overwrite later unrelated work. Distinguish full-workspace JSON, accepted-calendar ICS and lighting-data CSV; make clear that CSV cannot restore a workspace.
 
-## 验收条件
+## Acceptance criteria
 
-- 选文件与确认保存具有不同状态；小屏也能到达确认按钮。
-- 复习草稿经导航和刷新仍保留，揭示前不泄露参照答案。
-- 跳过、无法回忆、自评和撤销的效果可分别检查。
-- 来源引用有效且可回到原文；不自动生成学习分数或掌握结论。
+- File selection and saving are different states. The confirmation control is reachable on small screens.
+- Navigation and reload preserve the review draft. References stay hidden until explicit reveal.
+- Skip, inability to recall, assessment and Undo have separately inspectable effects.
+- Source references remain valid and can return to the original passage. Do not generate learning scores or mastery claims.
