@@ -8,6 +8,8 @@ Afterlight is an interactive lighting studio and a source-linked workspace. It c
 
 [Browser demo](https://starright00631-dev.github.io/afterlight/) · [Releases](https://github.com/starright00631-dev/afterlight/releases) · [Planner](#a-planner-that-shows-what-fits) · [Local setup](#choose-how-to-run) · [Contributor guide](AGENTS.md)
 
+[Competition submission overview](SUBMISSION.md) · [AI use disclosure](AI_USAGE.md) · [Reconstructed prompt examples](ai-logs/README.md) · [Six running screenshots](screenshots/README.md)
+
 [![Afterlight Studio in night appearance, showing live lamps and measurement points, exact controls, calculated readings and study actions](qa/readme-studio-night.png)](qa/readme-studio-night.png)
 
 The Reading Room combines an illustrated environment with a deterministic direct-light model. Lamps, measurement points, screens, fields and numerical readings are live; the surrounding artwork is decorative. Day and night appearances use the same calculations.
@@ -179,6 +181,24 @@ E = I × h / (dx² + dy² + h²)^(3/2)
 The model omits ambient light, reflections, diffraction, extended fixtures, spectrum and glare. Windows, candles, furniture and plants in the illustration add no calculated light or obstruction. Field colours compress calculated lux for legibility. Point uniformity applies only to the selected points, and the candela total is **not electrical watts**. The tabletop is an interactive Canvas 2D projection, not a full room renderer.
 
 Personal targets and example commissions are not lighting standards or evidence of compliance, comfort or safety. Applying a layout to a real room requires actual measurements and an appropriate fuller model. No physical-room accuracy, learning gain, mastery, productivity or sleep outcome has been established.
+
+## Implementation status and core files
+
+| Area | Status | Core files |
+| --- | --- | --- |
+| Interactive lighting, obstruction and live views | Implemented | `optics.js`, `studio-renderer.js`, `studio.css` |
+| Frozen predictions, retained comparisons and decisions | Implemented | `studies.js`, `field-difference.js`, `studio-ui.js`, `studio-view-state.js` |
+| Reading preview, paragraph anchors and explicit import | Implemented | `source-intake.js`, `domain.js`, `browser-pdf.js`, `services/pdf.js` |
+| Shared planning, proposals, manual placements and calendar export | Implemented | `workspace-planner.js`, `agenda-ui.js`, `planning-inspector.js`, `calendar.js` |
+| Shared-clock Week and selected-day details | Implemented | `calendar-overview.js`, `calendar-overview.css` |
+| Bounded source review with retained assessment context | Implemented | `review-sessions.js`, `review-ui.js` |
+| Actual sessions, remaining estimates, migration and recovery | Implemented | `work-sessions.js`, `workbench-state.js`, `persistence.js` |
+| Workspace navigation and responsive appearance | Implemented | `index.html`, `app.js`, `style.css` |
+| Local PDF and optional CLI/API assistance | Implemented; assistance needs a compatible configured provider | `server.js`, `services/`, `client-services.js`, `runtime-capabilities.js` |
+| Windows launch and provider-disabled browser build | Implemented | `Start-Afterlight.bat`, `scripts/launch.ps1`, `scripts/build-pages.mjs` |
+| OCR, calendar-account synchronization, automatic grading | Not implemented | Outside the current scope |
+
+The [submission overview](SUBMISSION.md) provides a Chinese project brief and a three-minute demonstration route. [AI_USAGE.md](AI_USAGE.md) describes actual AI involvement. Original private conversations are withheld; `ai-logs/` contains explicitly reconstructed prompt examples, not authentic transcripts. Organizer acceptance of that alternative is unconfirmed.
 
 ## Development and verification
 
