@@ -120,7 +120,7 @@ Open **http://127.0.0.1:5180/**. Keep the terminal open; **Ctrl+C** stops the se
 
 ## Sources, privacy and backups
 
-Sources, notes and studies stay in browser-local storage, with no automatic cloud synchronization. The demo and each local origin have separate records. Clearing site data can remove your work.
+Sources, notes and studies stay in browser-local storage, with no automatic cloud synchronization. The demo and each local origin have separate records. Use one active tab per workspace; simultaneous tabs do not merge edits. Clearing site data can remove your work.
 
 Use **Backups and examples → Save backup (.json)** for a complete workspace copy, including reading text and the planner. **Restore backup (.json)** checks records and links, then asks before replacing this browser's workspace.
 
