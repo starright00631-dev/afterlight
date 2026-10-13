@@ -98,13 +98,13 @@ npm run build:pages
 | 材料 | 位置 |
 | --- | --- |
 | 源代码与运行入口 | 当前仓库的应用文件、`services/`、`scripts/`、`tests/`，以及发布版附带的独立提交 ZIP；入口为 `Start-Afterlight.bat` 或 `npm start`。 |
-| 项目说明、实现状态、核心文件 | 本 README。 |
+| 项目说明、实现状态、核心文件 | 本概要及仓库 README。 |
 | AI 参与说明 | [AI_USAGE.md](AI_USAGE.md)。 |
 | 提示词材料 | [ai-logs/](ai-logs/README.md)：明确标注的重建示例，**不是原始对话或历史日志**。原始内容因隐私未提供。是否可替代活动所需对话记录，需主办方确认。 |
 | 实际运行截图 | [screenshots/](screenshots/README.md)，共 6 张，不使用生成概念图冒充运行界面。 |
 | 演示 | [在线网页](https://starright00631-dev.github.io/afterlight/)，另附 [180 秒演示路线](SUBMISSION-DEMO.md)。 |
 | 验证与边界 | [VERIFICATION.md](SUBMISSION-VERIFICATION.md)。 |
-| 公开素材来源 | [CREDITS.md](CREDITS.md)，不包含私人生成提示词。 |
+| 公开素材来源 | 仓库既有说明见 [CREDITS.md](CREDITS.md)；独立提交 ZIP 的公开摘要不含原始生成提示词。 |
 
 ## 边界与许可
 
